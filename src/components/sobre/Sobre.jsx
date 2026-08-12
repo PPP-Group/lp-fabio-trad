@@ -39,10 +39,10 @@ export function Sobre() {
 
           <figure className="sobre__figura">
             <img
-              src="/assets/fabio-microfone.webp"
-              alt="Fábio Trad falando ao microfone num ato de campanha"
-              width="1100"
-              height="1110"
+              src="/assets/retrato.webp"
+              alt="Fábio Trad cumprimentando apoiadores num encontro de campanha"
+              width="1000"
+              height="1500"
               loading="lazy"
             />
           </figure>

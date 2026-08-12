@@ -26,11 +26,13 @@ export const contato = {
   email: `contato@fabiotrad13.com.br (${A_CONFIRMAR})`,
 }
 
+// Instagram, TikTok e YouTube conferidos no oEmbed/perfil das próprias redes.
+// O Facebook é o único que segue por confirmar.
 export const redes = [
-  { nome: 'Instagram', url: 'https://instagram.com/fabiotrad', icone: 'instagram' },
-  { nome: 'Facebook', url: 'https://facebook.com/fabiotrad', icone: 'facebook' },
-  { nome: 'YouTube', url: 'https://youtube.com/@fabiotrad', icone: 'youtube' },
-  { nome: 'TikTok', url: 'https://tiktok.com/@fabiotrad', icone: 'tiktok' },
+  { nome: 'Instagram', url: 'https://www.instagram.com/fabiotrad', icone: 'instagram' },
+  { nome: 'Facebook', url: 'https://www.facebook.com/fabiotrad', icone: 'facebook' },
+  { nome: 'YouTube', url: 'https://www.youtube.com/@fabiortrad', icone: 'youtube' },
+  { nome: 'TikTok', url: 'https://www.tiktok.com/@fabio.trad', icone: 'tiktok' },
 ]
 
 export const secoes = [
@@ -100,50 +102,116 @@ export const trajetoria = {
   ],
 }
 
+// `formato` decide o lugar de cada foto no mosaico: 'deitada' ocupa duas
+// colunas, 'em-pe' ocupa uma. A ordem alterna as duas para a grade fechar
+// sem buraco.
 export const galeria = {
   titulo: 'Na rua, com a nossa gente',
   fotos: [
     {
       arquivo: 'comicio.webp',
       legenda: 'Plenária de campanha, com a militância',
+      formato: 'deitada',
       largura: 1600,
       altura: 1066,
     },
     {
-      arquivo: 'palco.webp',
-      legenda: 'Ato com Dona Gilda e lideranças do PT',
-      largura: 897,
-      altura: 763,
+      arquivo: 'caminhada.webp',
+      legenda: 'Caminhada pelas ruas',
+      formato: 'em-pe',
+      largura: 1000,
+      altura: 1500,
     },
-    { arquivo: 'abraco.webp', legenda: 'Abraço na rua', largura: 1080, altura: 720 },
     {
-      arquivo: 'fabio-microfone.webp',
-      legenda: 'Fábio no microfone',
-      largura: 682,
-      altura: 1134,
+      arquivo: 'chapeu.webp',
+      legenda: 'Abraço de chapéu',
+      formato: 'em-pe',
+      largura: 1000,
+      altura: 1500,
+    },
+    {
+      arquivo: 'multidao.webp',
+      legenda: 'Abraço no meio da multidão',
+      formato: 'deitada',
+      largura: 1400,
+      altura: 933,
+    },
+    {
+      arquivo: 'festa.webp',
+      legenda: 'Abraço na festa',
+      formato: 'em-pe',
+      largura: 1000,
+      altura: 1500,
+    },
+    {
+      arquivo: 'escuta.webp',
+      legenda: 'Sentado, escutando',
+      formato: 'em-pe',
+      largura: 1000,
+      altura: 1500,
+    },
+    {
+      arquivo: 'selfie.webp',
+      legenda: 'Uma foto pra guardar',
+      formato: 'deitada',
+      largura: 1400,
+      altura: 933,
+    },
+    {
+      arquivo: 'abraco.webp',
+      legenda: 'Abraço na rua',
+      formato: 'deitada',
+      largura: 1080,
+      altura: 720,
     },
   ],
 }
 
 export const videos = {
   titulo: 'Nas redes',
-  chamada:
-    'Os programas da campanha ficam no Instagram, no YouTube e no TikTok. ' +
-    'Clique e assista por lá.',
-  programas: [
+  chamada: 'O que a campanha publicou e mais gente assistiu. Toque para ver aqui mesmo.',
+  posts: [
     {
-      nome: 'Tereré com Fábio',
-      o_que: 'Conversa aberta, no ritmo do estado: uma cuia, uma pergunta de cada vez.',
-      onde: 'Instagram',
-      url: 'https://instagram.com/fabiotrad',
+      rede: 'Instagram',
+      icone: 'instagram',
+      titulo: 'Antes de tudo, apaixonado por Mato Grosso do Sul',
+      legenda:
+        'Marido, pai, advogado, ex-deputado e, agora, pré-candidato a governador. ' +
+        'Sim, eu sou tudo isso, mas, antes de tudo, sou um apaixonado por Mato Grosso ' +
+        'do Sul. E me dói ver como o nosso estado está abandonado e sucateado.\n\n' +
+        'Por isso, te convido a caminhar comigo para construir um MS do povo e para ' +
+        'o povo! Bora nessa jornada?',
+      capa: 'video-instagram.webp',
+      largura: 480,
+      altura: 853,
+      url: 'https://www.instagram.com/reel/DY42Lt8hSif/',
+      incorporar: 'https://www.instagram.com/reel/DY42Lt8hSif/embed/',
+      proporcao: 0.56,
     },
     {
-      nome: 'Café com Dona Gilda',
-      o_que: 'A vice recebe quem construiu o PT em Mato Grosso do Sul, e quem chega agora.',
-      onde: 'YouTube',
-      url: 'https://youtube.com/@fabiotrad',
+      rede: 'TikTok',
+      icone: 'tiktok',
+      titulo: 'Do lado certo da história: o lado das pessoas',
+      legenda:
+        'É uma honra poder lutar com quem está do lado certo da história: o lado ' +
+        'das pessoas! Vamos juntos transformar o governo do nosso estado com a ' +
+        'coragem que o Mato Grosso do Sul precisa.',
+      capa: 'video-tiktok.webp',
+      largura: 720,
+      altura: 1280,
+      url: 'https://www.tiktok.com/@fabio.trad/video/7668661972568657159',
+      incorporar: 'https://www.tiktok.com/embed/v2/7668661972568657159',
+      proporcao: 0.56,
     },
   ],
+  canal: {
+    rede: 'YouTube',
+    icone: 'youtube',
+    titulo: 'O canal no YouTube',
+    texto: 'É onde ficam as entrevistas e os vídeos longos, do começo ao fim.',
+    acao: 'Abrir o canal',
+    url: 'https://www.youtube.com/@fabiortrad',
+  },
 }
 
 export const gilda = {

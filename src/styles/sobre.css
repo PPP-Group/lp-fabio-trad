@@ -52,29 +52,26 @@
   margin-bottom: 0.1rem;
 }
 
-/* O recorte veio da arte com franjas do fundo vermelho em volta. Em vez de
-   apagá-las, a foto é montada sobre o próprio degradê da campanha — as franjas
-   somem dentro dele. */
+/* O degradê da campanha entra deslocado por trás da foto, como acontece nas
+   peças impressas. */
 .sobre__figura {
   margin: 0;
   position: relative;
-  background: var(--degrade);
-  border-radius: var(--raio);
-  overflow: hidden;
 }
 
-.sobre__figura::after {
+.sobre__figura::before {
   content: '';
   position: absolute;
-  inset: auto 0 0 0;
-  height: 30%;
-  background: linear-gradient(to top, rgba(120, 8, 44, 0.5), transparent);
+  inset: 10% -5% -4% 5%;
+  background: var(--degrade);
+  border-radius: var(--raio);
 }
 
 .sobre__figura img {
   position: relative;
   width: 100%;
   height: auto;
+  border-radius: var(--raio);
 }
 
 /* --- a régua: a linha do tempo --- */

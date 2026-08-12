@@ -9,6 +9,10 @@ html {
   /* a faixa de estrelas fixa no topo não pode cobrir o alvo da âncora */
   scroll-padding-top: 84px;
   -webkit-text-size-adjust: 100%;
+
+  /* Firefox */
+  scrollbar-color: var(--vermelho) var(--papel-fundo);
+  scrollbar-width: thin;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -126,6 +130,27 @@ select {
   letter-spacing: 0.2em;
   font-size: var(--t-rotulo);
   line-height: 1;
+}
+
+/* --- a barra de rolagem, na paleta da campanha --- */
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--papel-fundo);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--vinho), var(--vermelho));
+  border-radius: 999px;
+  border: 2px solid var(--papel-fundo);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(var(--vermelho), var(--amarelo));
 }
 
 /* --- reveal: uma vez, para cima, curto --- */

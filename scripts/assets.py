@@ -24,6 +24,7 @@ SAIDA = os.path.join(RAIZ, 'public', 'assets')
 ELEMENTOS = os.path.join(IDV, '08.GCs animados', 'OBJETOS', 'Elementos Fábio Trad.ai')
 PARA_CHOQUE = os.path.join(IDV, '06. Base Impressos', '01. Fábio-Gilda', 'Para-Choque 30x10.ai')
 PECAS = os.path.join(IDV, '07. Base PSDs', 'Peças Vertical.psd')
+CARRETEL = os.path.join(RAIZ, 'IDV', 'FOTOS-20260812T192800Z-1-001', 'FOTOS')
 
 # As páginas do "Elementos" começam pintando um retângulo de sangria inteiro.
 # Trocar o par de operadores por um caminho vazio deixa as marcas em alfa limpo.
@@ -198,20 +199,11 @@ def recortes():
 
 CAMADAS = [
     ('Card 1', '103A4684 copiar', 'comicio', 1600),
-    ('Card 4', 'FOTO', 'fabio-microfone', 1100),
 ]
-# Frações (esquerda, topo, direita, base) da área aproveitável de cada foto.
-# O recorte do microfone veio com franjas vermelhas do fundo em volta — estas
-# frações tiram o grosso delas, e o resto some contra o painel vermelho em que a
-# foto é montada. A foto do palco veio com um retângulo branco na ponta
-# esquerda, sobra do enquadramento do objeto inteligente.
-CORTES = {
-    'fabio-microfone': (0.24, 0.0, 0.84, 0.99),
-    'palco': (0.216, 0.0, 1.0, 1.0),
-}
-# A camada '103A4644 (1).jpg' e a cópia dela são a mesma foto; fica só a cópia.
+# Frações (esquerda, topo, direita, base) da área aproveitável de cada foto,
+# quando a camada vem com sobra de enquadramento em volta.
+CORTES = {}
 SUB_CAMADAS = [
-    ('103A4644 (1).jpg copiar', 'palco', 1200),
     ('103A4810', 'abraco', 1200),
 ]
 
@@ -242,6 +234,36 @@ def fotos():
                             salvar_webp(im, f'{nome}.webp', largura_maxima=largura)
 
 
+# Fotos do carretel da campanha que entram na galeria. A largura de gravação
+# segue o tamanho de tela: as deitadas ocupam duas colunas da grade e abrem
+# maiores na lupa; as em pé ocupam uma coluna só.
+CARRETEL_GALERIA = [
+    ('103A4415', 'multidao', 1400),
+    ('103A4402', 'caminhada', 1000),
+    ('103A5664', 'chapeu', 1000),
+    ('103A3815', 'selfie', 1400),
+    ('103A4146', 'festa', 1000),
+    ('103A5005', 'escuta', 1000),
+    # o retrato que abre o "Quem sou eu"
+    ('103A3855', 'retrato', 1000),
+]
+
+
+def galeria():
+    """As fotos de rua, direto do carretel — sem recorte, só reduzidas."""
+    print('galeria')
+    if not os.path.isdir(CARRETEL):
+        print(f'  {CARRETEL} não encontrado — pulando')
+        return
+    for origem, nome, largura in CARRETEL_GALERIA:
+        caminho = os.path.join(CARRETEL, f'{origem}.jpeg')
+        if not os.path.exists(caminho):
+            print(f'  {origem}.jpeg não encontrado — pulando')
+            continue
+        salvar_webp(Image.open(caminho).convert('RGB'), f'{nome}.webp',
+                    largura_maxima=largura, qualidade=80)
+
+
 def favicon(marca):
     """O 13 branco sobre o vermelho da campanha, para a aba do navegador."""
     print('favicon')
@@ -264,4 +286,5 @@ if __name__ == '__main__':
     contorno_do_mapa()
     recortes()
     fotos()
+    galeria()
     favicon(guardadas['13-branco'])

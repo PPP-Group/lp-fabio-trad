@@ -22,10 +22,10 @@
   font-size: var(--t-destaque);
   line-height: 1.5;
   color: var(--tinta-fraca);
-  max-width: 44ch;
+  max-width: 46ch;
 }
 
-.redes__programas {
+.redes__lista {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -33,26 +33,139 @@
   gap: clamp(0.8rem, 1.6vw, 1.2rem);
 }
 
-.redes__programas a {
+/* --- o cartão do vídeo: capa, marca da rede, play --- */
+
+.video__botao {
+  position: relative;
   display: grid;
-  gap: 0.35rem;
-  padding: clamp(1.3rem, 2.6vw, 1.9rem);
-  background: var(--papel-fundo);
+  width: 100%;
+  padding: 0;
+  border: 0;
   border-radius: var(--raio);
+  overflow: hidden;
+  background: var(--carvao);
+  cursor: pointer;
+  aspect-ratio: 3 / 4;
+  text-align: left;
+}
+
+.video__capa {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: scale 520ms var(--curva), opacity 300ms var(--curva);
+}
+
+.video__botao::after {
+  content: '';
+  grid-area: 1 / 1;
+  background: linear-gradient(to top, rgba(12, 4, 8, 0.88) 4%, rgba(12, 4, 8, 0.1) 46%);
+}
+
+.video__botao:hover .video__capa,
+.video__botao:focus-visible .video__capa {
+  scale: 1.05;
+}
+
+.video__rede,
+.video__play,
+.video__titulo,
+.video__assistir {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 1;
+  color: var(--branco);
+}
+
+.video__rede {
+  align-self: start;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  margin: 0.85rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(20, 20, 18, 0.72);
+  backdrop-filter: blur(6px);
+  font-family: var(--campanha);
+  font-weight: 700;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.7rem;
+}
+
+.video__play {
+  align-self: center;
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 999px;
+  background: var(--vermelho);
+  font-size: 2rem;
+  padding-left: 0.08em;
+  box-shadow: 0 12px 30px -12px rgba(0, 0, 0, 0.8);
+  transition: scale 260ms var(--curva), background 260ms var(--curva);
+}
+
+.video__botao:hover .video__play,
+.video__botao:focus-visible .video__play {
+  scale: 1.1;
+  background: var(--amarelo);
+  color: var(--carvao);
+}
+
+.video__titulo {
+  align-self: end;
+  margin: 0 1rem 2.5rem;
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-stretch: 104%;
+  font-size: 1.16rem;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.video__assistir {
+  align-self: end;
+  margin: 0 1rem 1rem;
+  font-family: var(--campanha);
+  font-weight: 700;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: var(--t-rotulo);
+  color: var(--amarelo);
+}
+
+/* --- o cartão do canal, que leva pra fora --- */
+
+.canal a {
+  display: grid;
+  align-content: center;
+  gap: 0.45rem;
+  height: 100%;
+  padding: clamp(1.4rem, 2.6vw, 2rem);
+  border-radius: var(--raio);
+  background: var(--papel-fundo);
   border-left: 6px solid var(--vermelho);
   text-decoration: none;
   transition: background 240ms var(--curva), translate 240ms var(--curva);
 }
 
-.redes__programas a:hover {
+.canal a:hover {
   background: var(--carvao);
   translate: 0 -3px;
 }
 
-.redes__onde {
+.canal__rede {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.42rem;
   font-family: var(--campanha);
   font-weight: 700;
   font-stretch: 80%;
@@ -62,48 +175,132 @@
   color: var(--vermelho);
 }
 
-.redes__nome {
+.canal__titulo {
   font-family: var(--campanha);
   font-weight: 900;
   font-stretch: 110%;
   text-transform: uppercase;
-  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  font-size: clamp(1.3rem, 2.2vw, 1.7rem);
   line-height: 1;
   color: var(--carvao);
 }
 
-.redes__o-que {
+.canal__texto {
   font-family: var(--voz);
   line-height: 1.5;
   color: var(--tinta-fraca);
-  max-width: 52ch;
+  max-width: 32ch;
 }
 
-.redes__ir {
+.canal__acao {
+  margin-top: 0.35rem;
   font-family: var(--campanha);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-size: 0.9rem;
   color: var(--vermelho);
-  margin-top: 0.35rem;
 }
 
-.redes__programas a:hover .redes__nome {
+.canal a:hover .canal__titulo {
   color: var(--branco);
 }
 
-.redes__programas a:hover .redes__o-que {
+.canal a:hover .canal__texto {
   color: rgba(255, 255, 255, 0.8);
 }
 
-.redes__programas a:hover .redes__onde,
-.redes__programas a:hover .redes__ir {
+.canal a:hover .canal__rede,
+.canal a:hover .canal__acao {
   color: var(--amarelo);
 }
 
+/* --- o tocador dentro do modal --- */
+
+.tocador {
+  display: grid;
+  gap: clamp(1rem, 2.4vw, 1.8rem);
+  align-items: start;
+  max-height: 84vh;
+  overflow-y: auto;
+}
+
+.tocador__quadro {
+  position: relative;
+  width: min(100%, 22rem);
+  aspect-ratio: var(--proporcao);
+  max-height: 78vh;
+  margin-inline: auto;
+  border-radius: var(--raio);
+  overflow: hidden;
+  background: #000;
+}
+
+.tocador__quadro iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.tocador__ficha {
+  display: grid;
+  gap: 0.7rem;
+  justify-items: start;
+  align-content: start;
+  color: var(--branco);
+  max-width: 44ch;
+}
+
+.tocador__rede {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--campanha);
+  font-weight: 700;
+  font-stretch: 80%;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: var(--t-rotulo);
+  color: var(--amarelo);
+}
+
+.tocador__titulo {
+  font-family: var(--campanha);
+  font-weight: 900;
+  font-stretch: 110%;
+  text-transform: uppercase;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  line-height: 1.02;
+  color: var(--branco);
+}
+
+.tocador__legenda {
+  font-family: var(--voz);
+  font-size: 1.04rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.8);
+  white-space: pre-line;
+}
+
+.tocador .botao {
+  margin-top: 0.4rem;
+}
+
 @media (min-width: 48rem) {
-  .redes__programas {
-    grid-template-columns: repeat(2, 1fr);
+  .redes__lista {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 56rem) {
+  .tocador {
+    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .tocador__quadro {
+    width: 100%;
   }
 }
