@@ -1,0 +1,191 @@
+.sobre {
+  background: var(--papel);
+  padding-bottom: 0;
+}
+
+/* --- quem sou eu --- */
+
+.sobre__conversa {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: start;
+}
+
+.sobre__fala {
+  display: grid;
+  gap: 1.15rem;
+  max-width: 46ch;
+}
+
+.sobre__paragrafo {
+  font-family: var(--voz);
+  font-size: clamp(1.16rem, 1.65vw, 1.42rem);
+  line-height: 1.62;
+  color: var(--tinta);
+}
+
+.sobre__paragrafo:first-child::first-letter {
+  float: left;
+  font-family: var(--campanha);
+  font-weight: 900;
+  font-stretch: 112%;
+  font-size: 3.4em;
+  line-height: 0.78;
+  padding-right: 0.1em;
+  margin-top: 0.06em;
+  color: var(--vermelho);
+}
+
+.sobre__assinatura {
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-stretch: 104%;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 1rem;
+  color: var(--carvao);
+  margin-top: 0.3rem;
+}
+
+.sobre__risco {
+  max-width: 11rem;
+  margin-bottom: 0.1rem;
+}
+
+/* O recorte veio da arte com franjas do fundo vermelho em volta. Em vez de
+   apagá-las, a foto é montada sobre o próprio degradê da campanha — as franjas
+   somem dentro dele. */
+.sobre__figura {
+  margin: 0;
+  position: relative;
+  background: var(--degrade);
+  border-radius: var(--raio);
+  overflow: hidden;
+}
+
+.sobre__figura::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 30%;
+  background: linear-gradient(to top, rgba(120, 8, 44, 0.5), transparent);
+}
+
+.sobre__figura img {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+/* --- a régua: a linha do tempo --- */
+
+.sobre__regua {
+  margin-top: clamp(3rem, 7vw, 6rem);
+  padding-bottom: clamp(3rem, 7vw, 5.5rem);
+}
+
+.regua__cabeca {
+  display: grid;
+  gap: 0.7rem;
+  margin-bottom: clamp(1.6rem, 3vw, 2.6rem);
+  max-width: 42rem;
+}
+
+.regua__titulo {
+  font-size: var(--t-sub);
+  font-weight: 900;
+  font-stretch: 112%;
+  text-transform: uppercase;
+  color: var(--carvao);
+}
+
+.regua__nota {
+  font-family: var(--voz);
+  font-style: italic;
+  font-size: var(--t-destaque);
+  line-height: 1.5;
+  color: var(--tinta-fraca);
+  max-width: 44ch;
+}
+
+.regua__corpo {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  gap: clamp(1rem, 2.4vw, 2rem);
+}
+
+.regua__trilho {
+  position: relative;
+  color: var(--vermelho);
+}
+
+.regua__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+}
+
+.marco {
+  position: relative;
+  display: grid;
+  gap: 0.4rem;
+  padding-left: clamp(0.4rem, 1vw, 1rem);
+}
+
+.marco__quando {
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-stretch: 92%;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.94rem;
+  color: var(--vermelho);
+}
+
+.marco__o-que {
+  font-family: var(--voz);
+  font-size: clamp(1.06rem, 1.3vw, 1.2rem);
+  line-height: 1.55;
+  color: var(--tinta);
+  max-width: 52ch;
+}
+
+.marco__ponto {
+  position: absolute;
+  left: calc(clamp(1rem, 2.4vw, 2rem) * -1 - 1.6rem);
+  top: 0.36em;
+  width: 1.6rem;
+  height: 1.6rem;
+  display: grid;
+  place-items: center;
+}
+
+.marco__ponto::before {
+  content: '';
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--papel);
+  border: 3px solid var(--vermelho);
+}
+
+.marco__ponto[data-primeiro='sim']::before {
+  background: var(--vermelho);
+}
+
+@media (min-width: 62rem) {
+  .sobre__conversa {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.85fr);
+    align-items: center;
+  }
+}
+
+@media (max-width: 62rem) {
+  .sobre__figura {
+    max-width: 26rem;
+    margin-inline: auto;
+  }
+}

@@ -1,0 +1,113 @@
+.rodape {
+  background: var(--carvao);
+  color: var(--branco);
+}
+
+.rodape__corpo {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: center;
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+}
+
+.rodape__assinatura {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.6rem);
+}
+
+.rodape__numero {
+  width: clamp(58px, 7vw, 92px);
+  height: auto;
+}
+
+.rodape__mapa {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+}
+
+.rodape__mapa a {
+  font-family: var(--campanha);
+  font-weight: 700;
+  font-stretch: 92%;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.92rem;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.72);
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  transition: color 200ms var(--curva);
+}
+
+.rodape__mapa a:hover {
+  color: var(--amarelo);
+}
+
+.rodape__redes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.rodape__redes a {
+  display: grid;
+  place-items: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border: 2px solid var(--linha-clara);
+  border-radius: var(--raio);
+  font-size: 1.2rem;
+  transition: background 200ms var(--curva), border-color 200ms var(--curva), color 200ms var(--curva);
+}
+
+.rodape__redes a:hover {
+  background: var(--amarelo);
+  border-color: var(--amarelo);
+  color: var(--carvao);
+}
+
+.rodape__legal {
+  display: grid;
+  gap: 0.5rem;
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+  border-top: 1px solid var(--linha-clara);
+  padding-top: clamp(1.4rem, 3vw, 2rem);
+  font-family: var(--campanha);
+  font-size: var(--t-mini);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.rodape__legal p {
+  max-width: 78ch;
+}
+
+.rodape__federacao {
+  color: rgba(255, 255, 255, 0.86);
+  font-weight: 700;
+}
+
+.rodape__grito {
+  margin-top: 0.7rem;
+  font-weight: 900;
+  font-stretch: 106%;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: clamp(0.98rem, 1.5vw, 1.16rem);
+  color: var(--branco);
+}
+
+@media (min-width: 56rem) {
+  .rodape__corpo {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .rodape__mapa {
+    justify-content: center;
+  }
+}

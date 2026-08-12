@@ -1,0 +1,153 @@
+.conquistas {
+  background: var(--papel-fundo);
+  padding-bottom: 0;
+}
+
+.conquistas__grade {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: start;
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+/* --- o que virou lei, voto e presença --- */
+
+.feitos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.feito {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.9rem;
+  align-items: start;
+}
+
+.feito__marca {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: 0.34em;
+  background: var(--vermelho);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.feito p {
+  font-family: var(--voz);
+  font-size: clamp(1.08rem, 1.35vw, 1.22rem);
+  line-height: 1.55;
+  color: var(--tinta);
+}
+
+/* --- reconhecimentos --- */
+
+.premios {
+  background: var(--branco);
+  border-radius: var(--raio);
+  padding: clamp(1.5rem, 3vw, 2.4rem);
+  border-left: 7px solid var(--carvao);
+}
+
+.premios__titulo {
+  font-size: 1.18rem;
+  font-weight: 900;
+  font-stretch: 104%;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--carvao);
+  margin-bottom: 1.1rem;
+}
+
+.premios__lista {
+  margin: 0;
+  display: grid;
+  gap: 1.05rem;
+}
+
+.premio dt {
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-size: 0.84rem;
+  color: var(--vermelho);
+  margin-bottom: 0.18rem;
+}
+
+.premio dd {
+  margin: 0;
+  font-family: var(--voz);
+  font-size: 1.06rem;
+  line-height: 1.5;
+  color: var(--tinta-fraca);
+}
+
+/* --- números que falam por si --- */
+
+.placar {
+  background: var(--carvao);
+  color: var(--branco);
+  padding-block: clamp(2.8rem, 6vw, 4.5rem);
+}
+
+.placar__titulo {
+  font-size: var(--t-sub);
+  font-weight: 900;
+  font-stretch: 112%;
+  text-transform: uppercase;
+  color: var(--branco);
+  margin-bottom: clamp(1.5rem, 3vw, 2.4rem);
+}
+
+.placar__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.4rem);
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.numero {
+  display: grid;
+  gap: 0.15rem;
+  justify-items: start;
+}
+
+.numero__valor {
+  font-family: var(--campanha);
+  font-size: clamp(2.6rem, 5.4vw, 4.2rem);
+  font-weight: 900;
+  font-stretch: 112%;
+  line-height: 0.85;
+  letter-spacing: -0.035em;
+  color: var(--amarelo);
+}
+
+.numero__traco {
+  max-width: 4.2rem;
+  color: var(--vermelho);
+  margin-block: 0.25rem 0.4rem;
+}
+
+.numero__o-que {
+  font-family: var(--voz);
+  font-size: 1.06rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 26ch;
+}
+
+@media (min-width: 56rem) {
+  .conquistas__grade {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+
+  .placar__lista {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

@@ -1,0 +1,12 @@
+node_modules/
+dist/
+shots/
+__pycache__/
+*.pyc
+.impeccable/
+
+# Material da campanha: não versionar, não subir, não compartilhar.
+IDV/
+*.ai
+*.psd
+*.mov

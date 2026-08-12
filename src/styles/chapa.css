@@ -1,0 +1,99 @@
+.chapa {
+  background: var(--carvao);
+  color: var(--branco);
+}
+
+.chapa__corpo {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+  padding-block: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.chapa__figura {
+  margin: 0;
+  position: relative;
+  max-width: 22rem;
+}
+
+.chapa__figura::before {
+  content: '';
+  position: absolute;
+  inset: 14% -8% -4% 4%;
+  background: var(--degrade);
+  border-radius: var(--raio);
+}
+
+.chapa__figura img {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.chapa__texto {
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+}
+
+.chapa__rotulo {
+  color: var(--amarelo);
+}
+
+.chapa__nome {
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 900;
+  font-stretch: 114%;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  color: var(--branco);
+}
+
+.chapa__papel {
+  font-family: var(--campanha);
+  font-weight: 600;
+  font-stretch: 96%;
+  font-size: var(--t-destaque);
+  color: var(--amarelo);
+  line-height: 1.3;
+}
+
+.chapa__fala {
+  font-family: var(--voz);
+  font-size: clamp(1.06rem, 1.35vw, 1.24rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.86);
+  max-width: 48ch;
+  margin-top: 0.3rem;
+}
+
+.chapa__apoios {
+  margin-top: clamp(1.2rem, 2.4vw, 2rem);
+  padding-top: clamp(1.2rem, 2.4vw, 1.6rem);
+  border-top: 1px solid var(--linha-clara);
+  display: grid;
+  gap: 0.5rem;
+  max-width: 48ch;
+}
+
+.chapa__apoios h4 {
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-stretch: 96%;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 1.02rem;
+  color: var(--branco);
+}
+
+.chapa__apoios p {
+  font-family: var(--voz);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@media (min-width: 56rem) {
+  .chapa__corpo {
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  }
+}

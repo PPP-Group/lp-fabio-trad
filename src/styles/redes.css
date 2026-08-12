@@ -1,0 +1,109 @@
+.redes {
+  padding-bottom: clamp(3.5rem, 7vw, 6rem);
+}
+
+.redes__cabeca {
+  display: grid;
+  gap: 0.7rem;
+  margin-bottom: clamp(1.2rem, 2.4vw, 1.9rem);
+  max-width: 44rem;
+}
+
+.redes__titulo {
+  font-size: var(--t-sub);
+  font-weight: 900;
+  font-stretch: 112%;
+  text-transform: uppercase;
+  color: var(--carvao);
+}
+
+.redes__chamada {
+  font-family: var(--voz);
+  font-size: var(--t-destaque);
+  line-height: 1.5;
+  color: var(--tinta-fraca);
+  max-width: 44ch;
+}
+
+.redes__programas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(0.8rem, 1.6vw, 1.2rem);
+}
+
+.redes__programas a {
+  display: grid;
+  gap: 0.35rem;
+  padding: clamp(1.3rem, 2.6vw, 1.9rem);
+  background: var(--papel-fundo);
+  border-radius: var(--raio);
+  border-left: 6px solid var(--vermelho);
+  text-decoration: none;
+  transition: background 240ms var(--curva), translate 240ms var(--curva);
+}
+
+.redes__programas a:hover {
+  background: var(--carvao);
+  translate: 0 -3px;
+}
+
+.redes__onde {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--campanha);
+  font-weight: 700;
+  font-stretch: 80%;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: var(--t-rotulo);
+  color: var(--vermelho);
+}
+
+.redes__nome {
+  font-family: var(--campanha);
+  font-weight: 900;
+  font-stretch: 110%;
+  text-transform: uppercase;
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  line-height: 1;
+  color: var(--carvao);
+}
+
+.redes__o-que {
+  font-family: var(--voz);
+  line-height: 1.5;
+  color: var(--tinta-fraca);
+  max-width: 52ch;
+}
+
+.redes__ir {
+  font-family: var(--campanha);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.9rem;
+  color: var(--vermelho);
+  margin-top: 0.35rem;
+}
+
+.redes__programas a:hover .redes__nome {
+  color: var(--branco);
+}
+
+.redes__programas a:hover .redes__o-que {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.redes__programas a:hover .redes__onde,
+.redes__programas a:hover .redes__ir {
+  color: var(--amarelo);
+}
+
+@media (min-width: 48rem) {
+  .redes__programas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -1,0 +1,171 @@
+.participe {
+  color: var(--branco);
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+  background: linear-gradient(155deg, #8f1040 0%, var(--vinho) 34%, var(--vermelho) 100%);
+}
+
+.participe__grade {
+  display: grid;
+  gap: clamp(1rem, 2.4vw, 1.8rem);
+  align-items: start;
+}
+
+/* --- campos --- */
+
+.campo {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.campo > span {
+  font-family: var(--campanha);
+  font-weight: 700;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: var(--t-rotulo);
+  color: var(--tinta-fraca);
+}
+
+.campo input,
+.campo textarea {
+  font-family: var(--voz);
+  font-size: 1.06rem;
+  padding: 0.8rem 0.9rem;
+  border: 2px solid var(--linha);
+  border-radius: var(--raio);
+  background: var(--branco);
+  color: var(--tinta);
+  resize: vertical;
+}
+
+.campo input:focus,
+.campo textarea:focus {
+  border-color: var(--vermelho);
+}
+
+/* --- fale direto comigo --- */
+
+.recado {
+  display: grid;
+  gap: 0.9rem;
+  background: var(--papel);
+  border-radius: var(--raio);
+  padding: clamp(1.5rem, 3vw, 2.4rem);
+  color: var(--tinta);
+}
+
+.recado__titulo {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 900;
+  font-stretch: 110%;
+  text-transform: uppercase;
+  color: var(--carvao);
+}
+
+.recado__texto {
+  font-family: var(--voz);
+  color: var(--tinta-fraca);
+  margin-top: -0.35rem;
+}
+
+.recado__nota {
+  font-size: var(--t-mini);
+  color: var(--tinta-fraca);
+  font-family: var(--campanha);
+  line-height: 1.4;
+}
+
+.recado button {
+  margin-top: 0.3rem;
+}
+
+/* --- voluntário e redes --- */
+
+.participe__lado {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: clamp(1rem, 2.4vw, 1.8rem);
+}
+
+.voluntario {
+  display: grid;
+  gap: 0.7rem;
+  justify-items: start;
+  background: var(--amarelo);
+  color: var(--carvao);
+  border-radius: var(--raio);
+  padding: clamp(1.5rem, 3vw, 2.4rem);
+}
+
+.voluntario h3 {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 900;
+  font-stretch: 110%;
+  text-transform: uppercase;
+}
+
+.voluntario p {
+  font-family: var(--voz);
+  font-size: 1.1rem;
+  line-height: 1.5;
+  max-width: 32ch;
+}
+
+.redes-sociais {
+  display: grid;
+  align-content: center;
+  background: rgba(0, 0, 0, 0.24);
+  border-radius: var(--raio);
+  padding: clamp(1.3rem, 2.6vw, 2rem);
+}
+
+.redes-sociais h3 {
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-stretch: 92%;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0.9rem;
+}
+
+.redes-sociais ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.redes-sociais a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  border: 2px solid var(--linha-clara);
+  border-radius: var(--raio);
+  text-decoration: none;
+  font-family: var(--campanha);
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: background 200ms var(--curva), border-color 200ms var(--curva), color 200ms var(--curva);
+}
+
+.redes-sociais a:hover {
+  background: var(--branco);
+  border-color: var(--branco);
+  color: var(--vinho);
+}
+
+.redes-sociais svg {
+  font-size: 1.2em;
+}
+
+@media (min-width: 56rem) {
+  .participe__grade {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}

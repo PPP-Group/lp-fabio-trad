@@ -1,0 +1,214 @@
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  color: var(--branco);
+}
+
+/* A barra é fixa e altura constante: ao rolar, quem recua é a assinatura, por
+   escala. Animar padding ou height aqui relayoutaria o cabeçalho a cada quadro
+   de rolagem, e ainda desalinharia o scroll-padding-top das âncoras. */
+.nav__barra {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 2rem);
+  padding: 0.7rem var(--gutter);
+  background: var(--carvao);
+  transition: background 320ms var(--curva);
+}
+
+.nav[data-rolou='sim'] .nav__barra {
+  background: rgba(20, 20, 18, 0.94);
+  backdrop-filter: blur(10px);
+}
+
+.nav__marca {
+  flex: none;
+  line-height: 0;
+}
+
+.nav__marca img {
+  width: auto;
+  height: clamp(26px, 3.4vw, 34px);
+  transform-origin: left center;
+  transition: scale 320ms var(--curva);
+}
+
+.nav[data-rolou='sim'] .nav__marca img {
+  scale: 0.86;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav__marca img {
+    transition: none;
+  }
+}
+
+.nav__itens {
+  display: none;
+  margin-left: auto;
+  gap: clamp(0.6rem, 1.8vw, 1.9rem);
+}
+
+.nav__item {
+  position: relative;
+  font-family: var(--campanha);
+  font-weight: 600;
+  font-stretch: 92%;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.72);
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  transition: color 220ms var(--curva);
+}
+
+.nav__item:hover,
+.nav__item[data-ativa='sim'] {
+  color: var(--branco);
+}
+
+.nav__item::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 -2px 0;
+  height: 3px;
+  background: var(--amarelo);
+  scale: 0 1;
+  transform-origin: left;
+  transition: scale 260ms var(--curva);
+}
+
+.nav__item[data-ativa='sim']::after {
+  scale: 1 1;
+}
+
+.nav__zap {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  flex: none;
+  background: var(--amarelo);
+  color: var(--carvao);
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-stretch: 96%;
+  font-size: 0.92rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  padding: 0.62rem 1.1rem;
+  border-radius: var(--raio);
+  transition: translate 200ms var(--curva), background 200ms var(--curva);
+}
+
+.nav__zap:hover {
+  background: var(--branco);
+  translate: 0 -2px;
+}
+
+.nav__zap svg {
+  font-size: 1.15em;
+}
+
+/* --- botão e gaveta do celular --- */
+
+.nav__botao {
+  margin-left: auto;
+  background: none;
+  border: 0;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+.nav__hamburguer {
+  display: grid;
+  gap: 5px;
+  width: 26px;
+}
+
+.nav__hamburguer i {
+  display: block;
+  height: 3px;
+  background: currentColor;
+  transition: translate 240ms var(--curva), rotate 240ms var(--curva), opacity 160ms;
+}
+
+.nav__hamburguer[data-aberto='sim'] i:nth-child(1) {
+  translate: 0 8px;
+  rotate: 45deg;
+}
+
+.nav__hamburguer[data-aberto='sim'] i:nth-child(2) {
+  opacity: 0;
+}
+
+.nav__hamburguer[data-aberto='sim'] i:nth-child(3) {
+  translate: 0 -8px;
+  rotate: -45deg;
+}
+
+.nav__gaveta {
+  background: var(--carvao);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.5rem var(--gutter) 1.4rem;
+  max-height: calc(100dvh - 96px);
+  overflow-y: auto;
+}
+
+.nav__gaveta nav {
+  display: grid;
+}
+
+.nav__gaveta nav a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-stretch: 104%;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav__gaveta-marca {
+  color: var(--amarelo);
+}
+
+.nav__gaveta-zap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
+  background: var(--amarelo);
+  color: var(--carvao);
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-size: 1.02rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  padding: 0.95rem 1rem;
+  border-radius: var(--raio);
+}
+
+@media (min-width: 62rem) {
+  .nav__itens,
+  .nav__zap {
+    display: flex;
+  }
+
+  .nav__botao,
+  .nav__gaveta {
+    display: none;
+  }
+}

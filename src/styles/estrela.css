@@ -1,0 +1,35 @@
+.estrela {
+  display: inline-block;
+  vertical-align: -0.12em;
+  flex: none;
+}
+
+.faixa {
+  --faixa-altura: 22px;
+  background: var(--faixa-fundo, transparent);
+  line-height: 0;
+}
+
+/* A tira é uma máscara: a cor das estrelas é a cor de fundo da camada. */
+.faixa__estrelas {
+  height: var(--faixa-altura);
+  background-color: var(--faixa-cor, currentColor);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 24'%3E%3Cpath d='M12 1.6 14.9 9.1 22.9 9.4 16.6 14.3 18.9 22 12 17.5 5.1 22 7.4 14.3 1.1 9.4 9.1 9.1Z' fill='%23000'/%3E%3C/svg%3E");
+  mask-repeat: repeat-x;
+  mask-size: auto 100%;
+  mask-position: 0 center;
+  animation: faixa-anda 38s linear infinite;
+}
+
+@keyframes faixa-anda {
+  to {
+    /* doze estrelas de deslocamento — a largura de cada uma é 40/24 da altura */
+    mask-position: calc(var(--faixa-altura) * -20) center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faixa__estrelas {
+    animation: none;
+  }
+}

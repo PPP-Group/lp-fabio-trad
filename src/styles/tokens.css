@@ -1,0 +1,55 @@
+/* Sistema da campanha — cores, tipo e ritmo.
+   Cores e degradê: IDV, p. 4. Tipo: uma família de peso e largura variáveis para
+   a voz da campanha; uma serifada para a voz do candidato. */
+
+:root {
+  /* --- cor --- */
+  --vermelho: #f31f29;
+  --vinho: #ab144c;
+  --amarelo: #ecc927;
+  --carvao: #1d1d1b;
+  --branco: #ffffff;
+  --papel: #ffffff;
+  --papel-fundo: #efeae3;
+
+  /* derivadas, só onde o contraste exige */
+  --vermelho-fundo: #d4141d; /* vermelho sobre o qual texto branco passa em AA */
+  --vinho-escuro: #7d0f38;
+  --carvao-suave: #3a3a37;
+  --tinta: #23231f;
+  --tinta-fraca: #5c5c55;
+  --linha: rgba(29, 29, 27, 0.14);
+  --linha-clara: rgba(255, 255, 255, 0.22);
+
+  --degrade: linear-gradient(100deg, var(--vinho) 0%, var(--vermelho) 62%);
+  --degrade-reto: linear-gradient(90deg, var(--vinho) 0%, var(--vermelho) 100%);
+
+  /* --- tipo --- */
+  --campanha: 'Archivo Variable', 'Archivo', system-ui, sans-serif;
+  --voz: 'Source Serif 4 Variable', 'Source Serif 4', Georgia, serif;
+
+  /* escala: 1.28 no desktop, comprimida no celular pelo clamp */
+  --t-grito: clamp(3rem, 10.4vw, 8rem);
+  --t-titulo: clamp(2.1rem, 5.4vw, 4.1rem);
+  --t-sub: clamp(1.5rem, 2.9vw, 2.2rem);
+  --t-destaque: clamp(1.2rem, 1.9vw, 1.5rem);
+  --t-corpo: clamp(1.06rem, 1.15vw, 1.19rem);
+  --t-rotulo: 0.78rem;
+  --t-mini: 0.86rem;
+
+  /* --- ritmo --- */
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --coluna: 1240px;
+  --secao: clamp(4.5rem, 9vw, 8.5rem);
+  --raio: 6px;
+
+  /* --- movimento --- */
+  --tempo: 620ms;
+  --curva: cubic-bezier(0.22, 0.68, 0.28, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --tempo: 1ms;
+  }
+}

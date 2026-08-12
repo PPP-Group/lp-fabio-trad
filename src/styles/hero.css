@@ -1,0 +1,234 @@
+.hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: grid;
+  align-items: end;
+  padding-top: clamp(7rem, 14vh, 10rem);
+  padding-bottom: clamp(3.5rem, 8vh, 6rem);
+  overflow: hidden;
+  color: var(--branco);
+  /* O degradê da identidade (vinho → vermelho) com uma parada mais funda na
+     ponta esquerda, onde fica o texto: é o que dá contraste ao amarelo. */
+  background: linear-gradient(101deg, #8f1040 0%, var(--vinho) 28%, var(--vermelho) 100%);
+}
+
+.hero__fundo {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+}
+
+.hero__mapa {
+  position: absolute;
+  top: 46%;
+  right: -16%;
+  translate: 0 -50%;
+  width: min(74vw, 900px);
+  height: auto;
+  opacity: 0.1;
+  rotate: -4deg;
+}
+
+.hero__retrato {
+  position: absolute;
+  z-index: -1;
+  bottom: 0;
+  right: clamp(-9rem, -4vw, 0rem);
+  width: min(50vw, 640px);
+  height: auto;
+  filter: drop-shadow(-24px 10px 40px rgba(60, 4, 22, 0.45));
+  opacity: 0;
+  translate: 0 40px;
+  transition: opacity 900ms var(--curva) 120ms, translate 900ms var(--curva) 120ms;
+}
+
+.hero[data-entrou='sim'] .hero__retrato {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.hero__conteudo {
+  display: grid;
+  gap: clamp(0.85rem, 1.6vw, 1.25rem);
+  justify-items: start;
+  max-width: min(100% - var(--gutter) * 2, var(--coluna));
+  position: relative;
+}
+
+/* cada peça sobe um pouco depois da anterior */
+.hero__marca,
+.hero__grito,
+.hero__apoio,
+.hero__acoes,
+.hero__urna {
+  opacity: 0;
+  translate: 0 26px;
+  transition: opacity 700ms var(--curva), translate 700ms var(--curva);
+}
+
+.hero[data-entrou='sim'] .hero__marca {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: 60ms;
+}
+
+.hero[data-entrou='sim'] .hero__grito {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: 180ms;
+}
+
+.hero[data-entrou='sim'] .hero__apoio {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: 320ms;
+}
+
+.hero[data-entrou='sim'] .hero__urna {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: 420ms;
+}
+
+.hero[data-entrou='sim'] .hero__acoes {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: 520ms;
+}
+
+.hero__marca {
+  color: var(--branco);
+}
+
+.hero__grito {
+  position: relative;
+  display: grid;
+  font-family: var(--campanha);
+  font-weight: 900;
+  font-stretch: 118%;
+  text-transform: uppercase;
+  font-size: var(--t-grito);
+  line-height: 0.82;
+  letter-spacing: -0.035em;
+  margin-block: clamp(0.2rem, 1vw, 0.6rem);
+}
+
+.hero__grito-2 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.18em;
+  flex-wrap: wrap;
+}
+
+.hero__grito-2 em {
+  font-size: 0.5em;
+  font-weight: 800;
+  font-stretch: 76%;
+  font-style: normal;
+  letter-spacing: 0.01em;
+  transform: skewX(-11deg);
+  transform-origin: bottom left;
+}
+
+.hero__sonhar {
+  color: var(--amarelo);
+}
+
+.hero__apoio {
+  font-family: var(--voz);
+  font-size: clamp(1.08rem, 1.6vw, 1.38rem);
+  font-style: italic;
+  line-height: 1.45;
+  max-width: 26ch;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.hero__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.4rem;
+}
+
+/* O número, do jeito que ele aparece na urna: grande, amarelo, com a instrução
+   embaixo. É a informação que o eleitor precisa levar embora. */
+.hero__urna {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.7rem, 1.3vw, 1rem);
+}
+
+.hero__urna img {
+  width: clamp(74px, 8.4vw, 116px);
+  height: auto;
+  filter: drop-shadow(0 8px 20px rgba(70, 4, 24, 0.45));
+}
+
+.hero__urna span {
+  font-family: var(--campanha);
+  font-weight: 700;
+  font-stretch: 84%;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: var(--t-rotulo);
+  max-width: 17ch;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.hero__faixa {
+  position: absolute;
+  inset: auto 0 0 0;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+@media (max-width: 62rem) {
+  .hero {
+    min-height: 0;
+    align-items: start;
+    padding-top: clamp(6.5rem, 20vh, 9rem);
+    padding-bottom: 0;
+  }
+
+  .hero__conteudo {
+    padding-bottom: clamp(1.5rem, 5vw, 3rem);
+  }
+
+  .hero__retrato {
+    position: relative;
+    z-index: -1;
+    right: auto;
+    margin-inline: auto;
+    margin-top: -8%;
+    width: min(96vw, 460px);
+    display: block;
+    /* o recorte termina num corte reto; some com ele no degradê */
+    mask-image: linear-gradient(to bottom, #000 84%, transparent 99%);
+  }
+
+  .hero__apoio {
+    max-width: 32ch;
+  }
+}
+
+@media (max-width: 30rem) {
+  .hero__acoes .botao {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__retrato,
+  .hero__marca,
+  .hero__grito,
+  .hero__apoio,
+  .hero__acoes,
+  .hero__urna {
+    opacity: 1;
+    translate: none;
+    scale: 1;
+    transition: none;
+  }
+}

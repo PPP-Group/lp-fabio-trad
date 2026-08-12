@@ -1,0 +1,54 @@
+.traco {
+  display: block;
+  width: 100%;
+  max-width: 22rem;
+  line-height: 0;
+  color: var(--vermelho);
+}
+
+.traco svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 760ms cubic-bezier(0.16, 0.8, 0.3, 1);
+}
+
+.traco[data-riscado='sim'] svg {
+  clip-path: inset(0 -2% 0 0);
+}
+
+/* trilho vertical: risca de cima para baixo */
+.traco--vertical {
+  width: 1.6rem;
+  max-width: none;
+  height: 100%;
+}
+
+.traco--vertical svg {
+  width: 1.6rem;
+  height: 100%;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1600ms cubic-bezier(0.3, 0.5, 0.2, 1);
+}
+
+.traco--vertical[data-riscado='sim'] svg {
+  clip-path: inset(0 0 -2% 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .traco svg,
+  .traco--vertical svg {
+    clip-path: none;
+    transition: none;
+  }
+}
+
+.traco--curto {
+  max-width: 9rem;
+}
+
+.traco--largo {
+  max-width: none;
+}

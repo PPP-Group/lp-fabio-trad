@@ -1,0 +1,119 @@
+.propostas {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--branco);
+  background: linear-gradient(118deg, #8f1040 0%, var(--vinho) 30%, var(--vermelho) 100%);
+  padding-bottom: 0;
+}
+
+/* o contorno do estado, marcando o território de que as propostas falam */
+.propostas__mapa {
+  position: absolute;
+  z-index: -1;
+  top: 6%;
+  right: -12%;
+  width: min(62vw, 780px);
+  aspect-ratio: 1920 / 1080;
+  background-color: rgba(255, 255, 255, 0.16);
+  mask-image: url('/assets/mapa-ms.svg');
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: center;
+  rotate: 6deg;
+}
+
+.propostas__corpo {
+  padding-bottom: clamp(3rem, 7vw, 5.5rem);
+}
+
+.propostas__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(0.75rem, 1.6vw, 1.15rem);
+}
+
+.bandeira {
+  display: grid;
+  gap: 0.15rem;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: var(--raio);
+  padding: clamp(1.4rem, 2.6vw, 1.9rem);
+  border-top: 7px solid var(--carvao);
+  transition: translate 300ms var(--curva), box-shadow 300ms var(--curva);
+}
+
+.bandeira:hover {
+  translate: 0 -4px;
+  box-shadow: 0 22px 40px -26px rgba(50, 2, 20, 0.9);
+}
+
+.bandeira__eixo {
+  font-size: clamp(1.35rem, 2.2vw, 1.72rem);
+  font-weight: 900;
+  font-stretch: 110%;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--carvao);
+  text-wrap: balance;
+}
+
+.bandeira__traco {
+  max-width: 5.2rem;
+  color: var(--vermelho);
+  margin-block: 0.15rem 0.35rem;
+}
+
+.bandeira__texto {
+  font-family: var(--voz);
+  font-size: 1.06rem;
+  line-height: 1.55;
+  color: var(--tinta-fraca);
+}
+
+/* --- a faixa do compromisso --- */
+
+.compromisso {
+  background: var(--carvao);
+  color: var(--branco);
+}
+
+.compromisso__corpo {
+  display: grid;
+  gap: 0.9rem;
+  padding-block: clamp(2.4rem, 5vw, 4rem);
+  justify-items: center;
+  text-align: center;
+}
+
+.compromisso__titulo {
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  font-weight: 900;
+  font-stretch: 114%;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--amarelo);
+}
+
+.compromisso__texto {
+  font-family: var(--voz);
+  font-size: clamp(1.15rem, 1.9vw, 1.55rem);
+  line-height: 1.55;
+  max-width: 46ch;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+@media (min-width: 48rem) {
+  .propostas__lista {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 68rem) {
+  .propostas__lista {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

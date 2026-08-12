@@ -1,0 +1,144 @@
+.cartaz {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: start;
+  background: var(--carvao);
+  border-radius: var(--raio);
+  padding: clamp(1.5rem, 3.4vw, 2.8rem);
+}
+
+.cartaz__controles {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.cartaz__titulo {
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  font-weight: 900;
+  font-stretch: 112%;
+  text-transform: uppercase;
+  color: var(--amarelo);
+}
+
+.cartaz__texto {
+  font-family: var(--voz);
+  font-size: 1.1rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 44ch;
+  margin-top: -0.4rem;
+}
+
+.cartaz__bandeiras {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.cartaz__bandeiras legend {
+  font-family: var(--campanha);
+  font-weight: 700;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: var(--t-rotulo);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0;
+  margin-bottom: 0.55rem;
+}
+
+.cartaz__bandeiras > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.cartaz__opcao {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  border: 2px solid var(--linha-clara);
+  border-radius: var(--raio);
+  cursor: pointer;
+  font-family: var(--campanha);
+  font-weight: 700;
+  font-stretch: 94%;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.86);
+  transition: background 200ms var(--curva), border-color 200ms var(--curva), color 200ms var(--curva);
+}
+
+.cartaz__opcao input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+
+.cartaz__opcao:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.cartaz__opcao:has(input:focus-visible) {
+  outline: 3px solid var(--amarelo);
+  outline-offset: 3px;
+}
+
+.cartaz__opcao[data-marcada='sim'] {
+  background: var(--amarelo);
+  border-color: var(--amarelo);
+  color: var(--carvao);
+}
+
+.cartaz .campo {
+  max-width: 24rem;
+}
+
+.cartaz .campo > span {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.cartaz__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 0.4rem;
+}
+
+.cartaz__previa {
+  margin: 0;
+  display: grid;
+  gap: 0.7rem;
+  justify-items: center;
+}
+
+.cartaz__previa canvas {
+  width: 100%;
+  max-width: 22rem;
+  height: auto;
+  border-radius: var(--raio);
+  box-shadow: 0 26px 50px -30px rgba(0, 0, 0, 0.95);
+}
+
+.cartaz__previa figcaption {
+  font-family: var(--campanha);
+  font-size: var(--t-mini);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@media (min-width: 56rem) {
+  .cartaz {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+}
