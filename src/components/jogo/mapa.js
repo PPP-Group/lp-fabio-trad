@@ -17,9 +17,12 @@ export const PISTA_D = PISTA_X + PISTA_L
 export const CARRO_L = 22
 
 // ---------- marcos de dificuldade ----------
-export const DIST_IMPOSSIVEL = 7000 // daqui pra frente a pista começa a fechar
-export const DIST_SEM_SAIDA = 9400 // daqui pra frente não sobra brecha nenhuma
-export const TRECHO_LIMPO = 320 // largada sem buraco, pra pegar o jeito
+// Recalibrados pra a partida inteira caber no minuto (ver TEMPO_MAXIMO no
+// motor): com a velocidade de cruzeiro daqui, o trecho sem saída chega por
+// volta dos 45-50s de jogo pra maioria, o corte duro de 60s pega o resto.
+export const DIST_IMPOSSIVEL = 3800 // daqui pra frente a pista começa a fechar
+export const DIST_SEM_SAIDA = 5000 // daqui pra frente não sobra brecha nenhuma
+export const TRECHO_LIMPO = 220 // largada sem buraco, só o tempo de pegar o jeito
 
 // Folga da colisão: a caixa é menor que o desenho dos dois lados, então
 // raspar na beirada não conta como cair no buraco.
@@ -159,7 +162,7 @@ export function faixaComBrecha(oy, brecha) {
 /** Quanto anda até a próxima leva de buracos. */
 export function passoEntreLinhas(oy) {
   const { t, alem } = dificuldadeEm(oy)
-  const base = lerp(190, 96, t) * (alem > 0 ? lerp(1, 0.6, alem) : 1)
+  const base = lerp(172, 88, t) * (alem > 0 ? lerp(1, 0.6, alem) : 1)
   return base * (0.82 + Math.random() * 0.36)
 }
 

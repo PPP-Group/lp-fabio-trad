@@ -66,6 +66,10 @@ const ADIANTE = 1500
 // onde o jogo quer chegar
 export const VIDAS_INICIAIS = 4
 
+// a partida não pode passar disso — quem sobrevive até aqui (sorte, freio na
+// mão) leva um corte duro em vez de ficar jogando indefinidamente
+const TEMPO_MAXIMO = 60
+
 // ---------- Paleta, no tom chapado de 8 bits ----------
 const COR = {
   gramaEscura: '#2c7a20',
@@ -96,6 +100,15 @@ const COR = {
   placaFundo: '#d81828',
   placaTexto: '#f8d878',
   poste: '#909098',
+  araraAzul: '#2a4fd6',
+  araraAzulClaro: '#4a72ec',
+  araraAsa: '#152c88',
+  araraRosto: '#f6c930',
+  araraBico: '#20180f',
+  araraCauda: '#e0432c',
+  balaoFundo: '#f8f8f8',
+  balaoBorda: '#1a1a1a',
+  balaoTexto: '#c81828',
 }
 
 const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
@@ -297,6 +310,11 @@ export function criarMotor(canvas, opts = {}) {
   let invulneravelAte = 0
   let faseAtual = ''
 
+  // a arara que sobrevoa é rara e não faz parte do mapa — é um evento de
+  // tempo, não de posição (ver `agendarProximoVoo`)
+  let vooArara = null
+  let proximoVooArara = 0
+
   // --- mapa (sorteado muito antes de ser visto) ---
   let buracos = []
   let enfeites = []
@@ -329,7 +347,8 @@ export function criarMotor(canvas, opts = {}) {
       // fora da pista: à esquerda de PISTA_X ou à direita de PISTA_D
       const margem = 4 + Math.random() * 22
       const x = lado < 0 ? PISTA_X - margem : PISTA_D + margem
-      enfeites.push({ oy: enfeitesAte, x, tipo, escala: tipo === 'casa' ? 2 : Math.random() < 0.5 ? 2 : 3 })
+      const escala = tipo === 'casa' ? 2 : Math.random() < 0.5 ? 2 : 3
+      enfeites.push({ oy: enfeitesAte, x, tipo, escala })
     }
   }
 
@@ -367,6 +386,8 @@ export function criarMotor(canvas, opts = {}) {
     shakeTimer = 0
     invulneravelAte = 0
     faseAtual = ''
+    vooArara = null
+    agendarProximoVoo()
     buracos = []
     enfeites = []
     remendos = []
@@ -376,6 +397,12 @@ export function criarMotor(canvas, opts = {}) {
     // o mapa inteiro do começo já nasce pronto, bem além do que dá pra ver
     garantirMapa(ADIANTE * 2)
     atualizarHud()
+  }
+
+  /** Poucas araras por corrida, de vez em quando — não é decoração fixa. */
+  function agendarProximoVoo() {
+    const primeira = tempoJogo === 0
+    proximoVooArara = tempoJogo + (primeira ? 8 + Math.random() * 9 : 20 + Math.random() * 14)
   }
 
   function atualizarHud() {
@@ -391,14 +418,26 @@ export function criarMotor(canvas, opts = {}) {
     animT += dt
     tempoJogo += dt
 
+    if (tempoJogo >= TEMPO_MAXIMO) {
+      fimDeJogo()
+      return
+    }
+
     const fase = nomeFase(carroMundo)
     if (fase !== faseAtual) {
       faseAtual = fase
       onFase(fase)
     }
 
+    if (!vooArara && tempoJogo >= proximoVooArara) {
+      vooArara = { inicio: tempoJogo, duracao: 4.4 + Math.random() * 1.4, y: 46 + Math.random() * 42 }
+    } else if (vooArara && tempoJogo - vooArara.inicio >= vooArara.duracao) {
+      vooArara = null
+      agendarProximoVoo()
+    }
+
     // andar é automático — o jogador só precisa desviar
-    const cruzeiro = lerp(66, 118, clamp(carroMundo / 6000, 0, 1))
+    const cruzeiro = lerp(76, 132, clamp(carroMundo / 3600, 0, 1))
     const alvo = teclas.baixo ? cruzeiro * 0.6 : teclas.cima ? cruzeiro * 1.22 : cruzeiro
     velocidade += (alvo - velocidade) * Math.min(1, dt * 2.4)
 
@@ -487,6 +526,146 @@ export function criarMotor(canvas, opts = {}) {
         ctx.fillRect(x0 + c * escala, y0 + r * escala, escala, escala)
       }
     }
+  }
+
+  /**
+   * A arara que sobrevoa a estrada, puxando uma faixa "SOCORRO" — um
+   * figurante raro (ver `agendarProximoVoo`), não parte fixa do cenário.
+   * Desenhada com formas, não com grade de pixel: precisava dar pra
+   * reconhecer de cara — corpo azul, rosto amarelo, bico curvo, cauda comprida.
+   * Sempre voa da esquerda pra direita, a faixa vai a reboque atrás dela.
+   */
+  function desenharVooArara() {
+    if (!vooArara) return
+    const decorrido = tempoJogo - vooArara.inicio
+    const t = clamp(decorrido / vooArara.duracao, 0, 1)
+    const x = lerp(-46, L + 46, t)
+    const y = vooArara.y + Math.sin(animT * 2.1) * 3
+    const bater = Math.sin(animT * 15)
+
+    ctx.save()
+    ctx.translate(x, y)
+    desenharFaixaSocorro()
+    desenharCorpoArara(bater)
+    ctx.restore()
+  }
+
+  function desenharCorpoArara(bater) {
+    // cauda comprida — é o traço que mais rápido entrega "isso é uma arara"
+    ctx.fillStyle = COR.araraAsa
+    ctx.beginPath()
+    ctx.moveTo(-8, -1)
+    ctx.quadraticCurveTo(-19, 0, -25, 2 + bater * 1.2)
+    ctx.lineTo(-24, 4.5 + bater * 1.2)
+    ctx.quadraticCurveTo(-17, 3.5, -8, 2.5)
+    ctx.closePath()
+    ctx.fill()
+    ctx.fillStyle = COR.araraCauda
+    ctx.beginPath()
+    ctx.moveTo(-23, 2 + bater * 1.2)
+    ctx.lineTo(-25, 2.2 + bater * 1.2)
+    ctx.lineTo(-24.5, 4.5 + bater * 1.2)
+    ctx.lineTo(-22.5, 4.1 + bater * 1.2)
+    ctx.closePath()
+    ctx.fill()
+
+    // asa de trás, batendo em contrafase — dá profundidade
+    ctx.save()
+    ctx.translate(-1, 0)
+    ctx.rotate(0.5 + bater * 0.32)
+    ctx.fillStyle = COR.araraAsa
+    ctx.beginPath()
+    ctx.moveTo(0, 0)
+    ctx.quadraticCurveTo(5, 8, 1, 13)
+    ctx.quadraticCurveTo(-3, 7, 0, 0)
+    ctx.closePath()
+    ctx.fill()
+    ctx.restore()
+
+    // corpo
+    ctx.fillStyle = COR.araraAzul
+    ctx.beginPath()
+    ctx.ellipse(-3, 0, 10, 6, 0, 0, Math.PI * 2)
+    ctx.fill()
+
+    // asa da frente, por cima do corpo — mas *sob* a cabeça, senão a batida
+    // tampa o bico em certos ângulos e a arara vira uma mancha azul qualquer
+    ctx.save()
+    ctx.translate(2, -2)
+    ctx.rotate(-0.55 - bater * 0.38)
+    ctx.fillStyle = COR.araraAzul
+    ctx.beginPath()
+    ctx.moveTo(0, 0)
+    ctx.quadraticCurveTo(7, -9, 2, -15)
+    ctx.quadraticCurveTo(-3, -8, 0, 0)
+    ctx.closePath()
+    ctx.fill()
+    ctx.restore()
+
+    // cabeça, rosto e bico por cima de tudo — sempre visíveis, é o que
+    // entrega "arara" de cara
+    ctx.fillStyle = COR.araraAzulClaro
+    ctx.beginPath()
+    ctx.arc(9, -1.5, 5, 0, Math.PI * 2)
+    ctx.fill()
+
+    // rosto amarelo, com o olho — a outra marca registrada da arara-azul
+    ctx.fillStyle = COR.araraRosto
+    ctx.beginPath()
+    ctx.ellipse(10.5, -1, 3.1, 3.6, 0, -0.4, Math.PI)
+    ctx.fill()
+    ctx.fillStyle = '#141414'
+    ctx.beginPath()
+    ctx.arc(11.2, -2.3, 0.9, 0, Math.PI * 2)
+    ctx.fill()
+
+    // bico grande e curvo
+    ctx.fillStyle = COR.araraBico
+    ctx.beginPath()
+    ctx.moveTo(13.5, -1.5)
+    ctx.quadraticCurveTo(18.5, -0.5, 15, 3)
+    ctx.quadraticCurveTo(16, 0.5, 13.5, -1.5)
+    ctx.closePath()
+    ctx.fill()
+  }
+
+  /** A faixa "SOCORRO", a reboque atrás da arara por um fiozinho. */
+  function desenharFaixaSocorro() {
+    const texto = 'SOCORRO'
+    ctx.font = 'bold 9px "Courier New", monospace'
+    const largTexto = ctx.measureText(texto).width
+    const largFaixa = Math.ceil(largTexto + 12)
+    const altFaixa = 13
+    const dist = 15 // do fim da cauda até o começo da faixa
+    const faixaX = -25 - dist - largFaixa
+    const faixaY = -altFaixa / 2
+
+    // fio que liga a faixa na arara
+    ctx.strokeStyle = 'rgba(255,255,255,0.75)'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(-24, 2)
+    ctx.lineTo(faixaX + largFaixa, faixaY + altFaixa / 2)
+    ctx.stroke()
+
+    // corpo da faixa — a ponta entalhada dá o efeito de bandeirola sendo puxada
+    ctx.fillStyle = COR.balaoFundo
+    ctx.strokeStyle = COR.balaoBorda
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(faixaX, faixaY)
+    ctx.lineTo(faixaX + largFaixa, faixaY)
+    ctx.lineTo(faixaX + largFaixa, faixaY + altFaixa)
+    ctx.lineTo(faixaX, faixaY + altFaixa)
+    ctx.lineTo(faixaX + 7, faixaY + altFaixa / 2)
+    ctx.closePath()
+    ctx.fill()
+    ctx.stroke()
+
+    ctx.fillStyle = COR.balaoTexto
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillText(texto, faixaX + largFaixa / 2 + 3, faixaY + altFaixa / 2 + 0.5)
   }
 
   function desenharGrama() {
@@ -667,6 +846,7 @@ export function criarMotor(canvas, opts = {}) {
     desenharBuracos()
     desenharEnfeites()
     desenharCarro()
+    desenharVooArara()
 
     ctx.restore()
 
