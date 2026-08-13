@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --port 5179",
     "build": "vite build",
-    "preview": "vite preview --port 4179"
+    "preview": "vite preview --port 4179",
+    "test:mapa": "node scripts/mapa.test.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
