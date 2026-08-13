@@ -1,0 +1,489 @@
+.jogo {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--branco);
+  background:
+    radial-gradient(120% 140% at 15% -10%, #3a1030 0%, transparent 55%),
+    linear-gradient(165deg, var(--carvao) 0%, #232320 60%, var(--vinho-escuro) 145%);
+}
+
+/* o contorno do estado, ecoando o mesmo motivo usado em Propostas */
+.jogo__mapa {
+  position: absolute;
+  z-index: -1;
+  top: -10%;
+  left: -16%;
+  width: min(58vw, 680px);
+  aspect-ratio: 1920 / 1080;
+  background-color: rgba(255, 255, 255, 0.05);
+  mask-image: url('/assets/mapa-ms.svg');
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: center;
+  rotate: -6deg;
+}
+
+.jogo__corpo {
+  padding-bottom: clamp(3rem, 7vw, 5.5rem);
+}
+
+/* --- a moldura do jogo --- */
+
+.jogo__quadro {
+  position: relative;
+  isolation: isolate;
+  /* a proporção é a da tela do jogo (256x240), pra não sobrar moldura vazia */
+  width: min(100%, 560px);
+  aspect-ratio: 256 / 240;
+  margin-inline: auto;
+  border-radius: var(--raio);
+  overflow: hidden;
+  background: #1a1a20;
+  border: 3px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+}
+
+.jogo__quadro:fullscreen,
+.jogo__quadro:-webkit-full-screen {
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  aspect-ratio: auto;
+  border-radius: 0;
+  border: none;
+  background: #000;
+}
+
+/* o canvas é 256x240 internamente e o CSS estica pra preencher o quadro,
+   que tem exatamente a mesma proporção — a ampliação sai uniforme */
+.jogo__tela {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* segura a proporção quando o quadro deixa de ser 256:240 (tela cheia) */
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* --- HUD --- */
+
+.jogo__hud {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.7rem;
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms var(--curva);
+}
+
+.jogo__hud[data-ativo='sim'] {
+  opacity: 1;
+}
+
+.jogo__hud-fase {
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.4);
+  text-transform: uppercase;
+}
+
+.jogo__hud-fase[data-fase='tranquilo'] {
+  color: #bfe4a0;
+}
+.jogo__hud-fase[data-fase='esburacado'] {
+  color: var(--amarelo);
+}
+.jogo__hud-fase[data-fase='critico'] {
+  color: #ff9a5a;
+}
+.jogo__hud-fase[data-fase='impossivel'] {
+  color: #ff5a5a;
+  animation: jogo-piscar 0.6s steps(2, jump-none) infinite;
+}
+
+.jogo__hud-vidas {
+  letter-spacing: 3px;
+  font-size: 0.85rem;
+  color: var(--vermelho);
+}
+
+@keyframes jogo-piscar {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* --- barra de ferramentas (pausa, som, tela cheia) --- */
+
+.jogo__ferramentas {
+  position: absolute;
+  z-index: 5;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  gap: 0.35rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms var(--curva);
+}
+
+.jogo__ferramentas[data-ativo='sim'] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.jogo__ferramentas button {
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.45);
+  color: var(--branco);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 160ms var(--curva), border-color 160ms var(--curva);
+}
+
+.jogo__ferramentas button:hover {
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.jogo__ferramentas button[aria-pressed='true'] {
+  background: var(--amarelo);
+  color: var(--carvao);
+  border-color: var(--amarelo);
+}
+
+/* --- controles de toque --- */
+
+.jogo__toque {
+  position: absolute;
+  z-index: 6;
+  left: 0;
+  right: 0;
+  bottom: 0.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 1.1rem;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .jogo__toque {
+    display: none;
+  }
+}
+
+.jogo__toque-btn {
+  pointer-events: auto;
+  width: 3.1rem;
+  height: 3.1rem;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--branco);
+  font-size: 1.6rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.jogo__toque-btn:active {
+  background: rgba(236, 201, 39, 0.55);
+  border-color: var(--amarelo);
+}
+
+.jogo__toque-btn--freio {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.15rem;
+  opacity: 0.85;
+  align-self: center;
+}
+
+/* --- telas flutuantes: seleção, entrando, pausa, fim --- */
+
+.jogo__tela-flutuante {
+  position: absolute;
+  z-index: 8;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* `safe` evita o vazamento clássico do flex: com o conteúdo mais alto que o
+     card, um `center` puro estoura pelos dois lados e o topo some no
+     `overflow: hidden` do quadro. Com `safe`, sobra tudo pra baixo e a rolagem
+     abaixo dá conta. */
+  justify-content: safe center;
+  gap: 0.7rem;
+  text-align: center;
+  padding: clamp(0.85rem, 3vw, 1.5rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: rgba(18, 16, 22, 0.94);
+}
+
+.jogo__tela-flutuante > * {
+  flex-shrink: 0;
+}
+
+.jogo__tela-flutuante h3 {
+  font-size: clamp(1.1rem, 2.9vw, 1.6rem);
+  font-weight: 900;
+  font-stretch: 114%;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--amarelo);
+  text-wrap: balance;
+}
+
+.jogo__tela-flutuante p {
+  font-family: var(--voz);
+  font-size: clamp(0.92rem, 1.6vw, 1.02rem);
+  line-height: 1.55;
+  max-width: 36ch;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.jogo__selecao-rotulo {
+  color: var(--amarelo);
+}
+
+.jogo__pilotos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.jogo__piloto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 116px;
+  font-family: inherit;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--raio);
+  padding: 0.6rem 0.5rem 0.7rem;
+  cursor: pointer;
+  transition: border-color 200ms var(--curva), translate 200ms var(--curva), background 200ms var(--curva);
+}
+
+.jogo__piloto:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+  translate: 0 -2px;
+}
+
+.jogo__piloto[data-selecionado='sim'] {
+  border-color: var(--amarelo);
+  background: rgba(236, 201, 39, 0.14);
+}
+
+.jogo__piloto img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: #333;
+}
+
+.jogo__piloto-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+  margin-top: 0.5rem;
+}
+
+.jogo__piloto-nome {
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-size: 0.84rem;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+}
+
+.jogo__piloto-papel {
+  font-size: 0.65rem;
+  line-height: 1.3;
+  opacity: 0.75;
+}
+
+.jogo__piloto-marca {
+  margin-top: 0.5rem;
+  font-family: var(--campanha);
+  font-weight: 700;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.jogo__piloto[data-selecionado='sim'] .jogo__piloto-marca {
+  background: var(--amarelo);
+  color: var(--carvao);
+}
+
+.jogo__instrucoes {
+  font-family: var(--campanha) !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.03em;
+  line-height: 1.7 !important;
+  opacity: 0.75;
+  max-width: 30ch !important;
+}
+
+.jogo__recorde {
+  font-family: var(--campanha);
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  color: var(--amarelo);
+}
+
+.jogo__botao-partida {
+  margin-top: 0.15rem;
+}
+
+.jogo__entrando-foto {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 50%;
+  border: 3px solid var(--amarelo);
+}
+
+/* --- a tela de fim é a mais cheia: tudo aqui é medido pra caber no card --- */
+
+.jogo__fim {
+  gap: 0.45rem;
+}
+
+.jogo__fim-distancia {
+  font-family: var(--campanha);
+  font-weight: 900;
+  font-stretch: 110%;
+  font-size: clamp(1.5rem, 4.4vw, 2.1rem);
+  line-height: 1;
+  color: var(--branco);
+}
+
+/* mais específico que `.jogo__tela-flutuante p`, sem precisar de !important */
+.jogo__fim .jogo__fim-texto {
+  font-size: clamp(0.8rem, 1.5vw, 0.92rem);
+  line-height: 1.42;
+  max-width: 44ch;
+}
+
+.jogo__recorde-novo {
+  font-family: var(--campanha) !important;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.68rem !important;
+  color: var(--carvao) !important;
+  background: var(--amarelo);
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  max-width: none !important;
+}
+
+.jogo__fim-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  justify-content: center;
+  margin-top: 0.1rem;
+  max-width: 30rem;
+}
+
+.jogo__fim-acoes .botao {
+  padding: 0.6rem 1rem;
+  font-size: 0.78rem;
+}
+
+.jogo__botao-secundario {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-family: var(--campanha);
+  font-size: 0.76rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  padding: 0.6rem;
+}
+
+.jogo__botao-secundario:hover {
+  color: var(--branco);
+}
+
+/* No celular o card fica baixo demais pro texto do fim, e os botões de toque
+   acabam por cima da pista. Uma altura mínima resolve os dois: a tela do jogo
+   fica centrada (o `object-fit: contain` do canvas cuida das bordas) e sobra
+   espaço pro texto caber sem empurrar botão pra fora. */
+@media (max-width: 32rem) {
+  .jogo__quadro {
+    min-height: 27rem;
+  }
+
+  .jogo__fim h3 {
+    font-size: 1.02rem;
+  }
+
+  .jogo__fim .jogo__fim-texto {
+    font-size: 0.78rem;
+    line-height: 1.38;
+  }
+
+  .jogo__fim-acoes .botao {
+    padding: 0.55rem 0.9rem;
+    font-size: 0.74rem;
+  }
+}
+
+/* quanto mais estreito, mais linhas o texto ocupa — logo, mais altura */
+@media (max-width: 22rem) {
+  .jogo__quadro {
+    min-height: 29.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jogo__hud-fase[data-fase='impossivel'] {
+    animation: none;
+  }
+}
