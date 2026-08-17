@@ -1,0 +1,13 @@
+# O build roda em Linux. Estes arquivos precisam chegar lá com fim de linha LF:
+# CRLF dentro do Dockerfile ou do nginx.conf quebra o container.
+* text=auto eol=lf
+Dockerfile text eol=lf
+nginx.conf text eol=lf
+*.sh text eol=lf
+
+# Binários passam intactos.
+*.webp binary
+*.jpg binary
+*.png binary
+*.woff2 binary
+*.svg text eol=lf
