@@ -1,0 +1,19 @@
+.git
+.gitignore
+node_modules
+dist
+shots
+scripts
+__pycache__
+*.pyc
+.impeccable
+.claude
+README.md
+Dockerfile
+.dockerignore
+
+# Material da campanha: não entra na imagem de jeito nenhum.
+IDV
+*.ai
+*.psd
+*.mov
