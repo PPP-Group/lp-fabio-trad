@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { candidato, contato, hero } from '../../data/campanha'
+import { candidato, contato, hero, linkZap } from '../../data/campanha'
 import { FaixaEstrelas } from '../Estrela'
 import { Marca } from '../Marca'
 import { IconeWhatsapp } from '../Icones'
@@ -13,7 +13,7 @@ export function Hero() {
     return () => cancelAnimationFrame(id)
   }, [])
 
-  const zap = `https://wa.me/${contato.whatsapp}?text=${encodeURIComponent(contato.whatsappRecado)}`
+  const zap = linkZap()
 
   return (
     <section id="inicio" className="hero" data-entrou={entrou ? 'sim' : 'nao'}>
@@ -53,11 +53,19 @@ export function Hero() {
         </p>
 
         <div className="hero__acoes">
-          <a className="botao botao--amarelo" href={zap} target="_blank" rel="noreferrer">
-            <IconeWhatsapp />
-            {hero.acoes[0].texto}
-          </a>
-          <a className="botao botao--vazado" href={`#${hero.acoes[1].destino}`}>
+          {zap ? (
+            <a className="botao botao--amarelo" href={zap} target="_blank" rel="noreferrer">
+              <IconeWhatsapp />
+              {hero.acoes[0].texto}
+            </a>
+          ) : (
+            <span className="botao botao--vazado" data-inativo="sim" aria-disabled="true">
+              <IconeWhatsapp />
+              WhatsApp {contato.whatsappEmBreve.toLowerCase()}
+            </span>
+          )}
+          {/* sem o WhatsApp no ar, quem carrega a ação principal é a proposta */}
+          <a className={`botao ${zap ? 'botao--vazado' : 'botao--amarelo'}`} href={`#${hero.acoes[1].destino}`}>
             {hero.acoes[1].texto}
           </a>
         </div>

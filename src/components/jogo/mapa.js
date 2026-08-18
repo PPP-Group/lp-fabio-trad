@@ -11,8 +11,8 @@
 // ---------- medidas da pista ----------
 export const L = 256
 export const A = 240
-export const PISTA_X = 44
-export const PISTA_L = 168
+export const PISTA_X = 52
+export const PISTA_L = 152
 export const PISTA_D = PISTA_X + PISTA_L
 export const CARRO_L = 22
 
@@ -20,8 +20,8 @@ export const CARRO_L = 22
 // Recalibrados pra a partida inteira caber no minuto (ver TEMPO_MAXIMO no
 // motor): com a velocidade de cruzeiro daqui, o trecho sem saída chega por
 // volta dos 45-50s de jogo pra maioria, o corte duro de 60s pega o resto.
-export const DIST_IMPOSSIVEL = 3800 // daqui pra frente a pista começa a fechar
-export const DIST_SEM_SAIDA = 5000 // daqui pra frente não sobra brecha nenhuma
+export const DIST_IMPOSSIVEL = 5200 // daqui pra frente a pista começa a fechar
+export const DIST_SEM_SAIDA = 6900 // daqui pra frente não sobra brecha nenhuma
 export const TRECHO_LIMPO = 220 // largada sem buraco, só o tempo de pegar o jeito
 
 // Folga da colisão: a caixa é menor que o desenho dos dois lados, então
@@ -170,10 +170,10 @@ export function passoEntreLinhas(oy) {
 export function linhaDeBuracos(oy) {
   if (oy < TRECHO_LIMPO) return []
   const { t, alem } = dificuldadeEm(oy)
-  if (alem > 0) return faixaComBrecha(oy, lerp(54, -6, alem))
-  if (t > 0.72) return faixaComBrecha(oy, lerp(102, 72, (t - 0.72) / 0.28))
+  if (alem > 0) return faixaComBrecha(oy, lerp(49, -5, alem))
+  if (t > 0.72) return faixaComBrecha(oy, lerp(92, 65, (t - 0.72) / 0.28))
   if (t > 0.44) {
-    return Math.random() < 0.55 ? faixaComBrecha(oy, lerp(132, 106, (t - 0.44) / 0.28)) : buracosSoltos(oy, 2)
+    return Math.random() < 0.55 ? faixaComBrecha(oy, lerp(119, 95, (t - 0.44) / 0.28)) : buracosSoltos(oy, 2)
   }
   if (t > 0.18) return buracosSoltos(oy, Math.random() < 0.4 ? 2 : 1)
   return Math.random() < 0.75 ? buracosSoltos(oy, 1) : []

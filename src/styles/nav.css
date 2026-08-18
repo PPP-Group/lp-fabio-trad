@@ -212,3 +212,11 @@
     display: none;
   }
 }
+
+/* Os botões de WhatsApp da barra enquanto o número oficial não chega. */
+.nav__zap[data-inativo='sim'],
+.nav__gaveta-zap[data-inativo='sim'] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}

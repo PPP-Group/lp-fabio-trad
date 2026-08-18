@@ -59,8 +59,8 @@ const CARRO_Y = 188 // altura fixa do carro na tela
 const CARRO_A = 36
 
 // Quanto de mapa fica pronto à frente da câmera. É bem mais do que cabe na
-// tela: quando um buraco aparece, ele já existia há uns 15 segundos.
-const ADIANTE = 1500
+// tela: quando um buraco aparece, ele já existia há uns 12 segundos.
+const ADIANTE = 2000
 
 // folga suficiente pra quase todo mundo chegar no trecho intransitável, que é
 // onde o jogo quer chegar
@@ -100,6 +100,13 @@ const COR = {
   placaFundo: '#d81828',
   placaTexto: '#f8d878',
   poste: '#909098',
+  ruinaTelhado: '#4a3a30',
+  ruinaParede: '#c4b8a0',
+  ruinaRachada: '#8c8070',
+  ruinaTapume: '#7c6444',
+  ruinaVao: '#241c18',
+  ruinaCruz: '#b83028',
+  ruinaEntulho: '#6c6058',
   araraAzul: '#2a4fd6',
   araraAzulClaro: '#4a72ec',
   araraAsa: '#152c88',
@@ -180,6 +187,32 @@ const CASA = [
 ]
 
 const POSTE = ['.p.', '.p.', '.p.', '.p.', 'ppp']
+
+/**
+ * Hospital abandonado. É o maior sprite do cenário de propósito: ele não é
+ * enfeite, é o recado. Telhado desabado (`R` com falhas), paredes rachadas
+ * (`w`), janelas tapadas com tapume (`J`), o vão escuro da entrada (`V`),
+ * entulho na base (`E`) — e a cruz (`C`) desbotada, que é o que faz a coisa
+ * ser lida como hospital de primeira, e não como uma casa qualquer caindo.
+ */
+const HOSPITAL_RUINA = [
+  '...RRRRRRRRRRRR...',
+  '..RRRRVVVVRRRRRR..',
+  '.RRRRVVVVVVVRRRRR.',
+  'RRRRRRVVVVRRRR.RRR',
+  'RRRRRRRRRRRRR..RRR',
+  '.WWWWWWWWWWWW..WW.',
+  '.WW.C.WWWWWWWJJWW.',
+  '.W.CCC.WWWWWWJJWW.',
+  '.WW.C.WWWWWWWJJWW.',
+  '.WWWWWWWWWWWWWWWW.',
+  '.WJJWWWWWWWWVVVWW.',
+  '.WJJWWWVVVWWVVVWW.',
+  '.WWWWWWVVVWWWWWWW.',
+  '.WWwWWWVVVWWWWwWW.',
+  'EEEEE.EEEEE.EEEEEE',
+  '.EE.EEE.EE.EEE.EE.',
+]
 
 // ---------- Áudio ----------
 function criarAudio() {
@@ -319,9 +352,11 @@ export function criarMotor(canvas, opts = {}) {
   let buracos = []
   let enfeites = []
   let remendos = []
+  let ruinas = []
   let buracosAte = 0
   let enfeitesAte = 0
   let remendosAte = 0
+  let ruinasAte = 0
 
   let rodando = false
   let pausado = false
@@ -362,16 +397,34 @@ export function criarMotor(canvas, opts = {}) {
     }
   }
 
+  // Os hospitais em ruína só começam quando a pista já está esburacada, e daí
+  // em diante aparecem sempre: o abandono anda junto com a estrada piorando.
+  // São poucos e grandes de propósito — um a cada 700-1100px, alternando os
+  // lados, dá umas cinco por partida. Espalhar mais viraria papel de parede e
+  // pararia de dizer alguma coisa.
+  const RUINA_PRIMEIRA = 1200
+
+  function garantirRuinas(ateY) {
+    while (ruinasAte < ateY) {
+      ruinasAte += 700 + Math.random() * 400
+      const lado = ruinas.length % 2 === 0 ? -1 : 1
+      const recuo = 25 + Math.random() * 3
+      ruinas.push({ oy: ruinasAte, x: lado < 0 ? PISTA_X - recuo : PISTA_D + recuo })
+    }
+  }
+
   function garantirMapa(ateY) {
     garantirBuracos(ateY)
     garantirEnfeites(ateY)
     garantirRemendos(ateY)
+    garantirRuinas(ateY)
   }
 
   function limparMapaAtras(limite) {
     if (buracos.length > 400) buracos = buracos.filter((b) => b.oy > limite)
     if (enfeites.length > 300) enfeites = enfeites.filter((e) => e.oy > limite)
     if (remendos.length > 200) remendos = remendos.filter((r) => r.oy > limite)
+    if (ruinas.length > 40) ruinas = ruinas.filter((r) => r.oy > limite)
   }
 
   function reiniciarEstado() {
@@ -391,9 +444,11 @@ export function criarMotor(canvas, opts = {}) {
     buracos = []
     enfeites = []
     remendos = []
+    ruinas = []
     buracosAte = 0
     enfeitesAte = 0
     remendosAte = 0
+    ruinasAte = RUINA_PRIMEIRA
     // o mapa inteiro do começo já nasce pronto, bem além do que dá pra ver
     garantirMapa(ADIANTE * 2)
     atualizarHud()
@@ -437,7 +492,7 @@ export function criarMotor(canvas, opts = {}) {
     }
 
     // andar é automático — o jogador só precisa desviar
-    const cruzeiro = lerp(76, 132, clamp(carroMundo / 3600, 0, 1))
+    const cruzeiro = lerp(104, 178, clamp(carroMundo / 4900, 0, 1))
     const alvo = teclas.baixo ? cruzeiro * 0.6 : teclas.cima ? cruzeiro * 1.22 : cruzeiro
     velocidade += (alvo - velocidade) * Math.min(1, dt * 2.4)
 
@@ -446,12 +501,12 @@ export function criarMotor(canvas, opts = {}) {
     limparMapaAtras(carroMundo - 200)
 
     // direção suave: acelera e desacelera de leve, sem travar
-    const acelLateral = 620
+    const acelLateral = 700
     const atrito = 8.5
     if (teclas.esquerda) carroVX -= acelLateral * dt
     if (teclas.direita) carroVX += acelLateral * dt
     if (!teclas.esquerda && !teclas.direita) carroVX -= carroVX * Math.min(1, atrito * dt)
-    carroVX = clamp(carroVX, -132, 132)
+    carroVX = clamp(carroVX, -150, 150)
     carroX += carroVX * dt
 
     // os limites são os mesmos que o teste do mapa varre — se o carro pudesse
@@ -484,7 +539,7 @@ export function criarMotor(canvas, opts = {}) {
     if (flashTimer > 0) flashTimer -= dt
     if (shakeTimer > 0) shakeTimer -= dt
 
-    audio.atualizarMotor(clamp(velocidade / 118, 0, 1))
+    audio.atualizarMotor(clamp(velocidade / 160, 0, 1))
     atualizarHud()
   }
 
@@ -752,6 +807,32 @@ export function criarMotor(canvas, opts = {}) {
     }
   }
 
+  function desenharRuinas() {
+    for (const r of ruinas) {
+      const y = telaY(r.oy)
+      if (y < -80 || y > A + 50) continue
+      // sombra rente ao pé do prédio — `desenharSprite` ancora pela base, então
+      // ela fica sob o entulho, e não flutuando embaixo
+      ctx.fillStyle = 'rgba(0,0,0,0.22)'
+      ctx.fillRect(Math.round(r.x) - 19, Math.round(y) - 4, 38, 5)
+      desenharSprite(
+        HOSPITAL_RUINA,
+        {
+          R: COR.ruinaTelhado,
+          W: COR.ruinaParede,
+          w: COR.ruinaRachada,
+          J: COR.ruinaTapume,
+          V: COR.ruinaVao,
+          C: COR.ruinaCruz,
+          E: COR.ruinaEntulho,
+        },
+        r.x,
+        y,
+        2,
+      )
+    }
+  }
+
   function desenharEnfeites() {
     for (const e of enfeites) {
       const y = telaY(e.oy)
@@ -844,6 +925,8 @@ export function criarMotor(canvas, opts = {}) {
     desenharGrama()
     desenharPista()
     desenharBuracos()
+    // as ruínas vêm antes: assim árvore e arbusto passam na frente delas
+    desenharRuinas()
     desenharEnfeites()
     desenharCarro()
     desenharVooArara()

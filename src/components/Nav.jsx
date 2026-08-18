@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { candidato, contato, secoes } from '../data/campanha'
+import { candidato, contato, linkZap, secoes } from '../data/campanha'
 import { useSecaoAtiva } from '../lib/useSecaoAtiva'
 import { FaixaEstrelas } from './Estrela'
 import { IconeWhatsapp } from './Icones'
@@ -30,7 +30,7 @@ export function Nav() {
     }
   }, [aberto])
 
-  const zap = `https://wa.me/${contato.whatsapp}?text=${encodeURIComponent(contato.whatsappRecado)}`
+  const zap = linkZap()
 
   return (
     <header className="nav" data-rolou={rolou ? 'sim' : 'nao'}>
@@ -55,10 +55,17 @@ export function Nav() {
           ))}
         </nav>
 
-        <a className="nav__zap" href={zap} target="_blank" rel="noreferrer">
-          <IconeWhatsapp />
-          <span>WhatsApp</span>
-        </a>
+        {zap ? (
+          <a className="nav__zap" href={zap} target="_blank" rel="noreferrer">
+            <IconeWhatsapp />
+            <span>WhatsApp</span>
+          </a>
+        ) : (
+          <span className="nav__zap" data-inativo="sim" aria-disabled="true">
+            <IconeWhatsapp />
+            <span>{contato.whatsappEmBreve}</span>
+          </span>
+        )}
 
         <button
           type="button"
@@ -87,10 +94,17 @@ export function Nav() {
             </a>
           ))}
         </nav>
-        <a className="nav__gaveta-zap" href={zap} target="_blank" rel="noreferrer">
-          <IconeWhatsapp />
-          Fale comigo no WhatsApp
-        </a>
+        {zap ? (
+          <a className="nav__gaveta-zap" href={zap} target="_blank" rel="noreferrer">
+            <IconeWhatsapp />
+            Fale comigo no WhatsApp
+          </a>
+        ) : (
+          <span className="nav__gaveta-zap" data-inativo="sim" aria-disabled="true">
+            <IconeWhatsapp />
+            WhatsApp em breve
+          </span>
+        )}
       </div>
     </header>
   )

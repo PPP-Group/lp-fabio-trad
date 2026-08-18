@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { contato, participe, redes } from '../../data/campanha'
+import { contato, linkZap, participe, redes } from '../../data/campanha'
 import { Cabecalho } from '../Cabecalho'
 import { ICONES, IconeWhatsapp } from '../Icones'
 import { Cartaz } from './Cartaz'
@@ -7,11 +7,9 @@ import '../../styles/participe.css'
 
 /** O recado vai pelo WhatsApp da campanha: não há servidor no meio. */
 function abrirZap(texto) {
-  window.open(
-    `https://wa.me/${contato.whatsapp}?text=${encodeURIComponent(texto)}`,
-    '_blank',
-    'noopener',
-  )
+  const url = linkZap(texto)
+  if (!url) return
+  window.open(url, '_blank', 'noopener')
 }
 
 function Recado() {
@@ -44,11 +42,22 @@ function Recado() {
         <textarea rows={4} required value={recado} onChange={(e) => setRecado(e.target.value)} />
       </label>
 
-      <button type="submit" className="botao botao--amarelo">
+      <button
+        type="submit"
+        className="botao botao--amarelo"
+        disabled={!contato.whatsappAtivo}
+        data-inativo={contato.whatsappAtivo ? undefined : 'sim'}
+      >
         <IconeWhatsapp />
-        {participe.formulario.envio}
+        {contato.whatsappAtivo
+          ? participe.formulario.envio
+          : `WhatsApp ${contato.whatsappEmBreve.toLowerCase()}`}
       </button>
-      <p className="recado__nota">Abre o WhatsApp com o recado já escrito. Você confere antes de mandar.</p>
+      <p className="recado__nota">
+        {contato.whatsappAtivo
+          ? 'Abre o WhatsApp com o recado já escrito. Você confere antes de mandar.'
+          : 'O WhatsApp da campanha entra no ar em breve. Por enquanto, fale com a gente pelas redes aqui do lado.'}
+      </p>
     </form>
   )
 }
@@ -75,11 +84,15 @@ export function Participe() {
               <button
                 type="button"
                 className="botao botao--carvao"
+                disabled={!contato.whatsappAtivo}
+                data-inativo={contato.whatsappAtivo ? undefined : 'sim'}
                 onClick={() =>
                   abrirZap('Olá! Quero ser voluntário e ajudar na campanha do Fábio Trad 13.')
                 }
               >
-                {participe.voluntario.acao}
+                {contato.whatsappAtivo
+                  ? participe.voluntario.acao
+                  : `${participe.voluntario.acao} · ${contato.whatsappEmBreve.toLowerCase()}`}
               </button>
             </div>
 

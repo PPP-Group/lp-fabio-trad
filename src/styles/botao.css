@@ -82,3 +82,14 @@
   cursor: not-allowed;
   translate: none;
 }
+
+/* Botão que existe mas ainda não leva a lugar nenhum — hoje é o caso dos
+   botões de WhatsApp, à espera do número oficial da campanha. Fica visível,
+   pra não sumir com o espaço reservado a ele, mas sem convidar ao clique. */
+.botao[data-inativo='sim'],
+.botao:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.35);
+  pointer-events: none;
+}

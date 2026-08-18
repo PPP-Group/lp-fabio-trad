@@ -1,7 +1,7 @@
 # Fábio Trad 13 — landing page
 
 Página única de campanha para o governo de Mato Grosso do Sul, 2026.
-Navegação por âncoras: Início · Sobre · Propostas · Conquistas · Participe.
+Navegação por âncoras: Início · Sobre · Propostas · Jogo · Conquistas · Participe.
 
 ```bash
 npm install
@@ -116,7 +116,9 @@ src/
   data/campanha.js   todo o texto aprovado, num arquivo só
   lib/               hooks: revelar, seção ativa
   styles/            tokens, base e uma folha por seção
-Dockerfile           compila com o Vite e serve dist/ no nginx
+server.js            servidor de produção: serve dist/ na porta 3000
+nixpacks.toml        como o Easypanel compila e sobe o site
+Dockerfile           alternativa: compila com o Vite e serve dist/ no nginx
 nginx.conf           tipos MIME, cache e o fallback de página única
 scripts/
   assets.py          refaz public/assets/ a partir de IDV/
@@ -142,33 +144,34 @@ node scripts/shots.mjs shots 1440x900
 Tudo o que ainda depende da campanha está marcado com `A_CONFIRMAR` em
 `src/data/campanha.js`.
 
-1. **WhatsApp.** `contato.whatsapp` está como `5567000000000`. É o número que
-   move a página inteira: o botão do menu, o botão do herói, o formulário e o
-   convite de voluntariado abrem conversa com ele.
+1. **WhatsApp — desligado por enquanto.** O número oficial ainda não chegou, e
+   `contato.whatsappAtivo` está em `false`. Nesse estado a página não emite
+   nenhum link `wa.me`: o botão do menu, o do herói, o envio do formulário e o
+   convite de voluntariado aparecem desativados, com "em breve", e no herói
+   quem assume a ação principal é "Conheça as propostas". Para religar, basta
+   preencher `contato.whatsapp` e virar a chave para `true` — não há nada a
+   mudar nos componentes, que consultam todos a função `linkZap`.
 2. **Redes sociais.** Instagram (`fabiotrad`), TikTok (`fabio.trad`) e YouTube
    (`@fabiortrad`) foram conferidos no ar. Falta confirmar só o Facebook.
-3. **CNPJ da campanha.** `rodape.cnpj` está zerado. O aviso legal do rodapé já
-   está no texto da Lei nº 9.504/97; confirme com o jurídico se a campanha usa
-   outra redação.
-4. **Depoimentos.** A estrutura pede depoimentos de apoiadores e da militância
+3. **Depoimentos.** A estrutura pede depoimentos de apoiadores e da militância
    em "Quem caminha junto" (`apoios`). Hoje há só a linha de apresentação — os
    depoimentos entram assim que a campanha aprovar.
-5. **Vídeos.** O post mais visto do Instagram e o do TikTok estão incorporados:
+4. **Vídeos.** O post mais visto do Instagram e o do TikTok estão incorporados:
    o cartão mostra a capa, e o vídeo só é carregado da rede depois do clique —
    antes disso a página não faz nenhum pedido ao Instagram ou ao TikTok. O
    YouTube entra como cartão do canal, porque ainda não há vídeo da campanha
    lá. Quando houver, e quando outro post passar esses em visualizações, troque
    `videos.posts` em `src/data/campanha.js` e rode `python scripts/videos.py`
    para baixar a capa nova.
-6. **Fotos.** A galeria tem oito fotos do carretel da produção, mais o retrato
+5. **Fotos.** A galeria tem oito fotos do carretel da produção, mais o retrato
    do "Quem sou eu". Os arquivos e as legendas estão em `galeria`
    (`src/data/campanha.js`); a lista de origem, em `CARRETEL_GALERIA`
    (`scripts/assets.py`).
-7. **Formulário.** "Fale direto comigo" e "Seja voluntário" abrem o WhatsApp com
-   a mensagem já escrita, sem servidor no meio. Se a campanha quiser os contatos
-   num CRM, o ponto de troca é a função `abrirZap` em
-   `src/components/participe/Participe.jsx`.
-8. **Domínio e og:image.** As URLs absolutas de `index.html` (canonical, og:url,
+6. **Formulário.** "Fale direto comigo" e "Seja voluntário" abrem o WhatsApp com
+   a mensagem já escrita, sem servidor no meio — quando o número estiver ligado
+   (ver o item 1). Se a campanha quiser os contatos num CRM, o ponto de troca é
+   a função `abrirZap` em `src/components/participe/Participe.jsx`.
+7. **Domínio e og:image.** As URLs absolutas de `index.html` (canonical, og:url,
    og:image), o `public/robots.txt` e o `public/sitemap.xml` apontam para
    `https://fabiotrad13.com.br/`. Se o domínio final for outro, troque nos três.
    A imagem `/assets/og.jpg` é uma captura do próprio herói — `node scripts/og.mjs`

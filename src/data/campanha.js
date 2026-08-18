@@ -20,10 +20,26 @@ export const candidato = {
 }
 
 export const contato = {
-  // Formato internacional, só dígitos. Trocar pelo número oficial da campanha.
-  whatsapp: '5567000000000',
+  // Formato internacional, só dígitos, quando chegar. O número oficial ainda não veio. Enquanto `whatsappAtivo` for `false`,
+  // todo botão de WhatsApp aparece desativado com o rótulo "Em breve" — melhor
+  // do que abrir conversa com um número que não existe. Quando o número chegar:
+  // preencher `whatsapp`, virar a chave, e os componentes voltam sozinhos.
+  whatsapp: A_CONFIRMAR,
+  whatsappAtivo: false,
   whatsappRecado: 'Olá! Vim pelo site e quero falar com o Fábio Trad.',
+  whatsappEmBreve: 'Em breve',
   email: `contato@fabiotrad13.com.br (${A_CONFIRMAR})`,
+}
+
+/**
+ * O link do WhatsApp, ou `null` enquanto o número oficial não chega.
+ *
+ * Quem chama trata o `null` desenhando o botão desativado, em vez de mandar o
+ * eleitor pra uma conversa que não existe. É o único lugar que decide isso.
+ */
+export function linkZap(texto = contato.whatsappRecado) {
+  if (!contato.whatsappAtivo) return null
+  return `https://wa.me/${contato.whatsapp}?text=${encodeURIComponent(texto)}`
 }
 
 // Instagram, TikTok e YouTube conferidos no oEmbed/perfil das próprias redes.
@@ -39,6 +55,7 @@ export const secoes = [
   { id: 'inicio', rotulo: 'Início' },
   { id: 'sobre', rotulo: 'Sobre' },
   { id: 'propostas', rotulo: 'Propostas' },
+  { id: 'jogo', rotulo: 'Jogo' },
   { id: 'conquistas', rotulo: 'Conquistas' },
   { id: 'participe', rotulo: 'Participe' },
 ]
@@ -364,7 +381,7 @@ export const participe = {
 
 export const rodape = {
   // Preencher com os dados oficiais antes de publicar.
-  cnpj: `00.000.000/0001-00 (${A_CONFIRMAR})`,
+  cnpj: '68.456.244/0001-17',
   aviso:
     'Propaganda eleitoral gratuita, na forma da Lei nº 9.504/97. ' +
     'É proibida a veiculação de propaganda que deprecie a condição de mulher ' +
