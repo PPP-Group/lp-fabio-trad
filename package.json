@@ -10,7 +10,7 @@
     "dev": "vite --port 5179",
     "build": "vite build",
     "preview": "vite preview --port 4179",
-    "start": "vite preview --host 0.0.0.0 --port 4179",
+    "start": "node server.js",
     "test:mapa": "node scripts/mapa.test.mjs"
   },
   "dependencies": {
@@ -21,7 +21,6 @@
     "@fontsource-variable/archivo": "^5.1.0",
     "@fontsource-variable/source-serif-4": "^5.1.0",
     "@vitejs/plugin-react": "^4.3.4",
-    "puppeteer-core": "^25.6.0",
     "vite": "^6.0.7"
   }
 }

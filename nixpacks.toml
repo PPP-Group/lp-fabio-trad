@@ -1,0 +1,11 @@
+[variables]
+NODE_ENV = 'production'
+NPM_CONFIG_PRODUCTION = 'false'
+CI = 'true'
+NIXPACKS_SPA_CADDY = 'false'
+
+[phases.build]
+cmds = ['npm run build']
+
+[start]
+cmd = 'node server.js'

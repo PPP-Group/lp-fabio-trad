@@ -178,56 +178,53 @@ Tudo o que ainda depende da campanha está marcado com `A_CONFIRMAR` em
 
 ## Deploy (Easypanel / VPS Hostinger)
 
-O site é estático: o Vite compila para `dist/` e o nginx serve aquilo. Nada de
-banco, variável de ambiente ou processo Node em produção.
+O Vite compila para `dist/` e o `server.js` (Node puro, sem dependências
+externas) serve os arquivos em produção. Nada de banco ou variável de ambiente.
 
-**No Easypanel, crie o serviço como App e escolha a fonte de build "Dockerfile"**
-(não "Nixpacks", não "Static"). O `Dockerfile` da raiz compila e serve; a porta
-do container é a **80**.
+**No Easypanel use Nixpacks** (o padrão) com porta **3000**.
 
-| Campo no Easypanel | Valor          |
-| ------------------ | -------------- |
-| Build              | Dockerfile     |
-| Dockerfile path    | `Dockerfile`   |
-| Build context      | `.`            |
-| Porta do container | `80`           |
+| Campo no Easypanel | Valor               |
+| ------------------ | ------------------- |
+| Build              | Nixpacks (padrão)   |
+| Porta do container | `3000`              |
 | Domínio            | `fabiotrad13.com.br` (HTTPS/Let's Encrypt ligado) |
 
-Para conferir a imagem antes de subir:
+O `nixpacks.toml` na raiz já configura tudo automaticamente:
+- `NIXPACKS_SPA_CADDY = 'false'` — desliga o Caddy interno do Nixpacks
+- `npm run build` na fase de build
+- `node server.js` no start
 
-```bash
-docker build -t lp-fabio-trad . && docker run --rm -p 8080:80 lp-fabio-trad
-```
+### Por que a tela branca acontecia (e o que foi corrigido)
 
-### A tela branca, e por que ela acontecia
+**Causa 1 — Caddy sem saber onde estava o `dist/`**
 
-O console acusava:
+O Nixpacks, sem o `nixpacks.toml`, ativava o Caddy interno como servidor.
+O Caddy lia a variável `$NIXPACKS_SPA_OUTPUT_DIR`, que o Easypanel não passa
+para o runtime do container. Sem ela, o Caddy servia a raiz do código-fonte
+(`/app`) em vez de `dist/`. O navegador recebia o `index.html` de
+desenvolvimento (que aponta para `/src/main.jsx`) e rejeitava com erro de MIME.
 
-```
-Failed to load module script: Expected a JavaScript-or-Wasm module script
-but the server responded with a MIME type of "".
-```
+**Causa 2 — `puppeteer-core` inflando o build com Chromium**
 
-Esse erro não é do JavaScript do site: é o servidor devolvendo o arquivo do
-módulo sem `Content-Type`. Duas causas, as duas cobertas agora:
+O Nixpacks detecta o nome `puppeteer` nas devDependencies e baixa Chromium
+completo + centenas de MB de libs gráficas (GTK, X11, ALSA). O `puppeteer-core`
+era usado só em scripts locais de captura de tela e foi removido do
+`package.json`. Build passou de vários minutos para ~15 segundos.
 
-1. **Servir a pasta do repositório em vez de `dist/`.** O `index.html` da raiz é
-   o de desenvolvimento e aponta para `/src/main.jsx`, que só existe enquanto o
-   Vite está rodando. Em produção o servidor não acha esse caminho, responde
-   vazio, e o navegador reclama do MIME. O `Dockerfile` elimina a dúvida: só o
-   conteúdo de `dist/` entra na imagem final.
-2. **Fallback de página única engolindo os arquivos.** Quando qualquer 404 vira
-   `index.html`, um bundle com nome errado volta como HTML e dá o mesmo erro.
-   Por isso `nginx.conf` responde `=404` dentro de `/assets/` e só aplica o
-   fallback fora dali — e carrega `mime.types` explicitamente.
+**Causa 3 — Porta 80 exige root**
+
+Portas abaixo de 1024 são privilegiadas no Linux. O container Nixpacks roda
+sem root e qualquer tentativa de escutar na porta 80 resulta em
+`EACCES: permission denied`. O `server.js` escuta na porta **3000**
+(ou em `process.env.PORT` se o Easypanel injetar outra).
 
 ### Depois de cada deploy
 
 - `https://fabiotrad13.com.br/healthz` tem que responder `ok`.
 - No console do navegador, nenhum erro; na aba Network, o `index-*.js` com
-  `Content-Type: text/javascript`.
-- Se a tela ainda vier branca, olhe o log do build no Easypanel: se `npm run
-  build` não aparecer ali, o serviço não está usando o Dockerfile.
+  `Content-Type: application/javascript`.
+- Se a tela ainda vier branca, olhe o log do Easypanel: a linha
+  `Aplicação rodando na porta 3000` tem que aparecer no final.
 
 ---
 
