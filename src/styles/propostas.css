@@ -105,6 +105,16 @@
   text-decoration: underline;
 }
 
+.propostas__ver-mais {
+  /* mesmo truque de centralização do botão do PDF logo abaixo */
+  display: flex;
+  width: fit-content;
+  margin-top: clamp(0.6rem, 1.6vw, 1.1rem);
+  margin-inline: auto;
+  padding-block: 0.75rem;
+  font-size: 0.92rem;
+}
+
 .propostas__plano {
   /* display:flex (não inline-flex) pra virar caixa de bloco: só assim a
      margem automática centraliza o botão sob a grade de eixos */

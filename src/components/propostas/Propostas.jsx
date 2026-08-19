@@ -32,7 +32,16 @@ function Bandeira({ eixo, texto, semente }) {
   )
 }
 
+// Fechado, a grade mostra duas fileiras de três — o resto só aparece se o
+// leitor pedir. Com 13 eixos ao todo, sem isso a seção inteira vira uma
+// parede de texto antes mesmo de chegar no botão do PDF.
+const EIXOS_NA_GRADE_FECHADA = 6
+
 export function Propostas() {
+  const [mostrarTodos, setMostrarTodos] = useState(false)
+  const restantes = propostas.eixos.length - EIXOS_NA_GRADE_FECHADA
+  const eixosVisiveis = mostrarTodos ? propostas.eixos : propostas.eixos.slice(0, EIXOS_NA_GRADE_FECHADA)
+
   return (
     <section id="propostas" className="secao propostas">
       <div className="propostas__mapa" aria-hidden="true" />
@@ -47,10 +56,21 @@ export function Propostas() {
         />
 
         <ul className="propostas__lista">
-          {propostas.eixos.map((e, i) => (
+          {eixosVisiveis.map((e, i) => (
             <Bandeira key={e.eixo} eixo={e.eixo} texto={e.texto} semente={40 + i * 7} />
           ))}
         </ul>
+
+        {restantes > 0 && (
+          <button
+            type="button"
+            className="botao botao--vazado propostas__ver-mais"
+            onClick={() => setMostrarTodos((v) => !v)}
+            aria-expanded={mostrarTodos}
+          >
+            {mostrarTodos ? 'Ver menos' : `Ver mais ${restantes} eixos`}
+          </button>
+        )}
 
         {propostas.planoPdf ? (
           <a
