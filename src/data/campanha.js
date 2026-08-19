@@ -251,10 +251,10 @@ export const propostas = {
   rotulo: 'Propostas',
   titulo: 'Bandeiras de campanha',
   chamada: 'Os 13 eixos do Programa de Governo 2026.',
-  // O PDF inteiro ainda não chegou da campanha — ver item 8 do README antes
-  // de publicar. Enquanto isso o link fica desativado, do mesmo jeito que o
-  // WhatsApp em `contato.whatsappAtivo`.
-  planoPdf: null, // trocar por algo como '/assets/plano-de-governo-fabio-trad.pdf'
+  // Gerado a partir dos 13 eixos abaixo (ver README, item 8). Se a campanha
+  // mandar uma versão própria em PDF, é só trocar o arquivo em
+  // public/assets/ mantendo esse mesmo nome — ou apontar pra outro caminho.
+  planoPdf: '/assets/plano-de-governo-fabio-trad.pdf',
   planoPdfRotulo: 'Baixe o plano de governo inteiro',
   eixos: [
     {

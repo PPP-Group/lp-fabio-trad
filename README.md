@@ -176,12 +176,14 @@ Tudo o que ainda depende da campanha está marcado com `A_CONFIRMAR` em
    `https://fabiotrad13.com.br/`. Se o domínio final for outro, troque nos três.
    A imagem `/assets/og.jpg` é uma captura do próprio herói — `node scripts/og.mjs`
    refaz.
-8. **Plano de governo em PDF — falta o arquivo.** Em Propostas, o botão
-   "Baixe o plano de governo inteiro" existe mas fica desativado enquanto
-   `propostas.planoPdf` for `null`. Quando o PDF chegar da campanha: salvar
-   em `public/assets/` (por exemplo `plano-de-governo-fabio-trad.pdf`) e
-   apontar `propostas.planoPdf` pra esse caminho — o botão liga sozinho, sem
-   mexer em componente nenhum.
+8. **Plano de governo em PDF.** `public/assets/plano-de-governo-fabio-trad.pdf`
+   é gerado a partir dos mesmos 13 eixos de `propostas.eixos` — capa, os
+   eixos numerados e a página de compromissos, nas cores da campanha
+   (`scripts/plano.mjs`, com `pdf-lib`). Se a campanha mandar uma peça
+   própria — diagramada por fora, com mais conteúdo — é só trocar o arquivo
+   mantendo o nome, ou apontar `propostas.planoPdf` pra outro caminho. Pra
+   desativar o botão de novo (por exemplo, se o PDF for tirado do ar), basta
+   `propostas.planoPdf = null` — ele mesmo volta a mostrar "em breve".
 
 ---
 

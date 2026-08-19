@@ -21,6 +21,7 @@
     "@fontsource-variable/archivo": "^5.1.0",
     "@fontsource-variable/source-serif-4": "^5.1.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "pdf-lib": "^1.17.1",
     "vite": "^6.0.7"
   }
 }
