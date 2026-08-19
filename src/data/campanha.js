@@ -250,43 +250,90 @@ export const apoios = {
 export const propostas = {
   rotulo: 'Propostas',
   titulo: 'Bandeiras de campanha',
-  chamada: 'Do Programa de Governo 2026, em seis frentes.',
+  chamada: 'Os 13 eixos do Programa de Governo 2026.',
+  // O PDF inteiro ainda não chegou da campanha — ver item 8 do README antes
+  // de publicar. Enquanto isso o link fica desativado, do mesmo jeito que o
+  // WhatsApp em `contato.whatsappAtivo`.
+  planoPdf: null, // trocar por algo como '/assets/plano-de-governo-fabio-trad.pdf'
+  planoPdfRotulo: 'Baixe o plano de governo inteiro',
   eixos: [
     {
-      eixo: 'Saúde',
+      eixo: 'Gestão Participativa',
       texto:
-        'Acabar com a fila e a espera. Mais médicos, mais remédio e atendimento perto ' +
-        'de quem mora no interior, pra ninguém precisar viajar até a capital pra ser cuidado.',
+        'Governar com transparência total, acabando com o isolamento do interior e ' +
+        'trazendo o cidadão para o centro das decisões do Estado.',
     },
     {
-      eixo: 'Educação',
+      eixo: 'Crescimento Sustentável',
       texto:
-        'Escola em tempo integral, professor valorizado e escola reformada e climatizada. ' +
-        'Fortalecer a UEMS pra segurar o jovem no estado.',
+        'Diversificar a economia e aproveitar a Rota Bioceânica para levar indústrias, ' +
+        'inovação e riqueza para todas as regiões de MS.',
     },
     {
-      eixo: 'Segurança',
+      eixo: 'Incentivo Justo',
       texto:
-        'Presença firme do Estado na fronteira — Ponta Porã, Corumbá, Porto Murtinho — ' +
-        'contra o tráfico. Polícia valorizada e combate ao feminicídio como prioridade.',
+        'Acabar com privilégios fiscais sem retorno e exigir que empresas beneficiadas ' +
+        'gerem empregos formais e salários melhores.',
     },
     {
-      eixo: 'Emprego e renda',
+      eixo: 'Saúde Regionalizada',
       texto:
-        'Trabalho que paga o suficiente pra família viver com dignidade, pra ninguém ' +
-        'ter que sair de Mato Grosso do Sul atrás de oportunidade.',
+        "Acabar com as viagens de madrugada e 'carretas da saúde', assumindo a gestão " +
+        'pública dos hospitais e levando atendimento especialista ao interior.',
     },
     {
-      eixo: 'Infraestrutura',
+      eixo: 'Segurança Protegida',
       texto:
-        'Estrada sem buraco e transporte público que funciona, na capital e no interior. ' +
-        'Planejamento que leva desenvolvimento pra todas as regiões.',
+        'Combatendo o crime com inteligência e tecnologia na fronteira, reforçando a ' +
+        'patrulha nas escolas e tolerância zero ao feminicídio.',
     },
     {
-      eixo: 'Direitos e cuidado com a gente',
+      eixo: 'Trabalho Digno',
       texto:
-        'Combate à fome, apoio às famílias, direitos das mulheres e proteção de quem ' +
-        'mais precisa. Um estado que cuida bem da sua terra — e também da sua gente.',
+        'Gerar empregos de qualidade com apoio aos pequenos negócios, programa Primeiro ' +
+        'Emprego para jovens e apoio às mulheres empreendedoras.',
+    },
+    {
+      eixo: 'Educação Valorizada',
+      texto:
+        'Fim da injustiça salarial entre professores contratados e concursados, ' +
+        'conectando nossas escolas ao futuro da ciência e da tecnologia.',
+    },
+    {
+      eixo: 'Infraestrutura Planejada',
+      texto:
+        'Duplicar rodovias estratégicas, recuperar pontes e estradas rurais e integrar ' +
+        'ferrovias sem endividar o futuro do Estado.',
+    },
+    {
+      eixo: 'Cultura Viva',
+      texto:
+        'Democratizar os recursos da cultura e do esporte no interior e nas periferias, ' +
+        'resgatando as grandes Temporadas Populares para as famílias.',
+    },
+    {
+      eixo: 'Estado Cuidador',
+      texto:
+        'Proteger os mais vulneráveis com restaurantes populares, combate firme à fome, ' +
+        'à intolerância e garantia de direitos para todos.',
+    },
+    {
+      eixo: 'Campo Forte',
+      texto:
+        'Fortalecer a agricultura familiar e os assentamentos com assistência técnica, ' +
+        'crédito, estradas para escoamento e incentivo às agroindústrias.',
+    },
+    {
+      eixo: 'Ambiente Protegido',
+      texto:
+        'Proteger o Pantanal e a Serra da Bodoquena contra queimadas e degradação, ' +
+        'tornando o Estado referência em economia verde e bioinsumos.',
+    },
+    {
+      eixo: 'Turismo Sustentável',
+      texto:
+        'Estruturar novos polos turísticos no interior, capacitar profissionais locais ' +
+        'e promover nossas belezas naturais para o Brasil e o mundo.',
     },
   ],
   compromisso: {

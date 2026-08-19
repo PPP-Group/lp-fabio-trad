@@ -176,6 +176,12 @@ Tudo o que ainda depende da campanha está marcado com `A_CONFIRMAR` em
    `https://fabiotrad13.com.br/`. Se o domínio final for outro, troque nos três.
    A imagem `/assets/og.jpg` é uma captura do próprio herói — `node scripts/og.mjs`
    refaz.
+8. **Plano de governo em PDF — falta o arquivo.** Em Propostas, o botão
+   "Baixe o plano de governo inteiro" existe mas fica desativado enquanto
+   `propostas.planoPdf` for `null`. Quando o PDF chegar da campanha: salvar
+   em `public/assets/` (por exemplo `plano-de-governo-fabio-trad.pdf`) e
+   apontar `propostas.planoPdf` pra esse caminho — o botão liga sozinho, sem
+   mexer em componente nenhum.
 
 ---
 

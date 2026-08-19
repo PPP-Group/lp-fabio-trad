@@ -47,6 +47,14 @@ export function IconeTiktok() {
   )
 }
 
+export function IconeDownload() {
+  return (
+    <svg {...base}>
+      <path d="M12 3a1 1 0 0 1 1 1v9.59l2.3-2.3a1 1 0 1 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.42l2.3 2.3V4a1 1 0 0 1 1-1Zm-7 14a1 1 0 0 1 1 1v1h12v-1a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1Z" />
+    </svg>
+  )
+}
+
 export const ICONES = {
   instagram: IconeInstagram,
   facebook: IconeFacebook,
