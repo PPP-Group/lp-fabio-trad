@@ -36,7 +36,6 @@ function Cartao({ post, aoAbrir }) {
 export function Redes() {
   const [aberto, setAberto] = useState(null)
   const post = aberto === null ? null : videos.posts[aberto]
-  const Canal = ICONES[videos.canal.icone]
   const IconePost = post ? ICONES[post.icone] : null
 
   return (
@@ -50,18 +49,6 @@ export function Redes() {
         {videos.posts.map((p, i) => (
           <Cartao key={p.url} post={p} aoAbrir={() => setAberto(i)} />
         ))}
-
-        <li className="canal">
-          <a href={videos.canal.url} target="_blank" rel="noreferrer">
-            <span className="canal__rede">
-              <Canal />
-              {videos.canal.rede}
-            </span>
-            <span className="canal__titulo">{videos.canal.titulo}</span>
-            <span className="canal__texto">{videos.canal.texto}</span>
-            <span className="canal__acao">{videos.canal.acao} →</span>
-          </a>
-        </li>
       </ul>
 
       <Modal

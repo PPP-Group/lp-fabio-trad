@@ -16,38 +16,35 @@ export const candidato = {
   estado: 'Mato Grosso do Sul',
   ano: '2026',
   slogan: 'Coragem pra sonhar.',
-  federacao: 'Federação Brasil da Esperança (PT · PCdoB · PV)',
+  coligacao: 'Coligação Por um MS do Povo',
+  federacao: 'Coligação Por um MS do Povo · Federação Brasil da Esperança (PT · PV · PCdoB) · PSB · PDT',
 }
 
 export const contato = {
-  // Formato internacional, só dígitos, quando chegar. O número oficial ainda não veio. Enquanto `whatsappAtivo` for `false`,
-  // todo botão de WhatsApp aparece desativado com o rótulo "Em breve" — melhor
-  // do que abrir conversa com um número que não existe. Quando o número chegar:
-  // preencher `whatsapp`, virar a chave, e os componentes voltam sozinhos.
-  whatsapp: A_CONFIRMAR,
-  whatsappAtivo: false,
-  whatsappRecado: 'Olá! Vim pelo site e quero falar com o Fábio Trad.',
-  whatsappEmBreve: 'Em breve',
+  // O canal de contato do site é o e-mail. O formulário do Participe monta a
+  // mensagem e abre o programa de e-mail do próprio leitor — não há servidor
+  // no meio, nada fica guardado aqui; quem recebe é a caixa da campanha.
   email: `contato@fabiotrad13.com.br (${A_CONFIRMAR})`,
 }
 
 /**
- * O link do WhatsApp, ou `null` enquanto o número oficial não chega.
- *
- * Quem chama trata o `null` desenhando o botão desativado, em vez de mandar o
- * eleitor pra uma conversa que não existe. É o único lugar que decide isso.
+ * Só o endereço, sem a marca de A_CONFIRMAR que o texto acima carrega.
+ * O `mailto:` não aceita os parênteses, então quem monta o link passa por aqui.
  */
-export function linkZap(texto = contato.whatsappRecado) {
-  if (!contato.whatsappAtivo) return null
-  return `https://wa.me/${contato.whatsapp}?text=${encodeURIComponent(texto)}`
+export function enderecoEmail() {
+  return contato.email.replace(/\s*\(.*\)\s*$/, '').trim()
 }
 
-// Instagram, TikTok e YouTube conferidos no oEmbed/perfil das próprias redes.
-// O Facebook é o único que segue por confirmar.
+/** Abre o programa de e-mail do leitor com o recado já escrito. */
+export function linkEmail(assunto, corpo) {
+  return `mailto:${enderecoEmail()}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`
+}
+
+// Instagram, TikTok e Facebook. O YouTube saiu a pedido da campanha — quando
+// voltar, é só devolver a linha aqui (o ícone continua em Icones.jsx).
 export const redes = [
   { nome: 'Instagram', url: 'https://www.instagram.com/fabiotrad', icone: 'instagram' },
   { nome: 'Facebook', url: 'https://www.facebook.com/fabiotrad', icone: 'facebook' },
-  { nome: 'YouTube', url: 'https://www.youtube.com/@fabiortrad', icone: 'youtube' },
   { nome: 'TikTok', url: 'https://www.tiktok.com/@fabio.trad', icone: 'tiktok' },
 ]
 
@@ -63,12 +60,33 @@ export const secoes = [
 export const hero = {
   chamada: ['Coragem', 'pra sonhar'],
   // do "Quem sou eu": é a voz dele, por isso vai na serifada
-  apoio: 'Aprendi coragem dentro de casa.',
+  apoio: 'Aprendi sobre coragem dentro de casa.',
   numero: 'na urna, para governador',
   acoes: [
-    { texto: 'Fale comigo no WhatsApp', tipo: 'whatsapp' },
     { texto: 'Conheça as propostas', tipo: 'ancora', destino: 'propostas' },
   ],
+  // O vídeo de apresentação. Fica no herói, mas nada é pedido ao Instagram
+  // antes do clique: o cartão mostra a capa servida daqui e só o modal abre
+  // o iframe da rede.
+  video: {
+    rede: 'Instagram',
+    icone: 'instagram',
+    acao: 'Assista à apresentação',
+    titulo: 'Esse Fábio Trad sou eu!',
+    legenda:
+      'Sou advogado, professor, pai de família e sul-mato-grossense com orgulho! ' +
+      'Representei o nosso estado por três mandatos como deputado federal, tendo ' +
+      'sido reconhecido como o melhor parlamentar do Brasil.\n\n' +
+      'Pautei a minha vida inteira pela defesa dos direitos das pessoas. Agora, ' +
+      'quero continuar esta caminhada no Governo de MS! Com muita coragem para ' +
+      'sonhar e determinação para fazer acontecer! Vamos juntos, meu MS querido.',
+    capa: 'video-apresentacao.jpg',
+    largura: 640,
+    altura: 1137,
+    url: 'https://www.instagram.com/p/DcGTfCgvAXz/',
+    incorporar: 'https://www.instagram.com/p/DcGTfCgvAXz/embed/',
+    proporcao: 0.56,
+  },
 }
 
 export const sobre = {
@@ -78,9 +96,9 @@ export const sobre = {
     'Sou Fábio Trad, advogado, professor de Direito e ex-presidente da OAB de ' +
       'Mato Grosso do Sul. Fui deputado federal por três mandatos, sempre com a ' +
       'mesma régua: defender as pessoas, cumprir a lei e não baixar a cabeça pra pressão.',
-    'Aprendi coragem dentro de casa. Meu pai foi preso pela ditadura e não se calou. ' +
-      'É essa coragem que me trouxe até aqui, e é ela que ofereço a Mato Grosso do Sul: ' +
-      'coragem pra sonhar e pra fazer diferente pela nossa gente.',
+    'Aprendi sobre coragem dentro de casa. Meu pai foi perseguido pela ditadura e não ' +
+      'se calou. É essa coragem que me trouxe até aqui, e é ela que ofereço a Mato ' +
+      'Grosso do Sul: coragem pra sonhar e pra fazer diferente pelo nosso povo.',
   ],
   assinatura: 'Fábio Trad',
 }
@@ -107,14 +125,14 @@ export const trajetoria = {
     {
       quando: 'Defesa das mulheres',
       o_que:
-        'Foi coautor da lei que tornou o feminicídio crime autônomo no Brasil ' +
+        'Ajudou a criar a lei que transformou o feminicídio em crime independente ' +
         '(Lei 13.104/2015).',
     },
     {
       quando: '2026',
       o_que:
-        'Filiado ao PT e candidato a governador pela Federação Brasil da Esperança, ' +
-        'ao lado da vice Dona Gilda.',
+        'Filiado ao PT e candidato a governador pela coligação Por um MS do Povo, ' +
+        'ao lado da vice, Dona Gilda.',
     },
   ],
 }
@@ -221,14 +239,8 @@ export const videos = {
       proporcao: 0.56,
     },
   ],
-  canal: {
-    rede: 'YouTube',
-    icone: 'youtube',
-    titulo: 'O canal no YouTube',
-    texto: 'É onde ficam as entrevistas e os vídeos longos, do começo ao fim.',
-    acao: 'Abrir o canal',
-    url: 'https://www.youtube.com/@fabiortrad',
-  },
+  // O cartão do canal do YouTube saiu junto com o YouTube das redes, a pedido
+  // da campanha. Se voltar, o componente Redes.jsx precisa do bloco `canal`.
 }
 
 export const gilda = {
@@ -249,7 +261,7 @@ export const apoios = {
 
 export const propostas = {
   rotulo: 'Propostas',
-  titulo: 'Bandeiras de campanha',
+  titulo: 'Nossas propostas',
   chamada: 'Os 13 eixos do Programa de Governo 2026.',
   // Gerado a partir dos 13 eixos abaixo (ver README, item 8). Se a campanha
   // mandar uma versão própria em PDF, é só trocar o arquivo em
@@ -351,8 +363,8 @@ export const conquistas = {
   realizacoes: [
     'Presidiu a Comissão do Novo Código de Processo Civil, que virou lei e modernizou ' +
       'a Justiça brasileira.',
-    'Foi coautor da lei que tornou o feminicídio crime autônomo no país, com penas mais ' +
-      'duras e mais proteção às mulheres.',
+    'Ajudou a criar a lei que transformou o feminicídio em crime independente, com penas ' +
+      'mais duras e mais proteção às mulheres.',
     'Relator da PEC da Prisão em 2ª Instância e presidente da Frente Parlamentar em ' +
       'Defesa da Advocacia.',
     'Manteve presença próxima de 100% nas votações e figurou entre os deputados mais ' +
@@ -366,7 +378,7 @@ export const conquistas = {
       { valor: '6 anos', o_que: 'entre as “100 Cabeças do Congresso” (DIAP)' },
       { valor: '32', o_que: 'comissões e grupos de trabalho na Câmara' },
       { valor: '~100%', o_que: 'de presença nas votações do Plenário' },
-      { valor: '1', o_que: 'das leis que ajudou a criar contra o feminicídio no Brasil' },
+      { valor: '1', o_que: 'das leis que ajudou a criar contra o feminicídio no país' },
     ],
   },
   reconhecimentos: {
@@ -404,17 +416,30 @@ export const participe = {
     titulo: 'Fale direto comigo',
     texto: 'Escreva seu recado. A equipe lê e responde.',
     envio: 'Enviar recado',
+    nota: 'Abre o seu programa de e-mail com o recado já escrito. Você confere antes de mandar.',
   },
   voluntario: {
     titulo: 'Seja voluntário',
     texto: 'Vamos juntos. Some com a gente nessa caminhada.',
     acao: 'Quero ser voluntário',
   },
+  // Molduras do Twibbonize: o eleitor sobe a própria foto no site deles e
+  // baixa com a moldura da campanha. São links externos — nada é processado
+  // aqui, e por isso abrem em aba nova.
+  molduras: {
+    titulo: 'Personalize sua foto',
+    texto: 'Demonstre seu apoio: escolha uma moldura e leve a sua foto pro perfil.',
+    itens: [
+      { nome: 'Emoji do Fábio', url: 'https://twb.nz/fabiotrademoji' },
+      { nome: 'Fábio Trad PT 13', url: 'https://twb.nz/fabiotradpt13' },
+      { nome: 'Fechado com Fábio Trad', url: 'https://twb.nz/fechadocomfabiotrad' },
+    ],
+  },
   cartaz: {
     titulo: 'Faça o seu cartaz',
     texto:
       'Escolha a bandeira que te move, escreva seu nome e leve o cartaz pro seu ' +
-      'WhatsApp, pro seu story, pro seu perfil.',
+      'story, pro seu perfil, pra onde você quiser.',
     bandeiras: [
       'Saúde',
       'Educação',
@@ -427,8 +452,15 @@ export const participe = {
 }
 
 export const rodape = {
-  // Preencher com os dados oficiais antes de publicar.
   cnpj: '68.456.244/0001-17',
+  // O texto oficial da campanha, na íntegra e sem quebra: é a identificação
+  // legal da propaganda, e traz também o aviso de uso de IA.
+  legal:
+    'PROPAGANDA ELEITORAL - Coligação POR UM MS DO POVO (Federação Brasil da ' +
+    'Esperança: PT, PV, PCdoB), PSB, PDT | CNPJ: 68.456.244/0001-17 | ' +
+    'Contém recursos de Inteligência Artificial.',
+  // Continua junto: é exigência da própria Lei nº 9.504/97, não substituída
+  // pelo texto acima.
   aviso:
     'Propaganda eleitoral gratuita, na forma da Lei nº 9.504/97. ' +
     'É proibida a veiculação de propaganda que deprecie a condição de mulher ' +

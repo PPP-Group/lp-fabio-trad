@@ -98,8 +98,8 @@ semente, então o mesmo traço sai igual em todo render.
 O momento interativo é **o cartaz** (`src/components/participe/Cartaz.jsx`). A
 apresentação promete uma identidade capaz de "criar centenas de peças diferentes
 mantendo unidade visual" — aqui quem faz a peça é o eleitor: escolhe a bandeira,
-escreve o nome e leva um cartaz da campanha pronto para o WhatsApp ou para o
-story. É desenhado em canvas no próprio navegador, com as marcas reais; nada
+escreve o nome e leva um cartaz da campanha pronto para o story ou para o
+perfil. É desenhado em canvas no próprio navegador, com as marcas reais; nada
 sai do aparelho de quem usou.
 
 O que o site acrescenta ao impresso, e nada além disso: o traço que se escreve,
@@ -144,46 +144,54 @@ node scripts/shots.mjs shots 1440x900
 Tudo o que ainda depende da campanha está marcado com `A_CONFIRMAR` em
 `src/data/campanha.js`.
 
-1. **WhatsApp — desligado por enquanto.** O número oficial ainda não chegou, e
-   `contato.whatsappAtivo` está em `false`. Nesse estado a página não emite
-   nenhum link `wa.me`: o botão do menu, o do herói, o envio do formulário e o
-   convite de voluntariado aparecem desativados, com "em breve", e no herói
-   quem assume a ação principal é "Conheça as propostas". Para religar, basta
-   preencher `contato.whatsapp` e virar a chave para `true` — não há nada a
-   mudar nos componentes, que consultam todos a função `linkZap`.
-2. **Redes sociais.** Instagram (`fabiotrad`), TikTok (`fabio.trad`) e YouTube
-   (`@fabiortrad`) foram conferidos no ar. Falta confirmar só o Facebook.
+1. **E-mail de contato.** `contato.email` está como
+   `contato@fabiotrad13.com.br`, ainda por confirmar. É por ele que passa todo
+   o contato da página: o formulário "Fale direto comigo" e o botão "Seja
+   voluntário" montam a mensagem e abrem o programa de e-mail do próprio
+   leitor (`mailto:`), sem servidor no meio — nada é guardado aqui. Se a
+   campanha quiser os contatos num CRM, o ponto de troca é `abrirEmail` em
+   `src/components/participe/Participe.jsx`.
+2. **Redes sociais.** Instagram (`fabiotrad`) e TikTok (`fabio.trad`) foram
+   conferidos no ar; falta confirmar o Facebook. O **YouTube saiu** a pedido da
+   campanha — da lista `redes` e do cartão do canal em "Nas redes". Para
+   devolver: a linha em `redes`, o bloco `videos.canal` e o item `canal` em
+   `src/components/sobre/Redes.jsx`.
 3. **Depoimentos.** A estrutura pede depoimentos de apoiadores e da militância
    em "Quem caminha junto" (`apoios`). Hoje há só a linha de apresentação — os
    depoimentos entram assim que a campanha aprovar.
-4. **Vídeos.** O post mais visto do Instagram e o do TikTok estão incorporados:
-   o cartão mostra a capa, e o vídeo só é carregado da rede depois do clique —
-   antes disso a página não faz nenhum pedido ao Instagram ou ao TikTok. O
-   YouTube entra como cartão do canal, porque ainda não há vídeo da campanha
-   lá. Quando houver, e quando outro post passar esses em visualizações, troque
-   `videos.posts` em `src/data/campanha.js` e rode `python scripts/videos.py`
-   para baixar a capa nova.
+4. **Vídeos.** Três ao todo: o de apresentação, no herói (`hero.video`), e os
+   dois de "Nas redes" (`videos.posts`). Em todos, o cartão mostra uma capa
+   servida daqui e o vídeo só é carregado da rede **depois do clique** — antes
+   disso a página não faz nenhum pedido ao Instagram nem ao TikTok. Para trocar
+   algum, mude a URL e rode `python scripts/videos.py` para baixar a capa nova.
+   O script pede Python e Pillow; sem eles, dá para puxar a miniatura pelo
+   mesmo endpoint oEmbed direto em Node.
 5. **Fotos.** A galeria tem oito fotos do carretel da produção, mais o retrato
-   do "Quem sou eu". Os arquivos e as legendas estão em `galeria`
-   (`src/data/campanha.js`); a lista de origem, em `CARRETEL_GALERIA`
-   (`scripts/assets.py`).
-6. **Formulário.** "Fale direto comigo" e "Seja voluntário" abrem o WhatsApp com
-   a mensagem já escrita, sem servidor no meio — quando o número estiver ligado
-   (ver o item 1). Se a campanha quiser os contatos num CRM, o ponto de troca é
-   a função `abrirZap` em `src/components/participe/Participe.jsx`.
+   do "Quem sou eu". **As legendas não aparecem mais na tela**, a pedido da
+   campanha, mas seguem em `galeria` (`src/data/campanha.js`) porque são o
+   texto alternativo das imagens: sem elas, quem usa leitor de tela ficaria com
+   oito fotos mudas, e nada apareceria se a imagem não carregasse. A lista de
+   origem está em `CARRETEL_GALERIA` (`scripts/assets.py`).
+6. **Molduras de perfil.** "Personalize sua foto", no Participe, aponta para
+   três molduras hospedadas no Twibbonize (`participe.molduras`). São links
+   externos: quem recebe a foto e devolve o resultado é o site deles, nada
+   passa por aqui.
 7. **Domínio e og:image.** As URLs absolutas de `index.html` (canonical, og:url,
    og:image), o `public/robots.txt` e o `public/sitemap.xml` apontam para
    `https://fabiotrad13.com.br/`. Se o domínio final for outro, troque nos três.
    A imagem `/assets/og.jpg` é uma captura do próprio herói — `node scripts/og.mjs`
    refaz.
 8. **Plano de governo em PDF.** `public/assets/plano-de-governo-fabio-trad.pdf`
-   é gerado a partir dos mesmos 13 eixos de `propostas.eixos` — capa, os
-   eixos numerados e a página de compromissos, nas cores da campanha
-   (`scripts/plano.mjs`, com `pdf-lib`). Se a campanha mandar uma peça
-   própria — diagramada por fora, com mais conteúdo — é só trocar o arquivo
-   mantendo o nome, ou apontar `propostas.planoPdf` pra outro caminho. Pra
-   desativar o botão de novo (por exemplo, se o PDF for tirado do ar), basta
-   `propostas.planoPdf = null` — ele mesmo volta a mostrar "em breve".
+   é o documento oficial da campanha: 85 páginas, o mesmo registrado na Justiça
+   Eleitoral. **Pesa 28,7 MB** — tentamos recomprimir e não encolhe nada, são 91
+   gradientes e transparências do design, então quem baixar no celular puxa
+   isso mesmo. Se algum dia vier uma versão mais leve, é só trocar o arquivo
+   mantendo o nome. Para desativar o botão, `propostas.planoPdf = null` — ele
+   volta sozinho a mostrar "em breve".
+9. **Texto legal.** `rodape.legal` traz a identificação oficial da propaganda:
+   coligação, partidos, CNPJ e o aviso de uso de IA. Logo abaixo segue
+   `rodape.aviso`, que é a exigência da própria Lei nº 9.504/97 — os dois
+   convivem de propósito, um não substitui o outro.
 
 ---
 

@@ -1,19 +1,23 @@
 import { useEffect, useState } from 'react'
-import { candidato, contato, hero, linkZap } from '../../data/campanha'
+import { candidato, hero } from '../../data/campanha'
 import { FaixaEstrelas } from '../Estrela'
 import { Marca } from '../Marca'
-import { IconeWhatsapp } from '../Icones'
+import { ICONES } from '../Icones'
+import { Modal } from '../Modal'
 import '../../styles/hero.css'
+// o tocador do modal (.tocador) mora na folha das redes, e é o mesmo aqui
+import '../../styles/redes.css'
 
 export function Hero() {
   const [entrou, setEntrou] = useState(false)
+  const [vendoVideo, setVendoVideo] = useState(false)
+  const video = hero.video
+  const IconeRede = ICONES[video.icone]
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setEntrou(true))
     return () => cancelAnimationFrame(id)
   }, [])
-
-  const zap = linkZap()
 
   return (
     <section id="inicio" className="hero" data-entrou={entrou ? 'sim' : 'nao'}>
@@ -53,21 +57,22 @@ export function Hero() {
         </p>
 
         <div className="hero__acoes">
-          {zap ? (
-            <a className="botao botao--amarelo" href={zap} target="_blank" rel="noreferrer">
-              <IconeWhatsapp />
-              {hero.acoes[0].texto}
-            </a>
-          ) : (
-            <span className="botao botao--vazado" data-inativo="sim" aria-disabled="true">
-              <IconeWhatsapp />
-              WhatsApp {contato.whatsappEmBreve.toLowerCase()}
-            </span>
-          )}
-          {/* sem o WhatsApp no ar, quem carrega a ação principal é a proposta */}
-          <a className={`botao ${zap ? 'botao--vazado' : 'botao--amarelo'}`} href={`#${hero.acoes[1].destino}`}>
-            {hero.acoes[1].texto}
+          <a className="botao botao--amarelo" href={`#${hero.acoes[0].destino}`}>
+            {hero.acoes[0].texto}
           </a>
+          {/* Nada é pedido ao Instagram antes do clique: só o modal abre o iframe. */}
+          <button
+            type="button"
+            className="botao botao--vazado hero__ver-video"
+            onClick={() => setVendoVideo(true)}
+          >
+            <span className="hero__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor">
+                <path d="M8 5.5v13l11-6.5L8 5.5Z" />
+              </svg>
+            </span>
+            {video.acao}
+          </button>
         </div>
       </div>
 
@@ -76,6 +81,38 @@ export function Hero() {
         altura={20}
         cor="rgba(255,255,255,0.5)"
       />
+
+      <Modal
+        aberto={vendoVideo}
+        aoFechar={() => setVendoVideo(false)}
+        rotulo={`${video.rede}: ${video.titulo}`}
+        className="modal--video"
+      >
+        <div className="tocador">
+          <div className="tocador__quadro" style={{ '--proporcao': video.proporcao }}>
+            <iframe
+              src={video.incorporar}
+              title={`${video.rede}: ${video.titulo}`}
+              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
+              allowFullScreen
+              scrolling="no"
+            />
+          </div>
+
+          <div className="tocador__ficha">
+            <p className="tocador__rede">
+              <IconeRede />
+              {video.rede}
+            </p>
+            <h4 className="tocador__titulo">{video.titulo}</h4>
+            <p className="tocador__legenda">{video.legenda}</p>
+            <a className="botao botao--amarelo" href={video.url} target="_blank" rel="noreferrer">
+              <IconeRede />
+              Ver no {video.rede}
+            </a>
+          </div>
+        </div>
+      </Modal>
     </section>
   )
 }

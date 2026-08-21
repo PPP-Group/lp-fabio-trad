@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import { candidato, contato, linkZap, secoes } from '../data/campanha'
+import { candidato, secoes } from '../data/campanha'
 import { useSecaoAtiva } from '../lib/useSecaoAtiva'
 import { FaixaEstrelas } from './Estrela'
-import { IconeWhatsapp } from './Icones'
 import '../styles/nav.css'
 
 const IDS = secoes.map((s) => s.id)
@@ -30,8 +29,6 @@ export function Nav() {
     }
   }, [aberto])
 
-  const zap = linkZap()
-
   return (
     <header className="nav" data-rolou={rolou ? 'sim' : 'nao'}>
       <FaixaEstrelas altura={16} cor="var(--amarelo)" fundo="var(--carvao)" />
@@ -54,18 +51,6 @@ export function Nav() {
             </a>
           ))}
         </nav>
-
-        {zap ? (
-          <a className="nav__zap" href={zap} target="_blank" rel="noreferrer">
-            <IconeWhatsapp />
-            <span>WhatsApp</span>
-          </a>
-        ) : (
-          <span className="nav__zap" data-inativo="sim" aria-disabled="true">
-            <IconeWhatsapp />
-            <span>{contato.whatsappEmBreve}</span>
-          </span>
-        )}
 
         <button
           type="button"
@@ -94,17 +79,6 @@ export function Nav() {
             </a>
           ))}
         </nav>
-        {zap ? (
-          <a className="nav__gaveta-zap" href={zap} target="_blank" rel="noreferrer">
-            <IconeWhatsapp />
-            Fale comigo no WhatsApp
-          </a>
-        ) : (
-          <span className="nav__gaveta-zap" data-inativo="sim" aria-disabled="true">
-            <IconeWhatsapp />
-            WhatsApp em breve
-          </span>
-        )}
       </div>
     </header>
   )

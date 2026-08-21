@@ -152,6 +152,28 @@
   margin-top: 0.4rem;
 }
 
+/* O triângulo do play, num disco, à esquerda do rótulo do vídeo. */
+.hero__play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6em;
+  height: 1.6em;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+.hero__play svg {
+  /* o triângulo fica no vazado do disco, então herda o fundo do botão */
+  color: var(--vinho);
+  translate: 0.06em 0;
+}
+
+.hero__ver-video:hover .hero__play svg {
+  color: var(--branco);
+}
+
 /* O número, do jeito que ele aparece na urna: grande, amarelo, com a instrução
    embaixo. É a informação que o eleitor precisa levar embora. */
 .hero__urna {

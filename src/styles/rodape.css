@@ -87,7 +87,9 @@
   max-width: 78ch;
 }
 
-.rodape__federacao {
+/* A identificação legal da propaganda: é o que precisa ser lido, então vem
+   com mais contraste que o resto da letra miúda do rodapé. */
+.rodape__oficial {
   color: rgba(255, 255, 255, 0.86);
   font-weight: 700;
 }

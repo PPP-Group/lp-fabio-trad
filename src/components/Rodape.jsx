@@ -45,8 +45,8 @@ export function Rodape() {
       </div>
 
       <div className="envelope rodape__legal">
-        <p className="rodape__federacao">{candidato.federacao}</p>
-        <p>CNPJ da campanha: {rodape.cnpj}</p>
+        {/* O texto oficial já traz coligação, partidos, CNPJ e o aviso de IA. */}
+        <p className="rodape__oficial">{rodape.legal}</p>
         <p>{rodape.aviso}</p>
         <p className="rodape__grito">{rodape.assinatura}</p>
       </div>

@@ -83,9 +83,9 @@
   translate: none;
 }
 
-/* Botão que existe mas ainda não leva a lugar nenhum — hoje é o caso dos
-   botões de WhatsApp, à espera do número oficial da campanha. Fica visível,
-   pra não sumir com o espaço reservado a ele, mas sem convidar ao clique. */
+/* Botão que existe mas ainda não leva a lugar nenhum — por exemplo, um
+   documento que a campanha ainda não mandou. Fica visível, pra não sumir com
+   o espaço reservado a ele, mas sem convidar ao clique. */
 .botao[data-inativo='sim'],
 .botao:disabled {
   opacity: 0.5;

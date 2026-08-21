@@ -86,34 +86,6 @@
   scale: 1 1;
 }
 
-.nav__zap {
-  display: none;
-  align-items: center;
-  gap: 0.5rem;
-  flex: none;
-  background: var(--amarelo);
-  color: var(--carvao);
-  font-family: var(--campanha);
-  font-weight: 800;
-  font-stretch: 96%;
-  font-size: 0.92rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  text-decoration: none;
-  padding: 0.62rem 1.1rem;
-  border-radius: var(--raio);
-  transition: translate 200ms var(--curva), background 200ms var(--curva);
-}
-
-.nav__zap:hover {
-  background: var(--branco);
-  translate: 0 -2px;
-}
-
-.nav__zap svg {
-  font-size: 1.15em;
-}
-
 /* --- botão e gaveta do celular --- */
 
 .nav__botao {
@@ -183,27 +155,8 @@
   color: var(--amarelo);
 }
 
-.nav__gaveta-zap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  margin-top: 1.1rem;
-  background: var(--amarelo);
-  color: var(--carvao);
-  font-family: var(--campanha);
-  font-weight: 800;
-  font-size: 1.02rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  text-decoration: none;
-  padding: 0.95rem 1rem;
-  border-radius: var(--raio);
-}
-
 @media (min-width: 62rem) {
-  .nav__itens,
-  .nav__zap {
+  .nav__itens {
     display: flex;
   }
 
@@ -211,12 +164,4 @@
   .nav__gaveta {
     display: none;
   }
-}
-
-/* Os botões de WhatsApp da barra enquanto o número oficial não chega. */
-.nav__zap[data-inativo='sim'],
-.nav__gaveta-zap[data-inativo='sim'] {
-  opacity: 0.45;
-  cursor: not-allowed;
-  filter: grayscale(0.5);
 }

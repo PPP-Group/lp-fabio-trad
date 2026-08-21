@@ -33,6 +33,9 @@ export function Galeria() {
       <ul className="galeria__grade">
         {galeria.fotos.map((f, i) => (
           <li key={f.arquivo} className="galeria__item" data-formato={f.formato}>
+            {/* A legenda sai da tela a pedido da campanha, mas continua no
+                `alt`: sem ela, quem usa leitor de tela ficaria com oito
+                imagens mudas — e é ela que aparece se a foto não carregar. */}
             <button type="button" onClick={() => setAberta(i)}>
               <img
                 src={`/assets/${f.arquivo}`}
@@ -41,7 +44,7 @@ export function Galeria() {
                 height={f.altura}
                 loading="lazy"
               />
-              <span className="galeria__legenda">{f.legenda}</span>
+              <span className="so-leitor">Ampliar: {f.legenda}</span>
             </button>
           </li>
         ))}
@@ -63,7 +66,7 @@ export function Galeria() {
                 height={foto.altura}
               />
               <figcaption>
-                {foto.legenda}
+                <span className="so-leitor">{foto.legenda}</span>
                 <span className="lupa__conta">
                   {aberta + 1} de {galeria.fotos.length}
                 </span>

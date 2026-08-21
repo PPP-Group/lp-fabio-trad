@@ -8,7 +8,7 @@ import '../../styles/cartaz.css'
  * A identidade foi feita para "criar centenas de peças diferentes mantendo
  * unidade visual" (IDV, p. 8). Aqui quem faz a peça é o eleitor: escolhe a
  * bandeira, escreve o nome e sai com um cartaz da campanha pronto pra mandar
- * no WhatsApp ou pôr no story.
+ * pra quem quiser ou pôr no story.
  *
  * Desenha tudo no canvas, no navegador. Nada é enviado a lugar nenhum.
  */

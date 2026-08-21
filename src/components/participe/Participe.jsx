@@ -1,15 +1,17 @@
 import { useState } from 'react'
-import { contato, linkZap, participe, redes } from '../../data/campanha'
+import { linkEmail, participe, redes } from '../../data/campanha'
 import { Cabecalho } from '../Cabecalho'
-import { ICONES, IconeWhatsapp } from '../Icones'
+import { ICONES } from '../Icones'
 import { Cartaz } from './Cartaz'
 import '../../styles/participe.css'
 
-/** O recado vai pelo WhatsApp da campanha: não há servidor no meio. */
-function abrirZap(texto) {
-  const url = linkZap(texto)
-  if (!url) return
-  window.open(url, '_blank', 'noopener')
+/**
+ * O recado vai por e-mail: não há servidor no meio, então nada é guardado
+ * aqui. O `mailto:` abre o programa de e-mail do próprio leitor com a
+ * mensagem montada, e é ele quem aperta o enviar.
+ */
+function abrirEmail(assunto, corpo) {
+  window.location.href = linkEmail(assunto, corpo)
 }
 
 function Recado() {
@@ -19,7 +21,10 @@ function Recado() {
 
   const enviar = (e) => {
     e.preventDefault()
-    abrirZap(`Olá, Fábio! Sou ${nome}, de ${cidade}.\n\n${recado}`)
+    abrirEmail(
+      `Recado de ${nome}, de ${cidade}`,
+      `Olá, Fábio! Sou ${nome}, de ${cidade}.\n\n${recado}`,
+    )
   }
 
   return (
@@ -42,22 +47,10 @@ function Recado() {
         <textarea rows={4} required value={recado} onChange={(e) => setRecado(e.target.value)} />
       </label>
 
-      <button
-        type="submit"
-        className="botao botao--amarelo"
-        disabled={!contato.whatsappAtivo}
-        data-inativo={contato.whatsappAtivo ? undefined : 'sim'}
-      >
-        <IconeWhatsapp />
-        {contato.whatsappAtivo
-          ? participe.formulario.envio
-          : `WhatsApp ${contato.whatsappEmBreve.toLowerCase()}`}
+      <button type="submit" className="botao botao--amarelo">
+        {participe.formulario.envio}
       </button>
-      <p className="recado__nota">
-        {contato.whatsappAtivo
-          ? 'Abre o WhatsApp com o recado já escrito. Você confere antes de mandar.'
-          : 'O WhatsApp da campanha entra no ar em breve. Por enquanto, fale com a gente pelas redes aqui do lado.'}
-      </p>
+      <p className="recado__nota">{participe.formulario.nota}</p>
     </form>
   )
 }
@@ -84,16 +77,32 @@ export function Participe() {
               <button
                 type="button"
                 className="botao botao--carvao"
-                disabled={!contato.whatsappAtivo}
-                data-inativo={contato.whatsappAtivo ? undefined : 'sim'}
                 onClick={() =>
-                  abrirZap('Olá! Quero ser voluntário e ajudar na campanha do Fábio Trad 13.')
+                  abrirEmail(
+                    'Quero ser voluntário',
+                    'Olá! Quero ser voluntário e ajudar na campanha do Fábio Trad 13.',
+                  )
                 }
               >
-                {contato.whatsappAtivo
-                  ? participe.voluntario.acao
-                  : `${participe.voluntario.acao} · ${contato.whatsappEmBreve.toLowerCase()}`}
+                {participe.voluntario.acao}
               </button>
+            </div>
+
+            <div className="molduras">
+              <h3>{participe.molduras.titulo}</h3>
+              <p>{participe.molduras.texto}</p>
+              <ul>
+                {participe.molduras.itens.map((m) => (
+                  <li key={m.url}>
+                    <a href={m.url} target="_blank" rel="noreferrer">
+                      <span className="molduras__nome">{m.nome}</span>
+                      <span className="molduras__seta" aria-hidden="true">
+                        →
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             <div className="redes-sociais">
