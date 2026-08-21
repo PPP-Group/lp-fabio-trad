@@ -3,7 +3,7 @@ import { Cabecalho } from '../Cabecalho'
 import { Traco } from '../Traco'
 import { useRevelar } from '../../lib/useRevelar'
 import { Galeria } from './Galeria'
-import { Redes } from './Redes'
+import { Apresentacao } from './Apresentacao'
 import { Chapa } from './Chapa'
 import '../../styles/sobre.css'
 
@@ -67,7 +67,7 @@ export function Sobre() {
       </div>
 
       <Galeria />
-      <Redes />
+      <Apresentacao />
       <Chapa />
     </section>
   )

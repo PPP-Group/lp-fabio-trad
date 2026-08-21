@@ -31,7 +31,7 @@ Nada foi inventado nem redesenhado.
 | Recortes de Fábio e Dona Gilda | `06. Base Impressos/01. Fábio-Gilda/Para-Choque 30x10.ai`           |
 | Fotos das peças                | camadas de `07. Base PSDs/Peças Vertical.psd`                       |
 | Fotos da galeria e o retrato   | `IDV/FOTOS-…/FOTOS/` — o carretel da produção                       |
-| Capas dos vídeos               | oEmbed do Instagram e do TikTok, baixadas por `scripts/videos.py`   |
+| Capa do vídeo                  | oEmbed do Instagram, baixada por `scripts/videos.py`                |
 | Regra do nome do vice          | p. 17 do PDF — art. 36, § 4º da Lei nº 9.504/97                     |
 
 `scripts/assets.py` refaz `public/assets/` a partir desses arquivos. Ele abre o
@@ -122,7 +122,7 @@ Dockerfile           alternativa: compila com o Vite e serve dist/ no nginx
 nginx.conf           tipos MIME, cache e o fallback de página única
 scripts/
   assets.py          refaz public/assets/ a partir de IDV/
-  videos.py          baixa as capas dos vídeos das redes, para servir daqui
+  videos.py          baixa a capa do vídeo de apresentação, para servir daqui
   shots.mjs          capturas seção a seção, para revisão
   tudo.mjs           a página inteira numa imagem
   cartaz.mjs         salva o cartaz gerado em tamanho real
@@ -153,19 +153,20 @@ Tudo o que ainda depende da campanha está marcado com `A_CONFIRMAR` em
    `src/components/participe/Participe.jsx`.
 2. **Redes sociais.** Instagram (`fabiotrad`) e TikTok (`fabio.trad`) foram
    conferidos no ar; falta confirmar o Facebook. O **YouTube saiu** a pedido da
-   campanha — da lista `redes` e do cartão do canal em "Nas redes". Para
-   devolver: a linha em `redes`, o bloco `videos.canal` e o item `canal` em
-   `src/components/sobre/Redes.jsx`.
+   campanha: basta devolver a linha em `redes` para ele voltar ao rodapé e ao
+   Participe (o ícone continua em `Icones.jsx`).
 3. **Depoimentos.** A estrutura pede depoimentos de apoiadores e da militância
    em "Quem caminha junto" (`apoios`). Hoje há só a linha de apresentação — os
    depoimentos entram assim que a campanha aprovar.
-4. **Vídeos.** Três ao todo: o de apresentação, no herói (`hero.video`), e os
-   dois de "Nas redes" (`videos.posts`). Em todos, o cartão mostra uma capa
-   servida daqui e o vídeo só é carregado da rede **depois do clique** — antes
-   disso a página não faz nenhum pedido ao Instagram nem ao TikTok. Para trocar
-   algum, mude a URL e rode `python scripts/videos.py` para baixar a capa nova.
-   O script pede Python e Pillow; sem eles, dá para puxar a miniatura pelo
-   mesmo endpoint oEmbed direto em Node.
+4. **Vídeo.** Um só: o de apresentação (`apresentacao`), que tem seção própria
+   dentro do "Sobre" e é o destino do segundo botão do herói. Os dois posts
+   que ficavam ali em "Nas redes" saíram a pedido da campanha. O que a página
+   traz de saída é a capa, servida daqui: o iframe do Instagram só é criado
+   **depois do clique no play** — antes disso nenhum pedido sai para a rede.
+   Para trocar o vídeo, mude a URL em `apresentacao` e rode
+   `python scripts/videos.py` para baixar a capa nova. O script pede Python e
+   Pillow; sem eles, dá para puxar a miniatura pelo mesmo endpoint oEmbed
+   direto em Node.
 5. **Fotos.** A galeria tem oito fotos do carretel da produção, mais o retrato
    do "Quem sou eu". **As legendas não aparecem mais na tela**, a pedido da
    campanha, mas seguem em `galeria` (`src/data/campanha.js`) porque são o

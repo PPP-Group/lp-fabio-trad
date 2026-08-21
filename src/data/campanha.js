@@ -62,31 +62,12 @@ export const hero = {
   // do "Quem sou eu": é a voz dele, por isso vai na serifada
   apoio: 'Aprendi sobre coragem dentro de casa.',
   numero: 'na urna, para governador',
+  // As duas ações são âncoras: o vídeo de apresentação tem seção própria
+  // (ver `apresentacao`), e o botão daqui leva até ela.
   acoes: [
     { texto: 'Conheça as propostas', tipo: 'ancora', destino: 'propostas' },
+    { texto: 'Assista à apresentação', tipo: 'ancora', destino: 'apresentacao' },
   ],
-  // O vídeo de apresentação. Fica no herói, mas nada é pedido ao Instagram
-  // antes do clique: o cartão mostra a capa servida daqui e só o modal abre
-  // o iframe da rede.
-  video: {
-    rede: 'Instagram',
-    icone: 'instagram',
-    acao: 'Assista à apresentação',
-    titulo: 'Esse Fábio Trad sou eu!',
-    legenda:
-      'Sou advogado, professor, pai de família e sul-mato-grossense com orgulho! ' +
-      'Representei o nosso estado por três mandatos como deputado federal, tendo ' +
-      'sido reconhecido como o melhor parlamentar do Brasil.\n\n' +
-      'Pautei a minha vida inteira pela defesa dos direitos das pessoas. Agora, ' +
-      'quero continuar esta caminhada no Governo de MS! Com muita coragem para ' +
-      'sonhar e determinação para fazer acontecer! Vamos juntos, meu MS querido.',
-    capa: 'video-apresentacao.jpg',
-    largura: 640,
-    altura: 1137,
-    url: 'https://www.instagram.com/p/DcGTfCgvAXz/',
-    incorporar: 'https://www.instagram.com/p/DcGTfCgvAXz/embed/',
-    proporcao: 0.56,
-  },
 }
 
 export const sobre = {
@@ -202,45 +183,36 @@ export const galeria = {
   ],
 }
 
-export const videos = {
-  titulo: 'Nas redes',
-  chamada: 'O que a campanha publicou e mais gente assistiu. Toque para ver aqui mesmo.',
-  posts: [
-    {
-      rede: 'Instagram',
-      icone: 'instagram',
-      titulo: 'Antes de tudo, apaixonado por Mato Grosso do Sul',
-      legenda:
-        'Marido, pai, advogado, ex-deputado e, agora, pré-candidato a governador. ' +
-        'Sim, eu sou tudo isso, mas, antes de tudo, sou um apaixonado por Mato Grosso ' +
-        'do Sul. E me dói ver como o nosso estado está abandonado e sucateado.\n\n' +
-        'Por isso, te convido a caminhar comigo para construir um MS do povo e para ' +
-        'o povo! Bora nessa jornada?',
-      capa: 'video-instagram.webp',
-      largura: 480,
-      altura: 853,
-      url: 'https://www.instagram.com/reel/DY42Lt8hSif/',
-      incorporar: 'https://www.instagram.com/reel/DY42Lt8hSif/embed/',
-      proporcao: 0.56,
-    },
-    {
-      rede: 'TikTok',
-      icone: 'tiktok',
-      titulo: 'Do lado certo da história: o lado das pessoas',
-      legenda:
-        'É uma honra poder lutar com quem está do lado certo da história: o lado ' +
-        'das pessoas! Vamos juntos transformar o governo do nosso estado com a ' +
-        'coragem que o Mato Grosso do Sul precisa.',
-      capa: 'video-tiktok.webp',
-      largura: 720,
-      altura: 1280,
-      url: 'https://www.tiktok.com/@fabio.trad/video/7668661972568657159',
-      incorporar: 'https://www.tiktok.com/embed/v2/7668661972568657159',
-      proporcao: 0.56,
-    },
-  ],
-  // O cartão do canal do YouTube saiu junto com o YouTube das redes, a pedido
-  // da campanha. Se voltar, o componente Redes.jsx precisa do bloco `canal`.
+/**
+ * O vídeo de apresentação, na seção própria dentro do "Sobre".
+ *
+ * É o único vídeo do site: entrou no lugar dos dois posts que ficavam aqui
+ * ("Nas redes"), a pedido da campanha. O botão do herói aponta pra cá.
+ *
+ * Nada é pedido ao Instagram antes do clique: o que aparece de saída é a capa
+ * servida do próprio domínio, e só depois do play o iframe da rede é criado.
+ */
+export const apresentacao = {
+  id: 'apresentacao',
+  rotulo: 'Apresentação',
+  titulo: 'Esse Fábio Trad sou eu',
+  chamada: 'Um minuto pra você saber quem é o candidato, na voz dele mesmo.',
+  acao: 'Assistir agora',
+  rede: 'Instagram',
+  icone: 'instagram',
+  legenda:
+    'Sou advogado, professor, pai de família e sul-mato-grossense com orgulho! ' +
+    'Representei o nosso estado por três mandatos como deputado federal, tendo ' +
+    'sido reconhecido como o melhor parlamentar do Brasil.\n\n' +
+    'Pautei a minha vida inteira pela defesa dos direitos das pessoas. Agora, ' +
+    'quero continuar esta caminhada no Governo de MS! Com muita coragem para ' +
+    'sonhar e determinação para fazer acontecer! Vamos juntos, meu MS querido.',
+  capa: 'video-apresentacao.jpg',
+  largura: 640,
+  altura: 1137,
+  url: 'https://www.instagram.com/p/DcGTfCgvAXz/',
+  incorporar: 'https://www.instagram.com/p/DcGTfCgvAXz/embed/',
+  proporcao: 0.56,
 }
 
 export const gilda = {

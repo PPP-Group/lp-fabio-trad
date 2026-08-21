@@ -27,19 +27,14 @@ NAVEGADOR = (
     '(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
 )
 
-# nome do arquivo -> endpoint oEmbed da rede
+# nome do arquivo -> endpoint oEmbed da rede.
+# Hoje é só o vídeo de apresentação: os dois posts que ficavam em "Nas redes"
+# saíram a pedido da campanha, e a seção passou a ser dedicada a ele.
 VIDEOS = [
     (
-        'video-instagram',
+        'video-apresentacao',
         'https://www.instagram.com/api/v1/oembed/?url='
-        + urllib.parse.quote('https://www.instagram.com/reel/DY42Lt8hSif/', safe=''),
-    ),
-    (
-        'video-tiktok',
-        'https://www.tiktok.com/oembed?url='
-        + urllib.parse.quote(
-            'https://www.tiktok.com/@fabio.trad/video/7668661972568657159', safe=''
-        ),
+        + urllib.parse.quote('https://www.instagram.com/p/DcGTfCgvAXz/', safe=''),
     ),
 ]
 

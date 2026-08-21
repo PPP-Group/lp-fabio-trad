@@ -1,0 +1,188 @@
+/* A seção do vídeo de apresentação, dentro do "Sobre".
+
+   Entrou no lugar do "Nas redes", que trazia dois posts em cartões pequenos.
+   Agora é um vídeo só, e por isso ele tem tamanho de destaque: o quadro
+   ocupa uma coluna inteira no desktop, com o texto do post ao lado. */
+
+.apresentacao {
+  padding-bottom: clamp(3.5rem, 7vw, 6rem);
+  /* o botão do herói rola até aqui — a folga evita o menu fixo por cima */
+  scroll-margin-top: clamp(4.5rem, 9vw, 6.5rem);
+}
+
+.apresentacao__cabeca {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: clamp(1.2rem, 2.4vw, 1.9rem);
+  max-width: 44rem;
+}
+
+.apresentacao__rotulo {
+  color: var(--vermelho-fundo);
+}
+
+.apresentacao__titulo {
+  font-size: var(--t-sub);
+  font-weight: 900;
+  font-stretch: 112%;
+  text-transform: uppercase;
+  line-height: 1.02;
+  color: var(--carvao);
+}
+
+.apresentacao__chamada {
+  font-family: var(--voz);
+  font-size: var(--t-destaque);
+  line-height: 1.5;
+  color: var(--tinta-fraca);
+  max-width: 46ch;
+}
+
+.apresentacao__corpo {
+  display: grid;
+  gap: clamp(1.2rem, 3vw, 2.4rem);
+  align-items: center;
+}
+
+/* --- o quadro: capa antes do clique, iframe depois --- */
+
+.apresentacao__quadro {
+  position: relative;
+  width: min(100%, 24rem);
+  aspect-ratio: var(--proporcao);
+  margin-inline: auto;
+  border-radius: var(--raio);
+  overflow: hidden;
+  background: var(--carvao);
+}
+
+.apresentacao__quadro iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.apresentacao__play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: var(--carvao);
+  cursor: pointer;
+  text-align: left;
+}
+
+.apresentacao__capa {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: scale 520ms var(--curva);
+}
+
+.apresentacao__play::after {
+  content: '';
+  grid-area: 1 / 1;
+  background: linear-gradient(to top, rgba(12, 4, 8, 0.86) 4%, rgba(12, 4, 8, 0.08) 48%);
+}
+
+.apresentacao__play:hover .apresentacao__capa,
+.apresentacao__play:focus-visible .apresentacao__capa {
+  scale: 1.05;
+}
+
+.apresentacao__rede,
+.apresentacao__disco,
+.apresentacao__assistir {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 1;
+  color: var(--branco);
+}
+
+.apresentacao__rede {
+  align-self: start;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  margin: 0.85rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(20, 20, 18, 0.72);
+  backdrop-filter: blur(6px);
+  font-family: var(--campanha);
+  font-weight: 700;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.7rem;
+}
+
+.apresentacao__disco {
+  align-self: center;
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  width: 4.6rem;
+  height: 4.6rem;
+  border-radius: 999px;
+  background: var(--vermelho);
+  font-size: 2.2rem;
+  padding-left: 0.08em;
+  box-shadow: 0 12px 30px -12px rgba(0, 0, 0, 0.8);
+  transition: scale 260ms var(--curva), background 260ms var(--curva);
+}
+
+.apresentacao__play:hover .apresentacao__disco,
+.apresentacao__play:focus-visible .apresentacao__disco {
+  scale: 1.1;
+  background: var(--amarelo);
+  color: var(--carvao);
+}
+
+.apresentacao__assistir {
+  align-self: end;
+  justify-self: start;
+  margin: 0 1rem 1.1rem;
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-stretch: 92%;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: var(--t-rotulo);
+  color: var(--amarelo);
+}
+
+/* --- o texto do post, ao lado --- */
+
+.apresentacao__ficha {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+  align-content: center;
+  max-width: 46ch;
+}
+
+.apresentacao__legenda {
+  font-family: var(--voz);
+  font-size: 1.06rem;
+  line-height: 1.6;
+  color: var(--tinta-fraca);
+  white-space: pre-line;
+}
+
+@media (min-width: 56rem) {
+  .apresentacao__corpo {
+    grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
+  }
+
+  .apresentacao__quadro {
+    width: 100%;
+    margin-inline: 0;
+  }
+}
