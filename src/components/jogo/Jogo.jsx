@@ -303,6 +303,14 @@ export function Jogo() {
 
           {estagio === 'selecao' && (
             <div className="jogo__tela-flutuante jogo__selecao">
+              <img
+                className="jogo__logo"
+                src={`/assets/${jogo.logo.arquivo}`}
+                alt={jogo.logo.alt}
+                width={jogo.logo.largura}
+                height={jogo.logo.altura}
+              />
+
               <p className="rotulo jogo__selecao-rotulo">{jogo.rotuloSelecao}</p>
 
               <ul className="jogo__pilotos">

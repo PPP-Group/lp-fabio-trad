@@ -1,3 +1,36 @@
+/* O campo do nome. Morava no participe.css, junto do formulário de recado;
+   com o formulário fora, o cartaz é o único que usa, então veio pra cá. */
+.campo {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.campo > span {
+  font-family: var(--campanha);
+  font-weight: 700;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: var(--t-rotulo);
+  color: var(--tinta-fraca);
+}
+
+.campo input,
+.campo textarea {
+  font-family: var(--voz);
+  font-size: 1.06rem;
+  padding: 0.8rem 0.9rem;
+  border: 2px solid var(--linha);
+  border-radius: var(--raio);
+  background: var(--branco);
+  color: var(--tinta);
+  resize: vertical;
+}
+
+.campo input:focus,
+.campo textarea:focus {
+  border-color: var(--vermelho);
+}
 .cartaz {
   margin-top: clamp(2.5rem, 5vw, 4rem);
   display: grid;

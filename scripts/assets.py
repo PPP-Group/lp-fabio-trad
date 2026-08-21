@@ -236,14 +236,13 @@ def fotos():
 
 # Fotos do carretel da campanha que entram na galeria. A largura de gravação
 # segue o tamanho de tela: as deitadas ocupam duas colunas da grade e abrem
-# maiores na lupa; as em pé ocupam uma coluna só.
+# maiores na lupa; as em pé ocupam uma coluna só. As fotos "chapeu" e "escuta"
+# saíram da galeria a pedido da campanha.
 CARRETEL_GALERIA = [
     ('103A4415', 'multidao', 1400),
     ('103A4402', 'caminhada', 1000),
-    ('103A5664', 'chapeu', 1000),
     ('103A3815', 'selfie', 1400),
     ('103A4146', 'festa', 1000),
-    ('103A5005', 'escuta', 1000),
     # o retrato que abre o "Quem sou eu"
     ('103A3855', 'retrato', 1000),
 ]

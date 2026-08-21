@@ -1,0 +1,110 @@
+/* O jingle, logo abaixo das molduras.
+
+   Escura de propósito: o vídeo é o assunto inteiro da seção, e um fundo
+   fechado tira a concorrência de perto dele. Também faz a passagem entre a
+   seção clara das molduras e o jogo, que já começa no escuro. */
+
+.jingle {
+  background: var(--carvao);
+  color: var(--branco);
+}
+
+.jingle__quadro {
+  position: relative;
+  margin-top: clamp(1.6rem, 3vw, 2.4rem);
+  border-radius: var(--raio);
+  overflow: hidden;
+  background: #000;
+  /* o jingle foi entregue em 2:1, e é essa a proporção que ele guarda */
+  aspect-ratio: 2 / 1;
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9);
+}
+
+.jingle__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+/* Enquanto ninguém aperta o play, o vídeo fica montado mas invisível: é o
+   botão com a capa que aparece. Assim o `preload="none"` segue valendo e
+   nenhum byte do vídeo é baixado por quem só passou rolando. */
+.jingle__quadro[data-tocando='nao'] .jingle__video {
+  visibility: hidden;
+}
+
+.jingle__play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: #000;
+  cursor: pointer;
+}
+
+.jingle__capa {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: scale 600ms var(--curva), opacity 300ms var(--curva);
+}
+
+.jingle__play::after {
+  content: '';
+  grid-area: 1 / 1;
+  background: linear-gradient(to top, rgba(10, 3, 6, 0.8) 2%, rgba(10, 3, 6, 0.06) 52%);
+}
+
+.jingle__play:hover .jingle__capa,
+.jingle__play:focus-visible .jingle__capa {
+  scale: 1.03;
+  opacity: 0.9;
+}
+
+.jingle__disco,
+.jingle__acao {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 1;
+  color: var(--branco);
+}
+
+.jingle__disco {
+  align-self: center;
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  width: clamp(3.6rem, 7vw, 5.2rem);
+  height: clamp(3.6rem, 7vw, 5.2rem);
+  border-radius: 999px;
+  background: var(--vermelho);
+  font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+  padding-left: 0.08em;
+  box-shadow: 0 14px 34px -14px rgba(0, 0, 0, 0.9);
+  transition: scale 260ms var(--curva), background 260ms var(--curva);
+}
+
+.jingle__play:hover .jingle__disco,
+.jingle__play:focus-visible .jingle__disco {
+  scale: 1.1;
+  background: var(--amarelo);
+  color: var(--carvao);
+}
+
+.jingle__acao {
+  align-self: end;
+  justify-self: start;
+  margin: 0 clamp(1rem, 2.4vw, 1.6rem) clamp(0.9rem, 2vw, 1.3rem);
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-stretch: 92%;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: var(--t-rotulo);
+  color: var(--amarelo);
+}

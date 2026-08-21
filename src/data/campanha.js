@@ -118,16 +118,17 @@ export const trajetoria = {
   ],
 }
 
-// `formato` decide o lugar de cada foto no mosaico: 'deitada' ocupa duas
-// colunas, 'em-pe' ocupa uma. A ordem alterna as duas para a grade fechar
-// sem buraco.
+// `formato` decide o lugar de cada foto no mosaico, numa grade de 4 colunas
+// (2 no celular): 'panorama' ocupa a fileira inteira, 'deitada' ocupa duas
+// colunas e 'em-pe' ocupa uma. A ordem é o que faz a grade fechar sem buraco —
+// 4 + (1+1+2) + (2+2) — então mexer nela pede refazer a conta.
 export const galeria = {
   titulo: 'Na rua, com a nossa gente',
   fotos: [
     {
       arquivo: 'comicio.webp',
       legenda: 'Plenária de campanha, com a militância',
-      formato: 'deitada',
+      formato: 'panorama',
       largura: 1600,
       altura: 1066,
     },
@@ -139,8 +140,8 @@ export const galeria = {
       altura: 1500,
     },
     {
-      arquivo: 'chapeu.webp',
-      legenda: 'Abraço de chapéu',
+      arquivo: 'festa.webp',
+      legenda: 'Abraço na festa',
       formato: 'em-pe',
       largura: 1000,
       altura: 1500,
@@ -151,20 +152,6 @@ export const galeria = {
       formato: 'deitada',
       largura: 1400,
       altura: 933,
-    },
-    {
-      arquivo: 'festa.webp',
-      legenda: 'Abraço na festa',
-      formato: 'em-pe',
-      largura: 1000,
-      altura: 1500,
-    },
-    {
-      arquivo: 'escuta.webp',
-      legenda: 'Sentado, escutando',
-      formato: 'em-pe',
-      largura: 1000,
-      altura: 1500,
     },
     {
       arquivo: 'selfie.webp',
@@ -329,34 +316,68 @@ export const propostas = {
 }
 
 /**
- * As molduras de perfil, na seção logo abaixo das propostas.
+ * A seção onde o eleitor leva alguma coisa embora, logo abaixo das propostas.
  *
- * O arquivo de cada uma é a moldura de verdade, baixada do Twibbonize: PNG de
- * fundo transparente, com o miolo vazado onde entra a foto de quem usa. Por
- * isso o preview mostra a moldura por cima de um fundo neutro — é exatamente
- * o que o eleitor vê, com o buraco esperando a foto dele.
- *
- * Quem recebe a foto e devolve o resultado é o Twibbonize. Aqui nada é
- * processado, e nenhum pedido sai do site antes do clique.
+ * São duas peças com a mesma função — pôr a cara do eleitor junto da campanha —
+ * então dividem uma seção só, em abas: a moldura de perfil (hospedada no
+ * Twibbonize) e o cartaz (desenhado aqui, no canvas do próprio navegador).
+ * A troca é no clique; nada gira sozinho.
  */
 export const molduras = {
+  id: 'molduras',
   rotulo: 'Apoie',
-  titulo: 'Personalize sua foto',
-  chamada: 'Escolha uma moldura, suba a sua foto e leve pro seu perfil.',
-  vazio: 'Sua foto aqui',
-  acao: 'Usar esta moldura',
-  nota:
-    'As molduras ficam no Twibbonize: é pra lá que a sua foto vai quando você ' +
-    'escolhe uma. Neste site nada é enviado nem guardado.',
-  itens: [
-    { nome: 'Fábio Trad Emoji', arquivo: 'moldura-emoji.png', url: 'https://twb.nz/fabiotrademoji' },
-    { nome: 'Somos Fábio Trad 13', arquivo: 'moldura-pt13.png', url: 'https://twb.nz/fabiotradpt13' },
-    {
-      nome: 'Sou fechado com Fábio Trad',
-      arquivo: 'moldura-fechado.png',
-      url: 'https://twb.nz/fechadocomfabiotrad',
-    },
+  titulo: 'Personalize sua foto e faça seu cartaz',
+  chamada: 'Duas formas de levar a campanha pro seu perfil. Escolha por onde começar.',
+  abas: [
+    { id: 'foto', rotulo: 'Personalize sua foto' },
+    { id: 'cartaz', rotulo: 'Faça o seu cartaz' },
   ],
+  foto: {
+    texto: 'Escolha uma moldura, suba a sua foto e leve pro seu perfil.',
+    vazio: 'Sua foto aqui',
+    acao: 'Usar esta moldura',
+    nota:
+      'As molduras ficam no Twibbonize: é pra lá que a sua foto vai quando você ' +
+      'escolhe uma. Neste site nada é enviado nem guardado.',
+    itens: [
+      { nome: 'Fábio Trad Emoji', arquivo: 'moldura-emoji.png', url: 'https://twb.nz/fabiotrademoji' },
+      { nome: 'Somos Fábio Trad 13', arquivo: 'moldura-pt13.png', url: 'https://twb.nz/fabiotradpt13' },
+      {
+        nome: 'Sou fechado com Fábio Trad',
+        arquivo: 'moldura-fechado.png',
+        url: 'https://twb.nz/fechadocomfabiotrad',
+      },
+    ],
+  },
+  cartaz: {
+    texto:
+      'Escolha a bandeira que te move, escreva seu nome e leve o cartaz pro seu ' +
+      'story, pro seu perfil, pra onde você quiser.',
+    bandeiras: ['Saúde', 'Educação', 'Segurança', 'Emprego', 'Infraestrutura', 'Direitos'],
+  },
+}
+
+/**
+ * O jingle da campanha, na seção logo abaixo das molduras.
+ *
+ * O arquivo é servido do próprio domínio — nada de YouTube nem de player de
+ * terceiro. Fica com `preload="none"` e um pôster por cima: quem só passa
+ * rolando não baixa os 12 MB do vídeo; só quem aperta o play é que puxa.
+ *
+ * O original tem 160 MB em 4K, acima do que o GitHub aceita por arquivo.
+ * O que está aqui é a versão de web (1280x640, ~1,1 Mbps); o master fica de
+ * fora do repositório pelo `.gitignore`.
+ */
+export const jingle = {
+  id: 'jingle',
+  rotulo: 'Jingle',
+  titulo: 'Veja o nosso jingle',
+  chamada: 'A música da campanha, com a nossa gente.',
+  acao: 'Tocar o jingle',
+  arquivo: 'jingle.mp4',
+  capa: 'jingle-capa.jpg',
+  largura: 1280,
+  altura: 640,
 }
 
 export const conquistas = {
@@ -374,7 +395,7 @@ export const conquistas = {
       'econômicos da bancada de MS.',
   ],
   numeros: {
-    titulo: 'Números que falam por si',
+    titulo: 'Excelência na vida política',
     itens: [
       { valor: '1º', o_que: 'Melhor deputado federal do Brasil em 2020 (júri Congresso em Foco)' },
       { valor: '3', o_que: 'mandatos como deputado federal (2011–2023)' },
@@ -415,31 +436,13 @@ export const participe = {
   rotulo: 'Participe',
   titulo: 'Vamos juntos',
   chamada: 'Some com a gente nessa caminhada.',
-  formulario: {
-    titulo: 'Fale direto comigo',
-    texto: 'Escreva seu recado. A equipe lê e responde.',
-    envio: 'Enviar recado',
-    nota: 'Abre o seu programa de e-mail com o recado já escrito. Você confere antes de mandar.',
-  },
   voluntario: {
     titulo: 'Seja voluntário',
     texto: 'Vamos juntos. Some com a gente nessa caminhada.',
     acao: 'Quero ser voluntário',
   },
-  cartaz: {
-    titulo: 'Faça o seu cartaz',
-    texto:
-      'Escolha a bandeira que te move, escreva seu nome e leve o cartaz pro seu ' +
-      'story, pro seu perfil, pra onde você quiser.',
-    bandeiras: [
-      'Saúde',
-      'Educação',
-      'Segurança',
-      'Emprego',
-      'Infraestrutura',
-      'Direitos',
-    ],
-  },
+  // O cartaz mudou de casa: agora divide a seção `molduras` com a moldura de
+  // perfil, em abas. O texto e as bandeiras dele moram lá.
 }
 
 export const rodape = {

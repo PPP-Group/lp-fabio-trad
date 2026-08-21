@@ -12,6 +12,14 @@ export const jogo = {
     'Escolha quem vai dirigir e siga o quanto der por uma estrada que já está esburacada.',
   instrucoesTeclado: 'O carro anda sozinho. Você só desvia: ← →',
   instrucoesToque: 'No celular, use os botões abaixo ou incline o aparelho.',
+  // A arte de título do jogo, que abre a tela de início. É ela que dá nome à
+  // brincadeira dentro do quadro; o `titulo` acima é o da seção, fora dele.
+  logo: {
+    arquivo: 'jogo-logo.png',
+    alt: 'Tente andar em MS — com Fábio Trad e Dona Gilda',
+    largura: 440,
+    altura: 496,
+  },
   rotuloSelecao: 'Escolha quem dirige',
   botaoEscolher: 'Escolher',
   botaoEscolhido: 'Escolhido',

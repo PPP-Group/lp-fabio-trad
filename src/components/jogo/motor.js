@@ -492,7 +492,7 @@ export function criarMotor(canvas, opts = {}) {
     }
 
     // andar é automático — o jogador só precisa desviar
-    const cruzeiro = lerp(104, 178, clamp(carroMundo / 4900, 0, 1))
+    const cruzeiro = lerp(130, 182, clamp(carroMundo / 4900, 0, 1))
     const alvo = teclas.baixo ? cruzeiro * 0.6 : teclas.cima ? cruzeiro * 1.22 : cruzeiro
     velocidade += (alvo - velocidade) * Math.min(1, dt * 2.4)
 

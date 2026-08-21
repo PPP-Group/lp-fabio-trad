@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { candidato, participe } from '../../data/campanha'
+import { candidato, molduras } from '../../data/campanha'
 import '../../styles/cartaz.css'
 
 /**
@@ -165,7 +165,7 @@ async function desenhar(canvas, { nome, bandeira }) {
 export function Cartaz() {
   const canvas = useRef(null)
   const [nome, setNome] = useState('')
-  const [bandeira, setBandeira] = useState(participe.cartaz.bandeiras[0])
+  const [bandeira, setBandeira] = useState(molduras.cartaz.bandeiras[0])
   const [podeCompartilhar, setPodeCompartilhar] = useState(false)
 
   useEffect(() => {
@@ -220,13 +220,12 @@ export function Cartaz() {
   return (
     <div className="cartaz">
       <div className="cartaz__controles">
-        <h3 className="cartaz__titulo">{participe.cartaz.titulo}</h3>
-        <p className="cartaz__texto">{participe.cartaz.texto}</p>
+        <p className="cartaz__texto">{molduras.cartaz.texto}</p>
 
         <fieldset className="cartaz__bandeiras">
           <legend>Qual bandeira te move?</legend>
           <div>
-            {participe.cartaz.bandeiras.map((b) => (
+            {molduras.cartaz.bandeiras.map((b) => (
               <label key={b} className="cartaz__opcao" data-marcada={b === bandeira ? 'sim' : 'nao'}>
                 <input
                   type="radio"

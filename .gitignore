@@ -10,3 +10,9 @@ IDV/
 *.ai
 *.psd
 *.mov
+
+# Masters que ficam na raiz: pesados demais pro repositório (o jingle original
+# tem 160 MB, acima do limite do GitHub). O que vai pro site são as versões
+# derivadas em public/assets/ — jingle.mp4, jingle-capa.jpg, jogo-logo.png.
+/*.mp4
+/*.png

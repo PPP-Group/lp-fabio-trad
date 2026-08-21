@@ -32,6 +32,7 @@ Nada foi inventado nem redesenhado.
 | Fotos das peças                | camadas de `07. Base PSDs/Peças Vertical.psd`                       |
 | Fotos da galeria e o retrato   | `IDV/FOTOS-…/FOTOS/` — o carretel da produção                       |
 | Capa do vídeo                  | oEmbed do Instagram, baixada por `scripts/videos.py`                |
+| Jingle e logo do jogo          | arquivos da campanha, recodificados para a web (ver item 9)         |
 | Regra do nome do vice          | p. 17 do PDF — art. 36, § 4º da Lei nº 9.504/97                     |
 
 `scripts/assets.py` refaz `public/assets/` a partir desses arquivos. Ele abre o
@@ -95,7 +96,7 @@ trilho vertical na linha do tempo. É o `<Traco>` (`src/components/Traco.jsx`), 
 elemento que costura a página inteira. O sorteio das linhas é preso a uma
 semente, então o mesmo traço sai igual em todo render.
 
-O momento interativo é **o cartaz** (`src/components/participe/Cartaz.jsx`). A
+O momento interativo é **o cartaz** (`src/components/molduras/Cartaz.jsx`). A
 apresentação promete uma identidade capaz de "criar centenas de peças diferentes
 mantendo unidade visual" — aqui quem faz a peça é o eleitor: escolhe a bandeira,
 escreve o nome e leva um cartaz da campanha pronto para o story ou para o
@@ -145,12 +146,12 @@ Tudo o que ainda depende da campanha está marcado com `A_CONFIRMAR` em
 `src/data/campanha.js`.
 
 1. **E-mail de contato.** `contato.email` está como
-   `contato@fabiotrad13.com.br`, ainda por confirmar. É por ele que passa todo
-   o contato da página: o formulário "Fale direto comigo" e o botão "Seja
-   voluntário" montam a mensagem e abrem o programa de e-mail do próprio
-   leitor (`mailto:`), sem servidor no meio — nada é guardado aqui. Se a
-   campanha quiser os contatos num CRM, o ponto de troca é `abrirEmail` em
-   `src/components/participe/Participe.jsx`.
+   `contato@fabiotrad13.com.br`, ainda por confirmar. É por ele que passa o
+   contato da página: o botão "Seja voluntário" monta a mensagem e abre o
+   programa de e-mail do próprio leitor (`mailto:`), sem servidor no meio —
+   nada é guardado aqui. O formulário de recado que existia ao lado saiu a
+   pedido da campanha. Se um dia os contatos precisarem cair num CRM, o ponto
+   de troca é `abrirEmail` em `src/components/participe/Participe.jsx`.
 2. **Redes sociais.** Instagram (`fabiotrad`) e TikTok (`fabio.trad`) foram
    conferidos no ar; falta confirmar o Facebook. O **YouTube saiu** a pedido da
    campanha: basta devolver a linha em `redes` para ele voltar ao rodapé e ao
@@ -158,30 +159,35 @@ Tudo o que ainda depende da campanha está marcado com `A_CONFIRMAR` em
 3. **Depoimentos.** A estrutura pede depoimentos de apoiadores e da militância
    em "Quem caminha junto" (`apoios`). Hoje há só a linha de apresentação — os
    depoimentos entram assim que a campanha aprovar.
-4. **Vídeo.** Um só: o de apresentação (`apresentacao`), que tem seção própria
-   dentro do "Sobre" e é o destino do segundo botão do herói. Os dois posts
-   que ficavam ali em "Nas redes" saíram a pedido da campanha. O que a página
-   traz de saída é a capa, servida daqui: o iframe do Instagram só é criado
-   **depois do clique no play** — antes disso nenhum pedido sai para a rede.
-   Para trocar o vídeo, mude a URL em `apresentacao` e rode
-   `python scripts/videos.py` para baixar a capa nova. O script pede Python e
-   Pillow; sem eles, dá para puxar a miniatura pelo mesmo endpoint oEmbed
-   direto em Node.
-5. **Fotos.** A galeria tem oito fotos do carretel da produção, mais o retrato
-   do "Quem sou eu". **As legendas não aparecem mais na tela**, a pedido da
-   campanha, mas seguem em `galeria` (`src/data/campanha.js`) porque são o
-   texto alternativo das imagens: sem elas, quem usa leitor de tela ficaria com
-   oito fotos mudas, e nada apareceria se a imagem não carregasse. A lista de
-   origem está em `CARRETEL_GALERIA` (`scripts/assets.py`).
-6. **Molduras de perfil.** "Personalize sua foto", no Participe, aponta para
-   três molduras hospedadas no Twibbonize (`participe.molduras`). São links
-   externos: quem recebe a foto e devolve o resultado é o site deles, nada
-   passa por aqui.
+4. **Vídeos.** Dois, e nenhum deles carrega nada antes do clique no play.
+   O de **apresentação** (`apresentacao`) tem seção própria dentro do "Sobre" e
+   é o destino do segundo botão do herói; vem do Instagram, e o que a página
+   traz de saída é só a capa servida daqui. Para trocá-lo, mude a URL e rode
+   `python scripts/videos.py` para baixar a capa nova (o script pede Python e
+   Pillow; sem eles, dá para puxar a miniatura pelo mesmo endpoint oEmbed em
+   Node). O **jingle** (`jingle`) é arquivo nosso, servido do próprio domínio,
+   com `preload="none"` atrás do pôster — ver o item 9.
+5. **Fotos.** A galeria tem seis fotos do carretel da produção, mais o retrato
+   do "Quem sou eu" — "chapeu" e "escuta" saíram a pedido da campanha. **As
+   legendas não aparecem na tela**, mas seguem em `galeria`
+   (`src/data/campanha.js`) porque são o texto alternativo das imagens: sem
+   elas, quem usa leitor de tela ficaria com fotos mudas, e nada apareceria se
+   a imagem não carregasse. A lista de origem está em `CARRETEL_GALERIA`
+   (`scripts/assets.py`).
+
+   **A ordem da grade é o que fecha o mosaico sem buraco.** Em quatro colunas
+   (duas no celular), `panorama` ocupa a fileira inteira, `deitada` ocupa duas
+   colunas e `em-pe` ocupa uma — hoje a conta é 4 + (1+1+2) + (2+2). Tirar ou
+   acrescentar foto pede refazer essa soma, senão sobra vão branco no fim.
+6. **Molduras e cartaz.** A seção `molduras` junta as duas peças que o eleitor
+   leva embora, em abas que trocam no clique: as três molduras de perfil
+   (hospedadas no Twibbonize — quem recebe a foto e devolve o resultado é o
+   site deles) e o cartaz, desenhado aqui no canvas do navegador. Os dois
+   painéis ficam montados o tempo todo, então sair da aba do cartaz e voltar
+   não apaga o nome já digitado.
 7. **Domínio e og:image.** As URLs absolutas de `index.html` (canonical, og:url,
    og:image), o `public/robots.txt` e o `public/sitemap.xml` apontam para
    `https://fabiotrad13.com.br/`. Se o domínio final for outro, troque nos três.
-   A imagem `/assets/og.jpg` é uma captura do próprio herói — `node scripts/og.mjs`
-   refaz.
 8. **Plano de governo em PDF.** `public/assets/plano-de-governo-fabio-trad.pdf`
    é o documento oficial da campanha: 85 páginas, o mesmo registrado na Justiça
    Eleitoral. **Pesa 28,7 MB** — tentamos recomprimir e não encolhe nada, são 91
@@ -189,7 +195,22 @@ Tudo o que ainda depende da campanha está marcado com `A_CONFIRMAR` em
    isso mesmo. Se algum dia vier uma versão mais leve, é só trocar o arquivo
    mantendo o nome. Para desativar o botão, `propostas.planoPdf = null` — ele
    volta sozinho a mostrar "em breve".
-9. **Texto legal.** `rodape.legal` traz a identificação oficial da propaganda:
+9. **Jingle.** `public/assets/jingle.mp4` é a versão de web do arquivo que a
+   campanha entregou: o original tem **160 MB em 4K**, acima do limite de
+   100 MB por arquivo do GitHub, então não dá para versioná-lo. O que está no
+   repositório é o mesmo vídeo em 1280x640 e ~1,1 Mbps — **12 MB**, com o
+   texto legal já queimado na imagem pela própria campanha. O master fica na
+   raiz do projeto e é barrado pelo `.gitignore`. Para refazer a conversão:
+
+   ```bash
+   npm install --no-save ffmpeg-static
+   node -e "console.log(require('ffmpeg-static'))"   # caminho do binário
+   ```
+
+   e então `ffmpeg -i <master> -vf scale=1280:640 -c:v libx264 -crf 28 -c:a
+   aac -b:a 112k -movflags +faststart public/assets/jingle.mp4`. A capa sai de
+   um quadro do próprio vídeo (`-ss 12 -frames:v 1`).
+10. **Texto legal.** `rodape.legal` traz a identificação oficial da propaganda:
    coligação, partidos, CNPJ e o aviso de uso de IA. Logo abaixo segue
    `rodape.aviso`, que é a exigência da própria Lei nº 9.504/97 — os dois
    convivem de propósito, um não substitui o outro.

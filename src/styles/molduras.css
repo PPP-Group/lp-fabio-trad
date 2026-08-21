@@ -8,9 +8,68 @@
   background: var(--papel-fundo);
 }
 
+
+/* --- as abas --- */
+
+/* A troca é sempre no clique. Os dois painéis ficam montados o tempo todo e
+   o que muda é o `hidden`, então voltar pra aba do cartaz devolve o nome que
+   a pessoa tinha digitado, em vez de um formulário em branco. */
+.abas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: clamp(1.4rem, 3vw, 2.2rem);
+  border-bottom: 3px solid var(--linha);
+}
+
+.abas__botao {
+  position: relative;
+  bottom: -3px;
+  padding: 0.85rem 1.15rem;
+  min-height: 44px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: none;
+  cursor: pointer;
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-stretch: 96%;
+  font-size: clamp(0.95rem, 1.5vw, 1.08rem);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--tinta-fraca);
+  transition: color 200ms var(--curva), border-color 200ms var(--curva);
+}
+
+.abas__botao:hover {
+  color: var(--carvao);
+}
+
+.abas__botao[data-ativa='sim'] {
+  color: var(--vermelho-fundo);
+  border-bottom-color: var(--vermelho-fundo);
+}
+
+.abas__painel[hidden] {
+  display: none;
+}
+
+.molduras-secao__texto {
+  margin-top: clamp(1.4rem, 2.6vw, 2rem);
+  font-family: var(--voz);
+  font-size: var(--t-destaque);
+  line-height: 1.5;
+  color: var(--tinta-fraca);
+  max-width: 46ch;
+}
+
+/* dentro da aba o cartaz não precisa da folga que tinha quando vinha solto */
+.abas__painel .cartaz {
+  margin-top: clamp(1.4rem, 2.6vw, 2rem);
+}
 .molduras-secao__lista {
   list-style: none;
-  margin: clamp(2rem, 4vw, 3rem) 0 0;
+  margin: clamp(1.2rem, 2.4vw, 1.8rem) 0 0;
   padding: 0;
   display: grid;
   gap: clamp(1.1rem, 2.4vw, 1.8rem);
