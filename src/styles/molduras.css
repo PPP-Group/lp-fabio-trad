@@ -1,0 +1,132 @@
+/* A seção das molduras de perfil, logo depois das propostas.
+
+   Vem clara de propósito: a faixa do compromisso termina em carvão e o jogo
+   começa escuro, então aqui a página respira — e as molduras, que são
+   vermelhas e amarelas, saltam do fundo em vez de sumir nele. */
+
+.molduras-secao {
+  background: var(--papel-fundo);
+}
+
+.molduras-secao__lista {
+  list-style: none;
+  margin: clamp(2rem, 4vw, 3rem) 0 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(1.1rem, 2.4vw, 1.8rem);
+}
+
+.moldura__link {
+  display: grid;
+  gap: 0;
+  text-decoration: none;
+  color: inherit;
+  background: var(--papel);
+  border-radius: var(--raio);
+  overflow: hidden;
+  box-shadow: 0 2px 0 var(--linha);
+  transition: translate 280ms var(--curva), box-shadow 280ms var(--curva);
+}
+
+.moldura__link:hover,
+.moldura__link:focus-visible {
+  translate: 0 -5px;
+  box-shadow: 0 24px 44px -26px rgba(60, 6, 26, 0.7);
+}
+
+/* --- o preview --- */
+
+/* O palco é quadrado como a moldura. Dentro dele o vazio fica por baixo e a
+   arte por cima: como o PNG tem o miolo transparente, o que aparece no buraco
+   é justamente o lugar reservado à foto de quem vai usar. */
+.moldura__palco {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  isolation: isolate;
+}
+
+.moldura__vazio {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  /* xadrez discreto: diz "aqui não tem nada ainda" sem competir com a arte */
+  background:
+    repeating-conic-gradient(rgba(29, 29, 27, 0.05) 0% 25%, transparent 0% 50%) 0 0 / 22px 22px,
+    var(--papel-fundo);
+  font-family: var(--campanha);
+  font-weight: 700;
+  font-stretch: 94%;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tinta-fraca);
+}
+
+.moldura__vazio svg {
+  font-size: 2.4rem;
+  opacity: 0.45;
+}
+
+.moldura__arte {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* --- a ficha embaixo --- */
+
+.moldura__ficha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.3rem 0.9rem;
+  padding: clamp(1rem, 2vw, 1.3rem) clamp(1.1rem, 2.2vw, 1.5rem);
+  border-top: 3px solid var(--carvao);
+}
+
+.moldura__nome {
+  font-family: var(--campanha);
+  font-weight: 900;
+  font-stretch: 104%;
+  font-size: clamp(1.05rem, 1.6vw, 1.24rem);
+  line-height: 1.15;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--carvao);
+  text-wrap: balance;
+}
+
+.moldura__acao {
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-size: 0.86rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--vermelho-fundo);
+  white-space: nowrap;
+}
+
+.molduras-secao__nota {
+  margin-top: clamp(1.4rem, 2.6vw, 2rem);
+  font-family: var(--voz);
+  font-size: 1rem;
+  line-height: 1.55;
+  max-width: 62ch;
+  color: var(--tinta-fraca);
+}
+
+@media (min-width: 42rem) {
+  .molduras-secao__lista {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

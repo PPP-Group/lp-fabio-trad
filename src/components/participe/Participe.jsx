@@ -88,23 +88,6 @@ export function Participe() {
               </button>
             </div>
 
-            <div className="molduras">
-              <h3>{participe.molduras.titulo}</h3>
-              <p>{participe.molduras.texto}</p>
-              <ul>
-                {participe.molduras.itens.map((m) => (
-                  <li key={m.url}>
-                    <a href={m.url} target="_blank" rel="noreferrer">
-                      <span className="molduras__nome">{m.nome}</span>
-                      <span className="molduras__seta" aria-hidden="true">
-                        →
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
             <div className="redes-sociais">
               <h3>Nas redes</h3>
               <ul>

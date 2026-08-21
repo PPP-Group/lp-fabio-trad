@@ -356,6 +356,37 @@ export const propostas = {
   },
 }
 
+/**
+ * As molduras de perfil, na seção logo abaixo das propostas.
+ *
+ * O arquivo de cada uma é a moldura de verdade, baixada do Twibbonize: PNG de
+ * fundo transparente, com o miolo vazado onde entra a foto de quem usa. Por
+ * isso o preview mostra a moldura por cima de um fundo neutro — é exatamente
+ * o que o eleitor vê, com o buraco esperando a foto dele.
+ *
+ * Quem recebe a foto e devolve o resultado é o Twibbonize. Aqui nada é
+ * processado, e nenhum pedido sai do site antes do clique.
+ */
+export const molduras = {
+  rotulo: 'Apoie',
+  titulo: 'Personalize sua foto',
+  chamada: 'Escolha uma moldura, suba a sua foto e leve pro seu perfil.',
+  vazio: 'Sua foto aqui',
+  acao: 'Usar esta moldura',
+  nota:
+    'As molduras ficam no Twibbonize: é pra lá que a sua foto vai quando você ' +
+    'escolhe uma. Neste site nada é enviado nem guardado.',
+  itens: [
+    { nome: 'Fábio Trad Emoji', arquivo: 'moldura-emoji.png', url: 'https://twb.nz/fabiotrademoji' },
+    { nome: 'Somos Fábio Trad 13', arquivo: 'moldura-pt13.png', url: 'https://twb.nz/fabiotradpt13' },
+    {
+      nome: 'Sou fechado com Fábio Trad',
+      arquivo: 'moldura-fechado.png',
+      url: 'https://twb.nz/fechadocomfabiotrad',
+    },
+  ],
+}
+
 export const conquistas = {
   rotulo: 'Conquistas',
   titulo: 'O que já está feito',
@@ -422,18 +453,6 @@ export const participe = {
     titulo: 'Seja voluntário',
     texto: 'Vamos juntos. Some com a gente nessa caminhada.',
     acao: 'Quero ser voluntário',
-  },
-  // Molduras do Twibbonize: o eleitor sobe a própria foto no site deles e
-  // baixa com a moldura da campanha. São links externos — nada é processado
-  // aqui, e por isso abrem em aba nova.
-  molduras: {
-    titulo: 'Personalize sua foto',
-    texto: 'Demonstre seu apoio: escolha uma moldura e leve a sua foto pro perfil.',
-    itens: [
-      { nome: 'Emoji do Fábio', url: 'https://twb.nz/fabiotrademoji' },
-      { nome: 'Fábio Trad PT 13', url: 'https://twb.nz/fabiotradpt13' },
-      { nome: 'Fechado com Fábio Trad', url: 'https://twb.nz/fechadocomfabiotrad' },
-    ],
   },
   cartaz: {
     titulo: 'Faça o seu cartaz',
