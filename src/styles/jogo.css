@@ -36,6 +36,11 @@
   /* a proporção é a da tela do jogo (256x240), pra não sobrar moldura vazia */
   width: min(100%, 560px);
   aspect-ratio: 256 / 240;
+  /* As telas flutuantes se medem pela altura daqui (unidade `cqh`), então
+     encolhem junto com o quadro em vez de estourar pra fora dele. A altura é
+     definida pela largura mais a proporção, então o container é seguro. */
+  container-type: size;
+  container-name: quadro;
   margin-inline: auto;
   border-radius: var(--raio);
   overflow: hidden;
@@ -279,11 +284,38 @@
   display: block;
   width: auto;
   max-width: min(58%, 11rem);
-  max-height: clamp(3.4rem, 15vh, 5.5rem);
+  /* medida na altura do quadro, não da janela: é do quadro que ela precisa
+     caber dentro */
+  max-height: 14cqh;
   height: auto;
   margin: 0 auto;
   object-fit: contain;
   filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.55));
+}
+
+/* A tela de início tem que caber inteira no quadro. Rolagem aqui esconde
+   justamente o "Dar partida", e a lista do que ela carrega varia: a linha do
+   recorde só aparece pra quem já jogou uma vez, e sozinha ela era o bastante
+   pra estourar. Por isso o que ocupa altura é medido em `cqh` — encolhe junto
+   com o quadro, com ou sem recorde, no desktop e no celular. */
+.jogo__selecao {
+  gap: 1.4cqh;
+  padding: 2.2cqh 1rem;
+}
+
+.jogo__selecao .jogo__piloto {
+  padding: 1.1cqh 0.5rem 1.3cqh;
+}
+
+.jogo__selecao .jogo__piloto img {
+  width: 10.5cqh;
+  height: 10.5cqh;
+  max-width: 60px;
+  max-height: 60px;
+}
+
+.jogo__selecao .jogo__piloto-texto {
+  margin-top: 0.9cqh;
 }
 
 .jogo__selecao-rotulo {
