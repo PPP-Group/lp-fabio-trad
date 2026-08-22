@@ -152,4 +152,13 @@
   .galeria__item[data-formato='panorama'] button {
     aspect-ratio: 12 / 5;
   }
+
+  /* O corte 12:5 sai do meio de uma foto 3:2, e no meio dela fica o piso da
+     passarela — área escura e vazia. Subindo o enquadramento entram os banners
+     do fundo no lugar do chão: a foto ganha uns 8 pontos de luminância (123
+     para 132, em linha com as outras da galeria) e a composição melhora junto.
+     No celular a panorâmica usa a proporção original, então isto não a afeta. */
+  .galeria__item[data-formato='panorama'] img {
+    object-position: center 30%;
+  }
 }
