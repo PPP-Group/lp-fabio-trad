@@ -318,6 +318,37 @@
   margin-top: 0.9cqh;
 }
 
+/* --- a abertura --- */
+
+/* A primeira tela é só a arte, o carrinho e o convite: cabe folgado, e por
+   isso a logo aqui pode ter o tamanho que ela merece — bem maior que o teto
+   apertado que ela precisava ter quando dividia a tela com a escolha de
+   piloto, as instruções e o botão. */
+.jogo__abertura {
+  gap: clamp(0.5rem, 2.2cqh, 1.1rem);
+}
+
+.jogo__logo--abertura {
+  max-width: min(76%, 17rem);
+  max-height: 42cqh;
+}
+
+/* O fusca, pintado do mesmo sprite da corrida. `pixelated` mantém o pixel
+   quadrado ao ampliar, como no jogo. */
+.jogo__carrinho {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 4.5rem;
+  max-height: 12cqh;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.6));
+}
+
+.jogo__abertura-chamada {
+  max-width: 30ch;
+}
+
 .jogo__selecao-rotulo {
   color: var(--amarelo);
 }

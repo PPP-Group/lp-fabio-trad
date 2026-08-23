@@ -20,6 +20,13 @@ export const jogo = {
     largura: 440,
     altura: 496,
   },
+  // A abertura é só a arte e o convite. A escolha de piloto vem depois, na
+  // tela seguinte: separar as duas dá tamanho de verdade à logo e tira o
+  // aperto de quem antes precisava caber tudo numa tela só.
+  abertura: {
+    chamada: 'Uma corrida por uma estrada que já nasceu esburacada.',
+    botao: 'Jogar',
+  },
   rotuloSelecao: 'Escolha quem dirige',
   botaoEscolher: 'Escolher',
   botaoEscolhido: 'Escolhido',
@@ -40,7 +47,7 @@ export const jogo = {
     texto:
       'Buraco atrás de buraco, e quanto mais longe você vai, pior fica: chega um ponto em ' +
       'que não passa ninguém. É por isso que a proposta de infraestrutura da campanha é ' +
-      'direta: estrada sem buraco de verdade, e transporte público que funciona, na capital ' +
+      'direta: estrada sem buraco e transporte público que funciona, na capital ' +
       'e no interior.',
     ctaProposta: 'Ver a proposta de infraestrutura',
   },

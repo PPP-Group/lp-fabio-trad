@@ -94,7 +94,7 @@ export const trajetoria = {
     {
       quando: '2011 a 2023',
       o_que:
-        'Deputado federal, o mais votado ou entre os mais votados do estado, ' +
+        'Deputado federal, entre os mais votados do estado, ' +
         'com atuação técnica de referência nacional.',
     },
     {
@@ -107,7 +107,7 @@ export const trajetoria = {
       quando: 'Defesa das mulheres',
       o_que:
         'Ajudou a criar a lei que transformou o feminicídio em crime independente ' +
-        '(Lei 13.104/2015).',
+        '(Lei nº 14.994/2024).',
     },
     {
       quando: '2026',
@@ -190,9 +190,9 @@ export const apresentacao = {
   legenda:
     'Sou advogado, professor, pai de família e sul-mato-grossense com orgulho! ' +
     'Representei o nosso estado por três mandatos como deputado federal, tendo ' +
-    'sido reconhecido como o melhor parlamentar do Brasil.\n\n' +
+    'sido reconhecido como o melhor parlamentar do Brasil em 2020.\n\n' +
     'Pautei a minha vida inteira pela defesa dos direitos das pessoas. Agora, ' +
-    'quero continuar esta caminhada no Governo de MS! Com muita coragem para ' +
+    'quero continuar essa caminhada no Governo de MS! Com muita coragem para ' +
     'sonhar e determinação para fazer acontecer! Vamos juntos, meu MS querido.',
   capa: 'video-apresentacao.jpg',
   largura: 640,
@@ -205,7 +205,7 @@ export const apresentacao = {
 export const gilda = {
   rotulo: 'A vice',
   nome: 'Dona Gilda',
-  papel: 'Fundadora histórica do PT em Mato Grosso do Sul',
+  papel: 'Fundadora do PT em Mato Grosso do Sul',
   texto:
     'Dona Gilda ajudou a erguer o Partido dos Trabalhadores em Mato Grosso do Sul ' +
     'e caminha com o Fábio na chapa como vice-governadora.',
@@ -256,7 +256,7 @@ export const propostas = {
       eixo: 'Segurança Protegida',
       texto:
         'Combatendo o crime com inteligência e tecnologia na fronteira, reforçando a ' +
-        'patrulha nas escolas e tolerância zero ao feminicídio.',
+        'segurança nas escolas e tolerância zero ao feminicídio.',
     },
     {
       eixo: 'Trabalho Digno',
@@ -435,10 +435,10 @@ export const conquistas = {
 export const participe = {
   rotulo: 'Participe',
   titulo: 'Vamos juntos',
-  chamada: 'Some com a gente nessa caminhada.',
+  chamada: 'Vem com a gente nessa caminhada.',
   voluntario: {
     titulo: 'Seja voluntário',
-    texto: 'Vamos juntos. Some com a gente nessa caminhada.',
+    texto: 'Vamos juntos. Vem com a gente nessa caminhada.',
     acao: 'Quero ser voluntário',
   },
   // O cartaz mudou de casa: agora divide a seção `molduras` com a moldura de
@@ -459,5 +459,5 @@ export const rodape = {
     'Propaganda eleitoral gratuita, na forma da Lei nº 9.504/97. ' +
     'É proibida a veiculação de propaganda que deprecie a condição de mulher ' +
     'ou estimule sua discriminação.',
-  assinatura: 'Coragem pra sonhar. · Fábio Trad 13 · Governador · Mato Grosso do Sul',
+  assinatura: 'Coragem pra sonhar. Fábio Trad 13 · Governador · Mato Grosso do Sul',
 }

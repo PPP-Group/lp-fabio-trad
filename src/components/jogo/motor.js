@@ -308,6 +308,48 @@ function criarAudio() {
 }
 
 // ---------- Motor ----------
+/**
+ * Pinta o fusca sozinho num canvas qualquer, fora da partida.
+ *
+ * Existe pra tela de abertura poder mostrar o carrinho sem subir o motor
+ * inteiro. É de propósito o mesmo `SPRITE_CARRO` e a mesma paleta da corrida:
+ * se o carro mudar lá, muda aqui junto — não há uma segunda arte pra manter
+ * em dia. O canvas é dimensionado pelo sprite, e quem manda no tamanho na
+ * tela é o CSS.
+ */
+export function pintarCarro(canvas, pilotoId = 'fabio', escala = 4) {
+  if (!canvas) return
+  const p = PILOTOS[pilotoId] || PILOTOS.fabio
+  const larg = SPRITE_CARRO[0].length * escala
+  const alt = SPRITE_CARRO.length * escala
+  canvas.width = larg
+  canvas.height = alt
+
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return
+  ctx.imageSmoothingEnabled = false
+  ctx.clearRect(0, 0, larg, alt)
+
+  const cores = {
+    O: COR.contorno,
+    B: p.carro,
+    c: p.carroEscuro,
+    G: COR.vidro,
+    T: COR.pneu,
+    F: COR.farol,
+    L: COR.lanterna,
+  }
+
+  for (let r = 0; r < SPRITE_CARRO.length; r++) {
+    for (let c = 0; c < SPRITE_CARRO[r].length; c++) {
+      const cor = cores[SPRITE_CARRO[r][c]]
+      if (!cor) continue
+      ctx.fillStyle = cor
+      ctx.fillRect(c * escala, r * escala, escala, escala)
+    }
+  }
+}
+
 export function criarMotor(canvas, opts = {}) {
   const ctx = canvas.getContext('2d')
   canvas.width = L

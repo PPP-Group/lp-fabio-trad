@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Cabecalho } from '../Cabecalho'
 import { jogo } from './conteudo'
-import { PILOTOS, VIDAS_INICIAIS, criarMotor } from './motor'
+import { PILOTOS, VIDAS_INICIAIS, criarMotor, pintarCarro } from './motor'
 import '../../styles/jogo.css'
 
 const CHAVE_RECORDE = 'fabiotrad13:jogo:recorde'
@@ -90,8 +90,11 @@ export function Jogo() {
   const aoFimRef = useRef(() => {})
   const recordeRef = useRef(0)
   const timeoutEntrandoRef = useRef(null)
+  const carroAberturaRef = useRef(null)
 
-  const [estagio, setEstagio] = useState('selecao') // selecao | entrando | jogando | pausado | fim
+  // A abertura é a primeira tela: só a arte, o carrinho e o convite. A
+  // escolha de piloto virou a segunda.
+  const [estagio, setEstagio] = useState('abertura') // abertura | selecao | entrando | jogando | pausado | fim
   const [pilotoId, setPilotoId] = useState('fabio')
   const [fase, setFase] = useState('tranquilo')
   const [mudo, setMudo] = useState(() => lerBooleano(CHAVE_MUDO))
@@ -153,6 +156,17 @@ export function Jogo() {
     return () => window.removeEventListener('keydown', aoTeclar)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [estagio])
+
+  // O carrinho da abertura é o mesmo sprite da corrida, pintado num canvas
+  // à parte. Repinta quando a tela aparece — antes disso o canvas nem existe.
+  useEffect(() => {
+    if (estagio === 'abertura') pintarCarro(carroAberturaRef.current, pilotoId)
+  }, [estagio, pilotoId])
+
+  function abrirSelecao() {
+    motorRef.current?.tocarClique()
+    setEstagio('selecao')
+  }
 
   function escolherPiloto(id) {
     setPilotoId(id)
@@ -301,16 +315,34 @@ export function Jogo() {
             )}
           </div>
 
-          {estagio === 'selecao' && (
-            <div className="jogo__tela-flutuante jogo__selecao">
+          {estagio === 'abertura' && (
+            <div className="jogo__tela-flutuante jogo__abertura">
               <img
-                className="jogo__logo"
+                className="jogo__logo jogo__logo--abertura"
                 src={`/assets/${jogo.logo.arquivo}`}
                 alt={jogo.logo.alt}
                 width={jogo.logo.largura}
                 height={jogo.logo.altura}
               />
 
+              <canvas className="jogo__carrinho" ref={carroAberturaRef} aria-hidden="true" />
+
+              <p className="jogo__abertura-chamada">{jogo.abertura.chamada}</p>
+
+              <button type="button" className="botao botao--amarelo" onClick={abrirSelecao}>
+                {jogo.abertura.botao}
+              </button>
+
+              {recorde > 0 && (
+                <p className="jogo__recorde">
+                  {jogo.recorde.rotulo}: <strong>{recorde}</strong> {jogo.recorde.unidade}
+                </p>
+              )}
+            </div>
+          )}
+
+          {estagio === 'selecao' && (
+            <div className="jogo__tela-flutuante jogo__selecao">
               <p className="rotulo jogo__selecao-rotulo">{jogo.rotuloSelecao}</p>
 
               <ul className="jogo__pilotos">
@@ -342,12 +374,7 @@ export function Jogo() {
                 {jogo.instrucoesToque}
               </p>
 
-              {recorde > 0 && (
-                <p className="jogo__recorde">
-                  {jogo.recorde.rotulo}: <strong>{recorde}</strong> {jogo.recorde.unidade}
-                </p>
-              )}
-
+              {/* o recorde agora fica na abertura — aqui só atrapalharia o espaço */}
               <button type="button" className="botao botao--amarelo jogo__botao-partida" onClick={iniciarPartida}>
                 {jogo.botaoPartida}
               </button>
