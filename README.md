@@ -145,13 +145,13 @@ node scripts/shots.mjs shots 1440x900
 Tudo o que ainda depende da campanha está marcado com `A_CONFIRMAR` em
 `src/data/campanha.js`.
 
-1. **E-mail de contato.** `contato.email` está como
-   `contato@fabiotrad13.com.br`, ainda por confirmar. É por ele que passa o
-   contato da página: o botão "Seja voluntário" monta a mensagem e abre o
-   programa de e-mail do próprio leitor (`mailto:`), sem servidor no meio —
-   nada é guardado aqui. O formulário de recado que existia ao lado saiu a
-   pedido da campanha. Se um dia os contatos precisarem cair num CRM, o ponto
-   de troca é `abrirEmail` em `src/components/participe/Participe.jsx`.
+1. **O site não tem mais canal de contato direto.** Os três que existiam saíram
+   a pedido da campanha, um de cada vez: o WhatsApp, depois o formulário
+   "Fale direto comigo", e por último o bloco "Seja voluntário". Hoje o
+   Participe é o convite mais as redes sociais, e é por elas que o eleitor
+   fala com a campanha. `contato.email` segue registrado em
+   `src/data/campanha.js` (ainda por confirmar) só para não se perder — nada
+   na página o exibe. Para devolver um canal, é dali que ele sai.
 2. **Redes sociais.** Instagram (`fabiotrad`) e TikTok (`fabio.trad`) foram
    conferidos no ar; falta confirmar o Facebook. O **YouTube saiu** a pedido da
    campanha: basta devolver a linha em `redes` para ele voltar ao rodapé e ao

@@ -20,24 +20,17 @@ export const candidato = {
   federacao: 'Coligação Por um MS do Povo · Federação Brasil da Esperança (PT · PV · PCdoB) · PSB · PDT',
 }
 
-export const contato = {
-  // O canal de contato do site é o e-mail. O formulário do Participe monta a
-  // mensagem e abre o programa de e-mail do próprio leitor — não há servidor
-  // no meio, nada fica guardado aqui; quem recebe é a caixa da campanha.
-  email: `contato@fabiotrad13.com.br (${A_CONFIRMAR})`,
-}
-
 /**
- * Só o endereço, sem a marca de A_CONFIRMAR que o texto acima carrega.
- * O `mailto:` não aceita os parênteses, então quem monta o link passa por aqui.
+ * O endereço da campanha. Hoje **não aparece em lugar nenhum do site**: os
+ * dois botões que abriam o programa de e-mail (o formulário de recado e o
+ * convite de voluntariado) saíram a pedido da campanha, e o contato passou a
+ * ser só pelas redes sociais.
+ *
+ * Fica registrado aqui pra não se perder — quando houver de novo um canal de
+ * contato na página, é daqui que ele sai.
  */
-export function enderecoEmail() {
-  return contato.email.replace(/\s*\(.*\)\s*$/, '').trim()
-}
-
-/** Abre o programa de e-mail do leitor com o recado já escrito. */
-export function linkEmail(assunto, corpo) {
-  return `mailto:${enderecoEmail()}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`
+export const contato = {
+  email: `contato@fabiotrad13.com.br (${A_CONFIRMAR})`,
 }
 
 // Instagram, TikTok e Facebook. O YouTube saiu a pedido da campanha — quando
@@ -432,17 +425,14 @@ export const conquistas = {
   },
 }
 
+// O que morava aqui saiu por decisão da campanha, um de cada vez: o formulário
+// de recado, depois o bloco de voluntário. O cartaz mudou de casa e agora
+// divide a seção `molduras` com a moldura de perfil, em abas. Sobraram o
+// convite e as redes.
 export const participe = {
   rotulo: 'Participe',
   titulo: 'Vamos juntos',
   chamada: 'Vem com a gente nessa caminhada.',
-  voluntario: {
-    titulo: 'Seja voluntário',
-    texto: 'Vamos juntos. Vem com a gente nessa caminhada.',
-    acao: 'Quero ser voluntário',
-  },
-  // O cartaz mudou de casa: agora divide a seção `molduras` com a moldura de
-  // perfil, em abas. O texto e as bandeiras dele moram lá.
 }
 
 export const rodape = {
