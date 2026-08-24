@@ -345,10 +345,6 @@
   filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.6));
 }
 
-.jogo__abertura-chamada {
-  max-width: 30ch;
-}
-
 .jogo__selecao-rotulo {
   color: var(--amarelo);
 }

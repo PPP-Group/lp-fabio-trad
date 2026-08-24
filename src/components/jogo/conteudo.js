@@ -20,11 +20,11 @@ export const jogo = {
     largura: 440,
     altura: 496,
   },
-  // A abertura é só a arte e o convite. A escolha de piloto vem depois, na
-  // tela seguinte: separar as duas dá tamanho de verdade à logo e tira o
-  // aperto de quem antes precisava caber tudo numa tela só.
+  // A abertura é só a arte e o convite: logo, carrinho e botão, sem frase
+  // nenhuma. A escolha de piloto vem depois, na tela seguinte — separar as
+  // duas dá tamanho de verdade à logo e tira o aperto de quem antes
+  // precisava caber tudo numa tela só.
   abertura: {
-    chamada: 'Uma corrida por uma estrada que já nasceu esburacada.',
     botao: 'Jogar',
   },
   rotuloSelecao: 'Escolha quem dirige',

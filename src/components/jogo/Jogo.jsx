@@ -327,8 +327,6 @@ export function Jogo() {
 
               <canvas className="jogo__carrinho" ref={carroAberturaRef} aria-hidden="true" />
 
-              <p className="jogo__abertura-chamada">{jogo.abertura.chamada}</p>
-
               <button type="button" className="botao botao--amarelo" onClick={abrirSelecao}>
                 {jogo.abertura.botao}
               </button>
