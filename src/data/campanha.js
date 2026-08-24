@@ -222,10 +222,10 @@ export const propostas = {
   planoPdfRotulo: 'Baixe o plano de governo inteiro',
   eixos: [
     {
-      eixo: 'Gestão Participativa',
+      eixo: 'Educação Valorizada',
       texto:
-        'Governar com transparência total, acabando com o isolamento do interior e ' +
-        'trazendo o cidadão para o centro das decisões do Estado.',
+        'Fim da injustiça salarial entre professores contratados e concursados, ' +
+        'conectando nossas escolas ao futuro da ciência e da tecnologia.',
     },
     {
       eixo: 'Crescimento Sustentável',
@@ -258,10 +258,10 @@ export const propostas = {
         'Emprego para jovens e apoio às mulheres empreendedoras.',
     },
     {
-      eixo: 'Educação Valorizada',
+      eixo: 'Gestão Participativa',
       texto:
-        'Fim da injustiça salarial entre professores contratados e concursados, ' +
-        'conectando nossas escolas ao futuro da ciência e da tecnologia.',
+        'Governar com transparência total, acabando com o isolamento do interior e ' +
+        'trazendo o cidadão para o centro das decisões do Estado.',
     },
     {
       eixo: 'Infraestrutura Planejada',
