@@ -312,8 +312,7 @@ export const propostas = {
  * A seção onde o eleitor leva alguma coisa embora, logo abaixo das propostas.
  *
  * São duas peças com a mesma função — pôr a cara do eleitor junto da campanha —
- * então dividem uma seção só, em abas: a moldura de perfil (hospedada no
- * Twibbonize) e o cartaz (desenhado aqui, no canvas do próprio navegador).
+ * então dividem uma seção só, em abas: a moldura de perfil (hospedada fora) e o cartaz (desenhado aqui, no canvas do próprio navegador).
  * A troca é no clique; nada gira sozinho.
  */
 export const molduras = {
@@ -330,15 +329,15 @@ export const molduras = {
     vazio: 'Sua foto aqui',
     acao: 'Usar esta moldura',
     nota:
-      'As molduras ficam no Twibbonize: é pra lá que a sua foto vai quando você ' +
+      'As molduras ficam no Apoio.top: é pra lá que a sua foto vai quando você ' +
       'escolhe uma. Neste site nada é enviado nem guardado.',
     itens: [
-      { nome: 'Fábio Trad Emoji', arquivo: 'moldura-emoji.png', url: 'https://twb.nz/fabiotrademoji' },
-      { nome: 'Somos Fábio Trad 13', arquivo: 'moldura-pt13.png', url: 'https://twb.nz/fabiotradpt13' },
+      { nome: 'Fábio Trad Emoji', arquivo: 'moldura-emoji.png', url: 'https://apoio.top/q/fabioegilda13' },
+      { nome: 'Somos Fábio Trad 13', arquivo: 'moldura-pt13.png', url: 'https://apoio.top/q/coragemprasonhar' },
       {
         nome: 'Sou fechado com Fábio Trad',
         arquivo: 'moldura-fechado.png',
-        url: 'https://twb.nz/fechadocomfabiotrad',
+        url: 'https://apoio.top/q/fabiotrad13',
       },
     ],
   },
@@ -371,6 +370,37 @@ export const jingle = {
   capa: 'jingle-capa.jpg',
   largura: 1280,
   altura: 640,
+}
+
+/**
+ * As matérias sobre o candidato, na seção logo depois das Conquistas.
+ *
+ * **Nada aqui é notícia de verdade ainda.** Os cartões existem para a estrutura
+ * ficar pronta, e por isso são propositalmente vazios: sem manchete inventada,
+ * sem nome de veículo, sem data. Escrever manchete fictícia sobre um candidato
+ * real seria pedir para alguém confundir com notícia — então o que aparece na
+ * tela é um cartão desativado dizendo que a matéria está por vir.
+ *
+ * Para publicar uma: preencher `titulo`, `veiculo`, `data` e `url` do item. O
+ * cartão liga sozinho assim que a `url` deixa de ser `null`. Para acrescentar
+ * mais, é só somar itens à lista; para tirar a seção do ar antes de haver
+ * conteúdo, `materias.itens = []` e ela some da página.
+ */
+export const materias = {
+  id: 'materias',
+  rotulo: 'Na imprensa',
+  titulo: 'Matérias sobre o Fábio',
+  chamada: 'O que a imprensa publicou sobre a candidatura e a trajetória dele.',
+  emBreve: 'Em breve',
+  acao: 'Ler a matéria',
+  itens: [
+    { titulo: null, veiculo: null, data: null, url: null },
+    { titulo: null, veiculo: null, data: null, url: null },
+    { titulo: null, veiculo: null, data: null, url: null },
+    { titulo: null, veiculo: null, data: null, url: null },
+    { titulo: null, veiculo: null, data: null, url: null },
+    { titulo: null, veiculo: null, data: null, url: null },
+  ],
 }
 
 export const conquistas = {

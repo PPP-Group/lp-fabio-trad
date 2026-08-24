@@ -1,0 +1,113 @@
+/* As matérias, entre as Conquistas e o Participe.
+
+   Branca de propósito: as Conquistas terminam na faixa escura do placar e o
+   Participe começa no vermelho, então esta abre um respiro claro entre as
+   duas — e recorte de imprensa se lê melhor sobre branco. */
+
+.materias {
+  background: var(--papel);
+}
+
+.materias__lista {
+  list-style: none;
+  margin: clamp(1.6rem, 3.4vw, 2.6rem) 0 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(0.9rem, 2vw, 1.4rem);
+}
+
+/* O cartão é `<a>` quando a matéria existe e `<span>` enquanto não existe.
+   Como os dois usam esta classe, o estilo vale para os dois estados e só o
+   que muda é o ar de desativado, mais abaixo. */
+.materia__cartao {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 0.6rem;
+  height: 100%;
+  padding: clamp(1.2rem, 2.4vw, 1.6rem);
+  border: 2px solid var(--linha);
+  border-left: 6px solid var(--vermelho);
+  border-radius: var(--raio);
+  background: var(--papel);
+  text-decoration: none;
+  color: inherit;
+  transition: translate 260ms var(--curva), box-shadow 260ms var(--curva),
+    border-color 260ms var(--curva);
+}
+
+a.materia__cartao:hover,
+a.materia__cartao:focus-visible {
+  translate: 0 -4px;
+  border-color: var(--linha);
+  border-left-color: var(--vermelho);
+  box-shadow: 0 22px 40px -26px rgba(60, 6, 26, 0.7);
+}
+
+.materia__topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.7rem;
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: var(--t-rotulo);
+}
+
+.materia__veiculo {
+  color: var(--vermelho-fundo);
+}
+
+.materia__data {
+  color: var(--tinta-fraca);
+  letter-spacing: 0.06em;
+}
+
+.materia__titulo {
+  font-family: var(--campanha);
+  font-weight: 900;
+  font-stretch: 104%;
+  font-size: clamp(1.1rem, 1.8vw, 1.32rem);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  color: var(--carvao);
+  text-wrap: balance;
+}
+
+.materia__acao {
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-size: 0.86rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--vermelho-fundo);
+}
+
+/* Enquanto a matéria não chega: o espaço fica reservado e diagramado, mas
+   sem convidar ao clique e sem manchete nenhuma no lugar. */
+.materia__cartao[data-inativo='sim'] {
+  border-left-color: var(--linha);
+  background: var(--papel-fundo);
+  cursor: default;
+}
+
+.materia__cartao[data-inativo='sim'] .materia__titulo,
+.materia__cartao[data-inativo='sim'] .materia__veiculo,
+.materia__cartao[data-inativo='sim'] .materia__acao {
+  color: var(--tinta-fraca);
+  opacity: 0.75;
+}
+
+@media (min-width: 42rem) {
+  .materias__lista {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 62rem) {
+  .materias__lista {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

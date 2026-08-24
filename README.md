@@ -181,21 +181,29 @@ Tudo o que ainda depende da campanha está marcado com `A_CONFIRMAR` em
    acrescentar foto pede refazer essa soma, senão sobra vão branco no fim.
 6. **Molduras e cartaz.** A seção `molduras` junta as duas peças que o eleitor
    leva embora, em abas que trocam no clique: as três molduras de perfil
-   (hospedadas no Twibbonize — quem recebe a foto e devolve o resultado é o
+   (hospedadas no Apoio.top — quem recebe a foto e devolve o resultado é o
    site deles) e o cartaz, desenhado aqui no canvas do navegador. Os dois
    painéis ficam montados o tempo todo, então sair da aba do cartaz e voltar
    não apaga o nome já digitado.
-7. **Domínio e og:image.** As URLs absolutas de `index.html` (canonical, og:url,
+7. **Matérias — a seção existe, o conteúdo não.** `materias.itens`
+   (`src/data/campanha.js`) tem seis cartões vazios: sem manchete, sem
+   veículo, sem data. **É de propósito** — manchete fictícia sobre um
+   candidato real vira notícia falsa na cabeça de quem lê, então enquanto a
+   matéria não existe o cartão fica desativado dizendo "em breve". Para
+   publicar uma, preencher `titulo`, `veiculo`, `data` e `url` do item: o
+   cartão vira link sozinho. Para ter mais de seis, é só somar itens à lista;
+   com `itens: []` a seção inteira some da página.
+8. **Domínio e og:image.** As URLs absolutas de `index.html` (canonical, og:url,
    og:image), o `public/robots.txt` e o `public/sitemap.xml` apontam para
    `https://fabiotrad13.com.br/`. Se o domínio final for outro, troque nos três.
-8. **Plano de governo em PDF.** `public/assets/plano-de-governo-fabio-trad.pdf`
+9. **Plano de governo em PDF.** `public/assets/plano-de-governo-fabio-trad.pdf`
    é o documento oficial da campanha: 85 páginas, o mesmo registrado na Justiça
    Eleitoral. **Pesa 28,7 MB** — tentamos recomprimir e não encolhe nada, são 91
    gradientes e transparências do design, então quem baixar no celular puxa
    isso mesmo. Se algum dia vier uma versão mais leve, é só trocar o arquivo
    mantendo o nome. Para desativar o botão, `propostas.planoPdf = null` — ele
    volta sozinho a mostrar "em breve".
-9. **Jingle.** `public/assets/jingle.mp4` é a versão de web do arquivo que a
+10. **Jingle.** `public/assets/jingle.mp4` é a versão de web do arquivo que a
    campanha entregou: o original tem **160 MB em 4K**, acima do limite de
    100 MB por arquivo do GitHub, então não dá para versioná-lo. O que está no
    repositório é o mesmo vídeo em 1280x640 e ~1,1 Mbps — **12 MB**, com o
@@ -210,7 +218,7 @@ Tudo o que ainda depende da campanha está marcado com `A_CONFIRMAR` em
    e então `ffmpeg -i <master> -vf scale=1280:640 -c:v libx264 -crf 28 -c:a
    aac -b:a 112k -movflags +faststart public/assets/jingle.mp4`. A capa sai de
    um quadro do próprio vídeo (`-ss 12 -frames:v 1`).
-10. **Texto legal.** `rodape.legal` traz a identificação oficial da propaganda:
+11. **Texto legal.** `rodape.legal` traz a identificação oficial da propaganda:
    coligação, partidos, CNPJ e o aviso de uso de IA. Logo abaixo segue
    `rodape.aviso`, que é a exigência da própria Lei nº 9.504/97 — os dois
    convivem de propósito, um não substitui o outro.
