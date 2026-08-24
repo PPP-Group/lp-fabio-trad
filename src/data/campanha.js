@@ -389,8 +389,9 @@ export const jingle = {
 export const materias = {
   id: 'materias',
   rotulo: 'Na imprensa',
-  titulo: 'Matérias sobre o Fábio',
-  chamada: 'O que a imprensa publicou sobre a candidatura e a trajetória dele.',
+  titulo: 'Últimas notícias',
+  // sem chamada: o título já basta, e o Cabecalho não desenha a linha quando
+  // ela não vem
   emBreve: 'Em breve',
   acao: 'Ler a matéria',
   itens: [
