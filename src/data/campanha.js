@@ -375,16 +375,15 @@ export const jingle = {
 /**
  * As matérias sobre o candidato, na seção logo depois das Conquistas.
  *
- * **Nada aqui é notícia de verdade ainda.** Os cartões existem para a estrutura
- * ficar pronta, e por isso são propositalmente vazios: sem manchete inventada,
- * sem nome de veículo, sem data. Escrever manchete fictícia sobre um candidato
- * real seria pedir para alguém confundir com notícia — então o que aparece na
- * tela é um cartão desativado dizendo que a matéria está por vir.
+ * Hoje há uma matéria só, e ela é real: título, veículo e data foram lidos da
+ * própria página publicada, não deduzidos da URL. **Nunca inventar manchete
+ * aqui** — texto fictício sobre um candidato real, num site de campanha, é
+ * notícia falsa na cabeça de quem lê.
  *
- * Para publicar uma: preencher `titulo`, `veiculo`, `data` e `url` do item. O
- * cartão liga sozinho assim que a `url` deixa de ser `null`. Para acrescentar
- * mais, é só somar itens à lista; para tirar a seção do ar antes de haver
- * conteúdo, `materias.itens = []` e ela some da página.
+ * Para acrescentar outra, some um item com `titulo`, `veiculo`, `data` e `url`.
+ * Um item sem `url` vira um cartão desativado, marcado como "em breve" — serve
+ * para reservar espaço sem afirmar nada. Com `itens: []` a seção some da
+ * página inteira.
  */
 export const materias = {
   id: 'materias',
@@ -395,12 +394,16 @@ export const materias = {
   emBreve: 'Em breve',
   acao: 'Ler a matéria',
   itens: [
-    { titulo: null, veiculo: null, data: null, url: null },
-    { titulo: null, veiculo: null, data: null, url: null },
-    { titulo: null, veiculo: null, data: null, url: null },
-    { titulo: null, veiculo: null, data: null, url: null },
-    { titulo: null, veiculo: null, data: null, url: null },
-    { titulo: null, veiculo: null, data: null, url: null },
+    {
+      titulo:
+        'Fábio defende a transformação da riqueza em renda, salário e oportunidade ' +
+        'para o povo',
+      veiculo: 'O Jacaré',
+      data: '24/08/2026',
+      url:
+        'https://www.ojacare.com.br/2026/08/24/fabio-defende-a-transformacao-da-riqueza-' +
+        'em-renda-salario-e-oportunidade-para-o-povo/',
+    },
   ],
 }
 

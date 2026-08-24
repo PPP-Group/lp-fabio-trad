@@ -185,14 +185,14 @@ Tudo o que ainda depende da campanha está marcado com `A_CONFIRMAR` em
    site deles) e o cartaz, desenhado aqui no canvas do navegador. Os dois
    painéis ficam montados o tempo todo, então sair da aba do cartaz e voltar
    não apaga o nome já digitado.
-7. **Matérias — a seção existe, o conteúdo não.** `materias.itens`
-   (`src/data/campanha.js`) tem seis cartões vazios: sem manchete, sem
-   veículo, sem data. **É de propósito** — manchete fictícia sobre um
-   candidato real vira notícia falsa na cabeça de quem lê, então enquanto a
-   matéria não existe o cartão fica desativado dizendo "em breve". Para
-   publicar uma, preencher `titulo`, `veiculo`, `data` e `url` do item: o
-   cartão vira link sozinho. Para ter mais de seis, é só somar itens à lista;
-   com `itens: []` a seção inteira some da página.
+7. **Últimas notícias — uma matéria por enquanto.** `materias.itens`
+   (`src/data/campanha.js`) tem hoje um item só, real: título, veículo e data
+   foram lidos da própria página publicada, não deduzidos da URL. **Nunca
+   inventar manchete aqui** — texto fictício sobre um candidato real, num site
+   de campanha, é notícia falsa na cabeça de quem lê. Para acrescentar outra,
+   some um item com `titulo`, `veiculo`, `data` e `url`; um item sem `url`
+   vira cartão desativado marcado como "em breve", útil para reservar espaço
+   sem afirmar nada. Com `itens: []` a seção some da página.
 8. **Domínio e og:image.** As URLs absolutas de `index.html` (canonical, og:url,
    og:image), o `public/robots.txt` e o `public/sitemap.xml` apontam para
    `https://fabiotrad13.com.br/`. Se o domínio final for outro, troque nos três.
