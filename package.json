@@ -8,10 +8,12 @@
   },
   "scripts": {
     "dev": "vite --port 5179",
-    "build": "vite build",
+    "build": "node scripts/materias.mjs && vite build && node scripts/painel.mjs",
     "preview": "vite preview --port 4179",
     "start": "node server.js",
-    "test:mapa": "node scripts/mapa.test.mjs"
+    "test:mapa": "node scripts/mapa.test.mjs",
+    "materias": "node scripts/materias.mjs",
+    "painel": "node scripts/painel.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

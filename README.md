@@ -13,9 +13,12 @@ npm run preview  # serve dist/ em http://localhost:4179
 > **Material sigiloso.** O pacote em `IDV/` é da campanha e não foi enviado a
 > nenhum serviço externo. Ele está no `.gitignore` e no `.dockerignore`: não vai
 > para o repositório nem para a imagem de deploy. Nada aqui usa CDN, fonte
-> remota, analytics ou API de terceiros — as fontes são servidas do próprio
-> domínio e as imagens saem dos arquivos de arte. Publicar é decisão da
-> campanha; o que está versionado é só o site compilável.
+> remota, analytics ou API de terceiros **em tempo de execução** — as fontes são
+> servidas do próprio domínio e as imagens saem dos arquivos de arte. A única
+> conversa com serviço externo acontece no build, quando o `scripts/materias.mjs`
+> busca as matérias no Sanity e as assa no bundle; a página do eleitor recebe o
+> resultado pronto e não pede nada a ninguém. Publicar é decisão da campanha; o
+> que está versionado é só o site compilável.
 
 ---
 
@@ -121,8 +124,10 @@ server.js            servidor de produção: serve dist/ na porta 3000
 nixpacks.toml        como o Easypanel compila e sobe o site
 Dockerfile           alternativa: compila com o Vite e serve dist/ no nginx
 nginx.conf           tipos MIME, cache e o fallback de página única
+studio/              o painel do Sanity (pacote separado, veja abaixo)
 scripts/
   assets.py          refaz public/assets/ a partir de IDV/
+  materias.mjs       busca as matérias no Sanity antes de cada build
   videos.py          baixa a capa do vídeo de apresentação, para servir daqui
   shots.mjs          capturas seção a seção, para revisão
   tudo.mjs           a página inteira numa imagem
@@ -137,6 +142,72 @@ Para revisar, com o `npm run dev` no ar:
 ```bash
 node scripts/shots.mjs shots 1440x900
 ```
+
+---
+
+## As matérias vêm de um painel, não do código
+
+As "Últimas notícias" são a única parte da página que a campanha edita sozinha.
+Quem publica é o Sanity, num painel próprio; o site continua estático.
+
+**O site nunca fala com o Sanity.** A busca acontece no build, não no navegador
+do eleitor:
+
+```
+campanha publica no painel
+  -> Sanity dispara o webhook
+  -> Easypanel recompila
+  -> `npm run build` roda `scripts/materias.mjs`, que busca e grava
+     `src/data/materias.json`
+  -> o Vite assa o JSON dentro do bundle
+```
+
+Leva uns dois minutos entre publicar e aparecer. Em troca, a página do eleitor
+não faz nenhum pedido a terceiro, o HTML já vem com as matérias dentro, e o
+site funciona igual se o Sanity estiver fora do ar.
+
+### O que o script garante
+
+`scripts/materias.mjs` existe para duas coisas, e as duas foram testadas:
+
+1. **O build não quebra por causa do Sanity.** API fora do ar, resposta torta,
+   erro inesperado — o script avisa, mantém o `materias.json` anterior e sai
+   com sucesso. O site sobe com as matérias de antes em vez de não subir.
+2. **O que vem de fora é conferido antes de entrar.** Quem escreve agora é a
+   campanha: item sem campo obrigatório é descartado, e endereço que não seja
+   `http`/`https` é barrado — um `javascript:` colado sem querer viraria brecha
+   de segurança na página.
+
+`src/data/materias.json` é versionado de propósito: é ele que segura o site
+quando a busca falha. Editar à mão não adianta, o próximo build sobrescreve.
+
+### O painel
+
+Mora em `studio/`, com `package.json` próprio — as dependências dele não se
+misturam com as do site, e o `npm audit` dele não diz nada sobre o site.
+
+```bash
+cd studio && npm install
+npm run dev      # painel local, http://localhost:3333
+npm run deploy   # publica em <nome>.sanity.studio, de graça
+```
+
+Para dar acesso a alguém: painel do Sanity -> **Members** -> convidar por
+e-mail. Quem entra vê só o formulário das matérias.
+
+### O webhook
+
+No Sanity, em **API -> Webhooks**, apontando para a URL de deploy do Easypanel:
+
+| Campo | Valor |
+| ----- | ----- |
+| URL | a de deploy do Easypanel |
+| Dataset | `production` |
+| Trigger on | Create, Update, Delete |
+| Filter | `_type == "materia"` |
+| HTTP method | `POST` |
+
+O *filter* importa: sem ele, qualquer rascunho salvo dispara um deploy.
 
 ---
 
@@ -185,14 +256,12 @@ Tudo o que ainda depende da campanha está marcado com `A_CONFIRMAR` em
    site deles) e o cartaz, desenhado aqui no canvas do navegador. Os dois
    painéis ficam montados o tempo todo, então sair da aba do cartaz e voltar
    não apaga o nome já digitado.
-7. **Últimas notícias — uma matéria por enquanto.** `materias.itens`
-   (`src/data/campanha.js`) tem hoje um item só, real: título, veículo e data
-   foram lidos da própria página publicada, não deduzidos da URL. **Nunca
-   inventar manchete aqui** — texto fictício sobre um candidato real, num site
-   de campanha, é notícia falsa na cabeça de quem lê. Para acrescentar outra,
-   some um item com `titulo`, `veiculo`, `data` e `url`; um item sem `url`
-   vira cartão desativado marcado como "em breve", útil para reservar espaço
-   sem afirmar nada. Com `itens: []` a seção some da página.
+7. **Últimas notícias — quem edita é a campanha, pelo painel.** A lista não
+   está mais no código: vem do Sanity, via `scripts/materias.mjs` (ver a seção
+   "As matérias vêm de um painel"). Falta ligar duas pontas: publicar o painel
+   com `cd studio && npm run deploy`, e criar o webhook no Sanity apontando
+   para a URL de deploy do Easypanel. Sem o webhook, publicar não recompila
+   nada — as matérias só aparecem no deploy seguinte.
 8. **Domínio e og:image.** As URLs absolutas de `index.html` (canonical, og:url,
    og:image), o `public/robots.txt` e o `public/sitemap.xml` apontam para
    `https://fabiotrad13.com.br/`. Se o domínio final for outro, troque nos três.

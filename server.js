@@ -32,7 +32,15 @@ const server = http.createServer((req, res) => {
   }
 
   const urlPath = decodeURIComponent(req.url.split('?')[0])
-  let filePath = path.join(DIST_DIR, urlPath === '/' ? 'index.html' : urlPath)
+
+  // O painel do Sanity é compilado com os caminhos dos próprios arquivos
+  // fixos em `/static/...`, na raiz — não há opção de mudar isso no build.
+  // Como o site usa `/assets/` e nunca `/static/`, essa rota fica dedicada a
+  // ele: pedido em /static/ é servido de dentro de dist/studio/.
+  const doPainel = urlPath.startsWith('/static/')
+  let filePath = doPainel
+    ? path.join(DIST_DIR, 'studio', urlPath)
+    : path.join(DIST_DIR, urlPath === '/' ? 'index.html' : urlPath)
 
   // Previne directory traversal
   if (!filePath.startsWith(DIST_DIR)) {
@@ -40,15 +48,34 @@ const server = http.createServer((req, res) => {
     return res.end('Forbidden')
   }
 
-  // Fallback SPA: qualquer rota sem arquivo serve index.html
+  // Fallback SPA. São duas aplicações aqui dentro, e cada uma tem o seu
+  // ponto de entrada: o site na raiz e o painel das matérias em /studio.
+  // Sem separar, uma rota interna do painel cairia no index.html do site e o
+  // editor veria a landing page no lugar do formulário.
+  const noStudio = urlPath === '/studio' || urlPath.startsWith('/studio/')
   if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
-    filePath = path.join(DIST_DIR, 'index.html')
+    // Arquivo do painel que não existe é 404 de verdade: cair no index.html
+    // aqui devolveria HTML no lugar de um módulo JavaScript, e o navegador
+    // recusaria por MIME — o erro é bem mais difícil de ler que um 404.
+    if (doPainel) {
+      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' })
+      return res.end('Not found')
+    }
+    const entrada = noStudio
+      ? path.join(DIST_DIR, 'studio', 'index.html')
+      : path.join(DIST_DIR, 'index.html')
+    // Se o painel não foi compilado, a rota /studio não existe — melhor cair
+    // no site do que servir um 404 cru.
+    filePath = fs.existsSync(entrada) ? entrada : path.join(DIST_DIR, 'index.html')
   }
 
   const ext = path.extname(filePath).toLowerCase()
   const contentType = MIME_TYPES[ext] || 'application/octet-stream'
   const isHtml = ext === '.html'
-  const isHashedAsset = urlPath.startsWith('/assets/')
+  // Os dois têm nome com hash: os do site em /assets/, os do painel em
+  // /static/. Podem ser guardados para sempre porque o nome muda quando o
+  // conteúdo muda.
+  const isHashedAsset = urlPath.startsWith('/assets/') || urlPath.startsWith('/static/')
 
   const headers = {
     'Content-Type': contentType,

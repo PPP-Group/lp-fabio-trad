@@ -6,6 +6,9 @@
  * com A_CONFIRMAR e listado no README.
  */
 
+// Gerado por `scripts/materias.mjs` a partir do Sanity, antes de cada build.
+import itensDeMaterias from './materias.json'
+
 export const A_CONFIRMAR = 'a confirmar com a campanha'
 
 export const candidato = {
@@ -375,15 +378,13 @@ export const jingle = {
 /**
  * As matérias sobre o candidato, na seção logo depois das Conquistas.
  *
- * Hoje há uma matéria só, e ela é real: título, veículo e data foram lidos da
- * própria página publicada, não deduzidos da URL. **Nunca inventar manchete
- * aqui** — texto fictício sobre um candidato real, num site de campanha, é
- * notícia falsa na cabeça de quem lê.
+ * **Esta lista não se escreve mais à mão.** Ela vem de `materias.json`, que o
+ * `scripts/materias.mjs` gera buscando no Sanity antes de cada build. Quem
+ * publica é a campanha, pelo painel; o site só lê o resultado já assado no
+ * bundle e **nunca fala com o Sanity em tempo de execução**.
  *
- * Para acrescentar outra, some um item com `titulo`, `veiculo`, `data` e `url`.
- * Um item sem `url` vira um cartão desativado, marcado como "em breve" — serve
- * para reservar espaço sem afirmar nada. Com `itens: []` a seção some da
- * página inteira.
+ * Mexer no JSON à mão não adianta: o próximo build sobrescreve. Para trocar o
+ * conteúdo, é no painel.
  */
 export const materias = {
   id: 'materias',
@@ -393,18 +394,7 @@ export const materias = {
   // ela não vem
   emBreve: 'Em breve',
   acao: 'Ler a matéria',
-  itens: [
-    {
-      titulo:
-        'Fábio defende a transformação da riqueza em renda, salário e oportunidade ' +
-        'para o povo',
-      veiculo: 'O Jacaré',
-      data: '24/08/2026',
-      url:
-        'https://www.ojacare.com.br/2026/08/24/fabio-defende-a-transformacao-da-riqueza-' +
-        'em-renda-salario-e-oportunidade-para-o-povo/',
-    },
-  ],
+  itens: itensDeMaterias,
 }
 
 export const conquistas = {

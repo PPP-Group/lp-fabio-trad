@@ -4,6 +4,17 @@ NPM_CONFIG_PRODUCTION = 'false'
 CI = 'true'
 NIXPACKS_SPA_CADDY = 'false'
 
+# São dois pacotes: o site na raiz e o painel em studio/. O nixpacks só
+# instalaria o da raiz sozinho, e sem as dependências do painel a rota /studio
+# simplesmente não existiria em produção.
+#
+# O `|| true` é de propósito: o painel é ferramenta interna, o site é o
+# produto. Se a instalação dele falhar, o deploy segue e o site sobe sem
+# /studio — quem cuida disso do outro lado é o scripts/painel.mjs, que
+# desiste em silêncio quando não acha as dependências.
+[phases.install]
+cmds = ['npm ci', 'npm --prefix studio ci || true']
+
 [phases.build]
 cmds = ['npm run build']
 

@@ -1,9 +1,10 @@
 .git
 .gitignore
 node_modules
+studio/node_modules
+studio/dist
 dist
 shots
-scripts
 __pycache__
 *.pyc
 .impeccable

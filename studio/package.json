@@ -1,0 +1,18 @@
+{
+  "name": "lp-fabio-trad-studio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Painel de edição das matérias — roda separado do site.",
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev --port 3333",
+    "build": "sanity build --y",
+    "deploy": "sanity deploy"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sanity": "^3.62.0",
+    "styled-components": "^6.1.15"
+  }
+}
