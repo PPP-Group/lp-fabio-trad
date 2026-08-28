@@ -18,6 +18,7 @@ const VERSAO_API = 'v2021-10-21'
 
 // Ordenadas da mais recente para a mais antiga — é a ordem em que aparecem.
 const CONSULTA = `*[_type == "materia"] | order(data desc) {
+  "id": _id,
   "titulo": titulo,
   "veiculo": veiculo,
   "data": data,
@@ -56,6 +57,13 @@ export function limpar(bruto) {
   const descartadas = []
 
   for (const item of bruto) {
+    // A identidade de cada cartão na página. Precisa vir daqui, do `_id` que o
+    // Sanity gera, e não de um campo que o editor digite: já usamos a URL para
+    // isso, e uma matéria de teste criada com o link de outra derrubou a
+    // suposição. Duas chaves iguais, e o React deixou de conseguir tirar da
+    // tela o cartão que tinha sido apagado. Campo preenchido à mão não serve
+    // como identidade — nada impede duas linhas de terem o mesmo valor.
+    const id = typeof item?.id === 'string' && item.id ? item.id : null
     const titulo = typeof item?.titulo === 'string' ? item.titulo.trim() : ''
     const veiculo = typeof item?.veiculo === 'string' ? item.veiculo.trim() : ''
     const data = dataBR(item?.data)
@@ -71,7 +79,7 @@ export function limpar(bruto) {
       descartadas.push(`${titulo || '(sem título)'} — falta ${faltando.join(', ')}`)
       continue
     }
-    boas.push({ titulo, veiculo, data, url })
+    boas.push({ id, titulo, veiculo, data, url })
   }
 
   return { boas, descartadas }

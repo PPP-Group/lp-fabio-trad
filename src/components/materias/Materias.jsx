@@ -99,8 +99,16 @@ export function Materias() {
         />
 
         <ul className="materias__lista">
+          {/*
+            A chave vem do `id` do Sanity, nunca da URL. Já veio da URL uma
+            vez: uma matéria de teste foi criada com o link de outra, as duas
+            chaves ficaram iguais, e o React perdeu a conta de qual cartão era
+            qual — a matéria apagada continuou na tela porque ele não
+            conseguiu removê-la. A posição só entra como último recurso, para
+            listas gravadas antes de o `id` existir.
+          */}
           {itens.map((m, i) => (
-            <Materia key={m.url || `vazia-${i}`} item={m} indice={i} />
+            <Materia key={m.id || `pos-${i}`} item={m} indice={i} />
           ))}
         </ul>
       </div>

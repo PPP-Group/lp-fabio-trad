@@ -1,11 +1,13 @@
 [
   {
-    "titulo": "Teste1",
-    "veiculo": "Campo",
-    "data": "25/08/2026",
-    "url": "https://www.ojacare.com.br/2026/08/24/fabio-defende-a-transformacao-da-riqueza-em-renda-salario-e-oportunidade-para-o-povo/"
+    "id": "54f52a31-2bf8-483a-8794-dca5285b8aa1",
+    "titulo": "Fábio Trad debate economia, saúde e produção em encontro com assentados em MS",
+    "veiculo": "G1",
+    "data": "26/08/2026",
+    "url": "https://g1.globo.com/ms/mato-grosso-do-sul/noticia/2026/08/26/fabio-trad-debate-economia-saude-e-producao-em-encontro-com-assentados-em-ms.ghtml"
   },
   {
+    "id": "materia-ojacare-2026-08-24",
     "titulo": "Fábio defende a transformação da riqueza em renda, salário e oportunidade para o povo",
     "veiculo": "O Jacaré",
     "data": "24/08/2026",
