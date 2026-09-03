@@ -217,90 +217,98 @@ export const apoios = {
 export const propostas = {
   rotulo: 'Propostas',
   titulo: 'Nossas propostas',
-  chamada: 'Os 13 eixos do Programa de Governo 2026.',
-  // Gerado a partir dos 13 eixos abaixo (ver README, item 8). Se a campanha
-  // mandar uma versão própria em PDF, é só trocar o arquivo em
-  // public/assets/ mantendo esse mesmo nome — ou apontar pra outro caminho.
+  chamada: 'Os 13 eixos que vão construir um MS mais justo',
+  // O documento oficial da campanha, o mesmo registrado na Justiça Eleitoral
+  // (ver README, item 9). Não é gerado a partir dos eixos abaixo: os eixos são
+  // o resumo que a campanha manda para o carrossel, o PDF é a peça completa.
   planoPdf: '/assets/plano-de-governo-fabio-trad.pdf',
   planoPdfRotulo: 'Baixe o plano de governo inteiro',
+  // Os 13 eixos, na redação e na ordem que a campanha mandou em
+  // "CARROSSEL PROPOSTAS FABIO". Ordem é decisão deles, não nossa.
   eixos: [
     {
-      eixo: 'Educação Valorizada',
+      eixo: 'Saúde sem fila e perto de casa',
       texto:
-        'Fim da injustiça salarial entre professores contratados e concursados, ' +
-        'conectando nossas escolas ao futuro da ciência e da tecnologia.',
+        'Ampliar o acesso regionalizado a consultas e exames, zerar a fila de ' +
+        'cirurgias e assumir a gestão pública dos hospitais regionais.',
     },
     {
-      eixo: 'Crescimento Sustentável',
+      eixo: 'Segurança que protege sua família',
       texto:
-        'Diversificar a economia e aproveitar a Rota Bioceânica para levar indústrias, ' +
-        'inovação e riqueza para todas as regiões de MS.',
+        'Recompor o efetivo das forças de segurança, convocar policiais já ' +
+        'aprovados e treinados e integrar as forças no combate aos crimes de ' +
+        'fronteira.',
     },
     {
-      eixo: 'Incentivo Justo',
+      eixo: 'Mulher protegida',
       texto:
-        'Acabar com privilégios fiscais sem retorno e exigir que empresas beneficiadas ' +
-        'gerem empregos formais e salários melhores.',
+        'Ampliar as delegacias de atendimento à mulher para todas as regiões, ' +
+        'com funcionamento 24 horas, e criar o Batalhão de Choque Maria da Penha.',
     },
     {
-      eixo: 'Saúde Regionalizada',
+      eixo: 'Educação de verdade',
       texto:
-        "Acabar com as viagens de madrugada e 'carretas da saúde', assumindo a gestão " +
-        'pública dos hospitais e levando atendimento especialista ao interior.',
+        'Ampliar o ensino em tempo integral, equiparar a remuneração de ' +
+        'professores concursados e contratados e aproximar a formação ' +
+        'profissional das demandas regionais.',
     },
     {
-      eixo: 'Segurança Protegida',
+      eixo: 'Infraestrutura e logística',
       texto:
-        'Combatendo o crime com inteligência e tecnologia na fronteira, reforçando a ' +
-        'segurança nas escolas e tolerância zero ao feminicídio.',
+        'Buscar a duplicação das BRs 163 e 262, fortalecer o Corredor ' +
+        'Bioceânico, reativar ferrovias e utilizar recursos do FUNDERSUL na ' +
+        'recuperação de estradas, pontes e vias municipais.',
     },
     {
-      eixo: 'Trabalho Digno',
+      eixo: 'Gestão responsável e menos imposto para quem precisa',
       texto:
-        'Gerar empregos de qualidade com apoio aos pequenos negócios, programa Primeiro ' +
-        'Emprego para jovens e apoio às mulheres empreendedoras.',
+        'Reduzir a tributação sobre a cesta básica e o diesel e adotar uma ' +
+        'gestão baseada em eficiência, transparência e participação popular.',
     },
     {
-      eixo: 'Gestão Participativa',
+      eixo: 'Assistência social',
       texto:
-        'Governar com transparência total, acabando com o isolamento do interior e ' +
-        'trazendo o cidadão para o centro das decisões do Estado.',
+        'Ampliar as políticas de assistência social e a parceria com programas ' +
+        'do governo federal.',
     },
     {
-      eixo: 'Infraestrutura Planejada',
+      eixo: 'Mais e melhores empregos',
       texto:
-        'Duplicar rodovias estratégicas, recuperar pontes e estradas rurais e integrar ' +
-        'ferrovias sem endividar o futuro do Estado.',
+        'Qualificar trabalhadores para as novas indústrias e conectar ' +
+        'profissionais às oportunidades por meio do programa Conecta MS.',
     },
     {
-      eixo: 'Cultura Viva',
+      eixo: 'Agricultura familiar',
       texto:
-        'Democratizar os recursos da cultura e do esporte no interior e nas periferias, ' +
-        'resgatando as grandes Temporadas Populares para as famílias.',
+        'Ampliar crédito, assistência técnica, agroindústria e comercialização, ' +
+        'além de melhorar infraestrutura, transporte escolar e educação no campo.',
     },
     {
-      eixo: 'Estado Cuidador',
+      eixo: 'Habitação',
       texto:
-        'Proteger os mais vulneráveis com restaurantes populares, combate firme à fome, ' +
-        'à intolerância e garantia de direitos para todos.',
+        'Ampliar a moradia popular em parceria com o governo federal, com ' +
+        'crédito, aquisição de terrenos e incentivos tributários, priorizando ' +
+        'áreas próximas a serviços públicos.',
     },
     {
-      eixo: 'Campo Forte',
+      eixo: 'Cultura',
       texto:
-        'Fortalecer a agricultura familiar e os assentamentos com assistência técnica, ' +
-        'crédito, estradas para escoamento e incentivo às agroindústrias.',
+        'Destinar 1,5% do orçamento à cultura, conforme a meta do Sistema ' +
+        'Nacional de Cultura, e criar uma rede estadual de equipamentos culturais.',
     },
     {
-      eixo: 'Ambiente Protegido',
+      eixo: 'Esporte para todos',
       texto:
-        'Proteger o Pantanal e a Serra da Bodoquena contra queimadas e degradação, ' +
-        'tornando o Estado referência em economia verde e bioinsumos.',
+        'Implementar o Sistema Estadual do Esporte e incentivar sua criação nos ' +
+        'municípios, ampliando o acesso ao esporte e à promoção da saúde.',
     },
     {
-      eixo: 'Turismo Sustentável',
+      eixo: 'Meio ambiente',
       texto:
-        'Estruturar novos polos turísticos no interior, capacitar profissionais locais ' +
-        'e promover nossas belezas naturais para o Brasil e o mundo.',
+        'Reforçar a fiscalização dos três biomas, utilizar tecnologia para ' +
+        'monitorar o desmatamento e prevenir queimadas e respeitar os ' +
+        'conhecimentos e práticas de comunidades ribeirinhas, indígenas e ' +
+        'quilombolas.',
     },
   ],
   compromisso: {

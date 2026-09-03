@@ -68,7 +68,7 @@ export function Propostas() {
             onClick={() => setMostrarTodos((v) => !v)}
             aria-expanded={mostrarTodos}
           >
-            {mostrarTodos ? 'Ver menos' : `Ver mais ${restantes} eixos`}
+            {mostrarTodos ? 'Ver menos' : 'Ver mais propostas'}
           </button>
         )}
 
