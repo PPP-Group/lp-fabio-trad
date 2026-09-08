@@ -12,13 +12,13 @@ npm run preview  # serve dist/ em http://localhost:4179
 
 > **Material sigiloso.** O pacote em `IDV/` é da campanha e não foi enviado a
 > nenhum serviço externo. Ele está no `.gitignore` e no `.dockerignore`: não vai
-> para o repositório nem para a imagem de deploy. Nada aqui usa CDN, fonte
-> remota, analytics ou API de terceiros **em tempo de execução** — as fontes são
-> servidas do próprio domínio e as imagens saem dos arquivos de arte. A única
-> conversa com serviço externo acontece no build, quando o `scripts/materias.mjs`
-> busca as matérias no Sanity e as assa no bundle; a página do eleitor recebe o
-> resultado pronto e não pede nada a ninguém. Publicar é decisão da campanha; o
-> que está versionado é só o site compilável.
+> para o repositório nem para a imagem de deploy. **O navegador de quem visita a
+> página não faz um único pedido fora do nosso domínio** — nem CDN, nem fonte
+> remota, nem analytics, nem API de terceiro: as fontes são servidas daqui, as
+> imagens saem dos arquivos de arte, e o conteúdo que vem do Sanity (as matérias
+> e o material de apoio, inclusive os arquivos e as miniaturas) passa pelo
+> `server.js`, que é quem conversa com o Sanity. Publicar é decisão da campanha;
+> o que está versionado é só o site compilável.
 
 ---
 
@@ -127,7 +127,11 @@ nginx.conf           tipos MIME, cache e o fallback de página única
 studio/              o painel do Sanity (pacote separado, veja abaixo)
 scripts/
   assets.py          refaz public/assets/ a partir de IDV/
-  materias.mjs       busca as matérias no Sanity antes de cada build
+  sanity.mjs         a ligação com o Sanity: endereço do projeto e a consulta
+  materias.mjs       grava a lista de partida das matérias antes do build
+  materias-comum.mjs busca e confere as matérias
+  material-comum.mjs busca e confere o material de apoio
+  material-servidor.mjs  cache em disco dos arquivos e o montador do ZIP
   videos.py          baixa a capa do vídeo de apresentação, para servir daqui
   shots.mjs          capturas seção a seção, para revisão
   tudo.mjs           a página inteira numa imagem
@@ -145,26 +149,40 @@ node scripts/shots.mjs shots 1440x900
 
 ---
 
-## As matérias vêm de um painel, não do código
+## O que a campanha edita sozinha
 
-As "Últimas notícias" são a única parte da página que a campanha edita sozinha.
-Quem publica é o Sanity, num painel próprio; o site continua estático.
+Duas partes da página não estão no código: as **Últimas notícias** e o
+**Material de apoio** (a terceira aba de "Personalize sua foto"). Quem publica
+é o Sanity, num painel próprio.
 
-**O site nunca fala com o Sanity.** A busca acontece no build, não no navegador
-do eleitor:
+**O navegador do eleitor nunca fala com o Sanity.** Quem fala é o nosso
+servidor:
 
 ```
 campanha publica no painel
-  -> Sanity dispara o webhook
-  -> Easypanel recompila
-  -> `npm run build` roda `scripts/materias.mjs`, que busca e grava
-     `src/data/materias.json`
-  -> o Vite assa o JSON dentro do bundle
+  -> o server.js busca de 2 em 2 minutos e guarda em memória
+  -> a página pede /api/materias e /api/material ao NOSSO domínio
+  -> os arquivos do material saem de /api/material/... , servidos por nós,
+     com uma cópia em cache no disco da VPS
 ```
 
-Leva uns dois minutos entre publicar e aparecer. Em troca, a página do eleitor
-não faz nenhum pedido a terceiro, o HTML já vem com as matérias dentro, e o
-site funciona igual se o Sanity estiver fora do ar.
+Leva até dois minutos entre publicar e aparecer, **e não depende de deploy**.
+
+> Já dependeu, e não funcionava. As listas iam assadas no bundle pelo
+> `scripts/materias.mjs`, e publicar no painel disparava um webhook de deploy.
+> Só que publicar não muda o código-fonte: o Docker via a fonte idêntica,
+> reaproveitava a imagem inteira, o deploy terminava em **1 segundo** sem
+> construir nada, e a matéria nova nunca subia. O histórico do Easypanel mostra
+> os dois padrões lado a lado — commits novos levando minutos, redeploys do
+> mesmo commit levando um segundo.
+
+O `scripts/materias.mjs` continua rodando no build, mas só para gravar a
+**lista de partida** — o que a página mostra no primeiro quadro, antes de
+qualquer requisição. Quem manda depois é o servidor.
+
+Em troca de tudo isso, a página do eleitor não faz nenhum pedido a terceiro,
+nem para carregar as miniaturas do material, e o site funciona igual se o
+Sanity estiver fora do ar.
 
 ### O que o script garante
 
@@ -180,6 +198,33 @@ site funciona igual se o Sanity estiver fora do ar.
 
 `src/data/materias.json` é versionado de propósito: é ele que segura o site
 quando a busca falha. Editar à mão não adianta, o próximo build sobrescreve.
+
+### O material de apoio
+
+Um documento só no painel, "Material de apoio", com uma lista de imagens
+dentro — o editor arrasta as peças para lá, reordena arrastando e remove
+clicando. A aba **só aparece no site quando há arquivo publicado**: aba que
+abre vazia parece defeito.
+
+Os arquivos passam pelo nosso servidor, nunca por link direto para o CDN do
+Sanity. Não é preciosismo: as miniaturas carregam para todo mundo que abre a
+aba, e vindas de fora entregariam a um terceiro o IP de quem só passou os olhos
+na página de um candidato. O servidor baixa cada arquivo uma vez, guarda em
+`os.tmpdir()` e serve dali.
+
+Três detalhes que existem por um motivo:
+
+- **`scripts/sanity.mjs` confere que o endereço é mesmo do CDN do projeto.** O
+  servidor busca esse endereço e devolve o conteúdo; sem a conferência ele
+  seria um proxy aberto, e quem gravasse um valor no painel o faria buscar
+  coisa em qualquer lugar — inclusive na rede interna da VPS.
+- **O download é pelo `id`, nunca por endereço.** A lista em memória é a lista
+  de permissão: id que não está nela devolve 404.
+- **O ZIP é montado à mão, sem compressão** (`scripts/material-servidor.mjs`).
+  PNG e JPEG já vêm comprimidos, então deflate gastaria CPU para não economizar
+  nada. Nomes repetidos viram `card.png` e `card-2.png` — sem isso, alguns
+  descompactadores sobrescrevem um arquivo com o outro e a pessoa baixa dez
+  peças e abre oito.
 
 ### O painel
 

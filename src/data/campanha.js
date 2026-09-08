@@ -330,10 +330,14 @@ export const molduras = {
   id: 'molduras',
   rotulo: 'Apoie',
   titulo: 'Personalize sua foto e faça seu cartaz',
-  chamada: 'Duas formas de levar a campanha pro seu perfil. Escolha por onde começar.',
+  // Sem contar quantas abas são: a do material de apoio só aparece quando a
+  // campanha tem arquivo publicado, então um número aqui ficaria errado
+  // sozinho no dia em que a lista esvaziasse.
+  chamada: 'Leve a campanha pro seu perfil. Escolha por onde começar.',
   abas: [
     { id: 'foto', rotulo: 'Personalize sua foto' },
     { id: 'cartaz', rotulo: 'Faça o seu cartaz' },
+    { id: 'material', rotulo: 'Material de apoio' },
   ],
   foto: {
     texto: 'Escolha uma moldura, suba a sua foto e leve pro seu perfil.',
@@ -357,6 +361,21 @@ export const molduras = {
       'Escolha a bandeira que te move, escreva seu nome e leve o cartaz pro seu ' +
       'story, pro seu perfil, pra onde você quiser.',
     bandeiras: ['Saúde', 'Educação', 'Segurança', 'Emprego', 'Infraestrutura', 'Direitos'],
+  },
+  /**
+   * As artes prontas que a campanha distribui.
+   *
+   * A lista não se escreve aqui: vem do painel, e o servidor a busca de dois em
+   * dois minutos. Quem publica lá vê no site sem deploy nenhum. Estes são só os
+   * textos fixos em volta dela.
+   */
+  material: {
+    texto:
+      'As artes da campanha, prontas pra baixar e compartilhar. Pegue as que ' +
+      'quiser, ou leve tudo de uma vez.',
+    acao: 'Baixar',
+    acaoTudo: 'Baixar material de apoio',
+    erro: 'Não deu pra carregar o material agora. Tente recarregar a página.',
   },
 }
 

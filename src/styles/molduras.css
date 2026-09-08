@@ -189,3 +189,115 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* -- Material de apoio -----------------------------------------------------
+ *
+ * A mesma linguagem das molduras — cartão de papel, faixa preta em cima da
+ * ficha, o mesmo levantar no hover. Mudam duas coisas, e as duas por causa do
+ * conteúdo: a grade é mais densa, porque aqui são dez peças e não três, e o
+ * palco não é quadrado, porque as artes chegam em formatos variados (story em
+ * pé, post quadrado, capa deitada) e recortar peça de campanha para caber num
+ * quadrado é estragar a arte de quem a desenhou.
+ */
+
+.material__tudo {
+  margin: clamp(1.1rem, 2.2vw, 1.6rem) 0 0;
+}
+
+.material__lista {
+  list-style: none;
+  margin: clamp(1.2rem, 2.4vw, 1.8rem) 0 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(0.9rem, 2vw, 1.4rem);
+}
+
+.material__cartao {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  background: var(--papel);
+  border-radius: var(--raio);
+  overflow: hidden;
+  box-shadow: 0 2px 0 var(--linha);
+  transition: translate 280ms var(--curva), box-shadow 280ms var(--curva);
+}
+
+.material__cartao:hover,
+.material__cartao:focus-visible {
+  translate: 0 -5px;
+  box-shadow: 0 8px 0 var(--linha);
+}
+
+.material__palco {
+  display: grid;
+  place-items: center;
+  /* Alto o bastante para a peça se mostrar, baixo o bastante para caberem
+     várias na tela sem virar rolagem infinita. */
+  aspect-ratio: 4 / 5;
+  padding: clamp(0.7rem, 1.6vw, 1rem);
+  background:
+    repeating-conic-gradient(rgba(29, 29, 27, 0.05) 0% 25%, transparent 0% 50%) 0 0 / 22px 22px,
+    var(--papel-fundo);
+}
+
+.material__arte {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  /* `contain` e não `cover`: a peça aparece inteira, sem corte. */
+  object-fit: contain;
+  display: block;
+}
+
+.material__ficha {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: clamp(0.85rem, 1.8vw, 1.15rem);
+  border-top: 3px solid var(--carvao);
+}
+
+.material__nome {
+  font-family: var(--campanha);
+  font-weight: 900;
+  font-stretch: 104%;
+  font-size: clamp(0.95rem, 1.3vw, 1.08rem);
+  line-height: 1.15;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--carvao);
+  /* Nome de arquivo é texto de fora e pode vir sem espaço nenhum: sem isto,
+     um nome comprido esticaria o cartão e desalinharia a grade toda. */
+  overflow-wrap: anywhere;
+}
+
+.material__acao {
+  font-family: var(--campanha);
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--vermelho-fundo);
+}
+
+@media (min-width: 34rem) {
+  .material__lista {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 52rem) {
+  .material__lista {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 68rem) {
+  .material__lista {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

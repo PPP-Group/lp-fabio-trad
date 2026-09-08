@@ -3,6 +3,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import zlib from 'node:zlib'
 import { buscarMaterias } from './scripts/materias-comum.mjs'
+import { buscarMaterial } from './scripts/material-comum.mjs'
+import { emCache, escreverZip } from './scripts/material-servidor.mjs'
 
 const PORT = Number(process.env.PORT) || 3000
 const DIST_DIR = path.resolve('dist')
@@ -62,6 +64,109 @@ async function atualizarMaterias() {
   }
 }
 
+// O material de apoio segue o mesmo relógio das matérias. A lista guardada aqui
+// é também a lista de permissão dos downloads: o visitante pede um arquivo pelo
+// id, e só é servido se esse id estiver nesta lista, que veio do Sanity. Não há
+// como pedir um endereço arbitrário e fazer o servidor buscá-lo.
+let materialEmMemoria = null
+
+async function atualizarMaterial() {
+  try {
+    const { boas, descartados } = await buscarMaterial({ timeout: 15000 })
+    for (const motivo of descartados) console.warn(`[material] descartado: ${motivo}`)
+    materialEmMemoria = boas
+    console.log(`[material] ${boas.length} arquivo(s) em memória`)
+  } catch (erro) {
+    console.warn(`[material] não deu para atualizar: ${erro.message}`)
+  }
+}
+
+/** O que a página pode saber de cada arquivo — sem o endereço do CDN. */
+function fichaPublica(item) {
+  return {
+    id: item.id,
+    titulo: item.titulo,
+    nomeArquivo: item.nomeArquivo,
+    tipo: item.tipo,
+    tamanho: item.tamanho,
+  }
+}
+
+// O tipo declarado do arquivo vem do Sanity, e o painel só aceita imagem — mas
+// é ele que vira o `Content-Type` de algo servido do nosso domínio. Um dia em
+// que o esquema afrouxar, um arquivo HTML servido como HTML aqui seria script
+// rodando no nosso endereço. Fora desta lista, o navegador recebe "bytes".
+const TIPOS_CONHECIDOS = new Set([
+  'image/png',
+  'image/jpeg',
+  'image/webp',
+  'image/gif',
+  'application/pdf',
+])
+
+function erroSimples(res, codigo, texto) {
+  res.writeHead(codigo, { 'Content-Type': 'text/plain; charset=utf-8' })
+  res.end(texto)
+}
+
+/**
+ * Serve um arquivo do material: a miniatura, o original ou o ZIP de tudo.
+ *
+ * O visitante pede pelo id, nunca por endereço. O id precisa estar na lista que
+ * veio do Sanity — é isso que impede alguém de escolher o que o nosso servidor
+ * vai buscar.
+ */
+async function servirMaterial(resto, res) {
+  if (!materialEmMemoria) return erroSimples(res, 503, 'Material ainda não carregado')
+
+  try {
+    if (resto === 'tudo.zip') {
+      if (!materialEmMemoria.length) return erroSimples(res, 404, 'Não há material publicado')
+      res.writeHead(200, {
+        'Content-Type': 'application/zip',
+        'Content-Disposition': 'attachment; filename="material-de-apoio-fabio-trad-13.zip"',
+        // Sem cache: o conteúdo muda quando a campanha publica.
+        'Cache-Control': 'no-store',
+        'X-Content-Type-Options': 'nosniff',
+      })
+      return await escreverZip(materialEmMemoria, res)
+    }
+
+    const ehMiniatura = resto.startsWith('miniatura/')
+    const cru = ehMiniatura ? resto.slice('miniatura/'.length) : resto.replace(/^arquivo\//, '')
+    const item = materialEmMemoria.find((m) => m.id === decodeURIComponent(cru))
+    if (!item) return erroSimples(res, 404, 'Arquivo não encontrado')
+
+    const caminho = ehMiniatura
+      ? await emCache(item, { sufixo: 'miniatura', transformacao: '?w=560&fm=webp&q=72' })
+      : await emCache(item)
+
+    const cabecalhos = {
+      'Content-Type': ehMiniatura
+        ? 'image/webp'
+        : TIPOS_CONHECIDOS.has(item.tipo)
+          ? item.tipo
+          : 'application/octet-stream',
+      'Content-Length': fs.statSync(caminho).size,
+      'Cache-Control': 'public, max-age=86400',
+      'X-Content-Type-Options': 'nosniff',
+    }
+    // O original é para baixar, não para abrir na aba.
+    if (!ehMiniatura) {
+      cabecalhos['Content-Disposition'] = `attachment; filename="${item.nomeArquivo}"`
+    }
+
+    res.writeHead(200, cabecalhos)
+    fs.createReadStream(caminho).pipe(res)
+  } catch (erro) {
+    console.warn(`[material] falhou ao servir "${resto}": ${erro.message}`)
+    // Se o ZIP já começou a sair, não há como voltar atrás e mandar um código
+    // de erro — o jeito é cortar, e o descompactador acusa arquivo incompleto.
+    if (res.headersSent) res.end()
+    else erroSimples(res, 502, 'Não deu para buscar o arquivo agora')
+  }
+}
+
 const server = http.createServer((req, res) => {
   // Healthcheck para o Easypanel
   if (req.url === '/healthz') {
@@ -87,6 +192,25 @@ const server = http.createServer((req, res) => {
       'X-Content-Type-Options': 'nosniff',
     })
     return res.end(JSON.stringify(corpo))
+  }
+
+  // A lista do material de apoio. Vai sem o endereço do CDN: o navegador não
+  // precisa dele, e é justamente não entregá-lo que impede a página de puxar
+  // arquivo de fora do nosso domínio.
+  if (urlPath === '/api/material') {
+    const corpo = materialEmMemoria
+      ? { ok: true, itens: materialEmMemoria.map(fichaPublica) }
+      : { ok: false }
+    res.writeHead(200, {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Cache-Control': 'public, max-age=60',
+      'X-Content-Type-Options': 'nosniff',
+    })
+    return res.end(JSON.stringify(corpo))
+  }
+
+  if (urlPath.startsWith('/api/material/')) {
+    return servirMaterial(urlPath.slice('/api/material/'.length), res)
   }
 
   // O painel do Sanity é compilado com os caminhos dos próprios arquivos
@@ -165,8 +289,13 @@ server.listen(PORT, '0.0.0.0', () => {
   // A primeira busca sai junto com o servidor, mas sem segurá-lo: o site
   // precisa atender já, com a lista que veio no bundle, mesmo que o Sanity
   // demore ou esteja fora do ar.
-  atualizarMaterias()
-  const relogio = setInterval(atualizarMaterias, INTERVALO_MATERIAS)
+  const atualizarTudo = () => {
+    atualizarMaterias()
+    atualizarMaterial()
+  }
+
+  atualizarTudo()
+  const relogio = setInterval(atualizarTudo, INTERVALO_MATERIAS)
   // Sem isto, este relógio sozinho seguraria o processo de pé para sempre.
   relogio.unref()
 })

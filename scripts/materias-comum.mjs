@@ -12,9 +12,7 @@
  * decidiria o que entra na página.
  */
 
-const PROJETO = 'mcpf4hd5'
-const DATASET = 'production'
-const VERSAO_API = 'v2021-10-21'
+import { consultar } from './sanity.mjs'
 
 // Ordenadas da mais recente para a mais antiga — é a ordem em que aparecem.
 const CONSULTA = `*[_type == "materia"] | order(data desc) {
@@ -91,15 +89,7 @@ export function limpar(bruto) {
  * antes, o servidor mantém a que já tem na memória.
  */
 export async function buscarMaterias({ timeout = 20000 } = {}) {
-  const url =
-    `https://${PROJETO}.api.sanity.io/${VERSAO_API}/data/query/${DATASET}` +
-    `?query=${encodeURIComponent(CONSULTA)}`
-
-  const resposta = await fetch(url, { signal: AbortSignal.timeout(timeout) })
-  if (!resposta.ok) throw new Error(`HTTP ${resposta.status} ${resposta.statusText}`)
-
-  const corpo = await resposta.json()
-  if (!Array.isArray(corpo.result)) throw new Error('resposta sem `result`')
-
-  return limpar(corpo.result)
+  const bruto = await consultar(CONSULTA, { timeout })
+  if (!Array.isArray(bruto)) throw new Error('resposta sem lista de matérias')
+  return limpar(bruto)
 }

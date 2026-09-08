@@ -1,8 +1,9 @@
-import { useId, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { molduras } from '../../data/campanha'
 import { Cabecalho } from '../Cabecalho'
 import { useRevelar } from '../../lib/useRevelar'
 import { Cartaz } from './Cartaz'
+import { MaterialApoio } from './MaterialApoio'
 import '../../styles/molduras.css'
 
 /**
@@ -62,17 +63,46 @@ function PainelFoto() {
 }
 
 /**
- * As duas peças que o eleitor leva embora, numa seção só.
+ * O que o eleitor leva embora, numa seção só: a moldura, o cartaz e as artes
+ * prontas da campanha.
  *
  * A troca entre elas é sempre no clique — nada gira sozinho, porque um
  * carrossel automático levaria embora a peça que a pessoa estava usando no
  * meio do caminho (o cartaz, ainda por cima, guarda o nome que ela digitou).
- * Por isso as duas ficam montadas o tempo todo e o que muda é qual aparece:
+ * Por isso todas ficam montadas o tempo todo e o que muda é qual aparece:
  * sair da aba do cartaz e voltar não apaga nada.
  */
 export function Molduras() {
   const [aba, setAba] = useState(molduras.abas[0].id)
+  // `null` enquanto não sabemos; array depois. A aba do material só entra
+  // quando há arquivo publicado — uma aba que abre vazia é pior do que aba
+  // nenhuma, e no site de uma campanha parece defeito.
+  const [material, setMaterial] = useState(null)
   const base = useId()
+
+  useEffect(() => {
+    let vivo = true
+
+    fetch('/api/material')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((corpo) => {
+        if (!vivo) return
+        setMaterial(corpo?.ok && Array.isArray(corpo.itens) ? corpo.itens : [])
+      })
+      .catch(() => {
+        // Em desenvolvimento a rota não existe (o Vite devolve o index.html).
+        // Sem material conhecido, a aba fica de fora e o resto da seção
+        // funciona igual.
+        if (vivo) setMaterial([])
+      })
+
+    return () => {
+      vivo = false
+    }
+  }, [])
+
+  const temMaterial = Array.isArray(material) && material.length > 0
+  const abas = molduras.abas.filter((a) => a.id !== 'material' || temMaterial)
 
   return (
     <section id={molduras.id} className="secao molduras-secao">
@@ -85,7 +115,7 @@ export function Molduras() {
         />
 
         <div className="abas" role="tablist" aria-label={molduras.titulo}>
-          {molduras.abas.map((a) => (
+          {abas.map((a) => (
             <button
               key={a.id}
               type="button"
@@ -102,7 +132,7 @@ export function Molduras() {
           ))}
         </div>
 
-        {molduras.abas.map((a) => (
+        {abas.map((a) => (
           <div
             key={a.id}
             role="tabpanel"
@@ -111,7 +141,13 @@ export function Molduras() {
             className="abas__painel"
             hidden={aba !== a.id}
           >
-            {a.id === 'foto' ? <PainelFoto /> : <Cartaz />}
+            {a.id === 'foto' ? (
+              <PainelFoto />
+            ) : a.id === 'cartaz' ? (
+              <Cartaz />
+            ) : (
+              <MaterialApoio itens={material} />
+            )}
           </div>
         ))}
       </div>
