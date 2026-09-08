@@ -55,7 +55,7 @@ export function MaterialApoio({ itens }) {
       <p className="molduras-secao__texto">{molduras.material.texto}</p>
 
       <p className="material__tudo">
-        <a className="botao botao--vazado" href="/api/material/tudo.zip" download>
+        <a className="botao botao--vazado-vermelho" href="/api/material/tudo.zip" download>
           {molduras.material.acaoTudo} ↓
         </a>
       </p>

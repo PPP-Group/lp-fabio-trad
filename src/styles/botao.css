@@ -93,3 +93,28 @@
   filter: grayscale(0.35);
   pointer-events: none;
 }
+
+/* O vazado vermelho, para fundos claros.
+ *
+ * O `.botao--vazado` acima é branco no traço e no texto: nasceu para os painéis
+ * vermelhos e some quando alguém o usa sobre papel — foi o que aconteceu com o
+ * botão do material de apoio.
+ *
+ * O miolo é branco, e não transparente, por causa do contraste: o mesmo
+ * vermelho sobre o creme da seção dá 4,48:1, dois centésimos abaixo do mínimo
+ * para este tamanho de texto; sobre branco dá 5,36:1. De quebra, o miolo branco
+ * conversa com os cartões da grade logo abaixo, que também são brancos.
+ */
+.botao--vazado-vermelho {
+  background: var(--papel);
+  border-color: var(--vermelho-fundo);
+  color: var(--vermelho-fundo);
+}
+
+.botao--vazado-vermelho:hover,
+.botao--vazado-vermelho:focus-visible {
+  background: var(--vermelho-fundo);
+  border-color: var(--vermelho-fundo);
+  color: var(--branco);
+  translate: 0 -3px;
+}
