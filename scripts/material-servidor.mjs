@@ -61,6 +61,38 @@ export async function emCache(item, { sufixo = '', transformacao = '' } = {}) {
   return destino
 }
 
+/**
+ * O `Content-Disposition` de um download, com o nome do arquivo.
+ *
+ * Cabeçalho HTTP só aceita ASCII, e o Node recusa o resto com
+ * "Invalid character in header content" — o pedido morre com erro 500. Como as
+ * peças da campanha se chamam "FÁBIO TRAD", isso derrubava quase todos os
+ * downloads: passavam só os dois arquivos de nome sem acento.
+ *
+ * A saída é a do RFC 6266: manda-se o nome duas vezes. O `filename` sem acento
+ * atende quem for antigo, e o `filename*` traz o nome de verdade em UTF-8
+ * percent-encoded, que é o que todo navegador atual lê.
+ */
+export function comoAnexo(nome) {
+  const reserva =
+    nome
+      // Separa a letra do acento e joga o acento fora: "Á" vira "A", em vez de
+      // virar "_" e deixar o nome de reserva ilegível.
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^\x20-\x7e]/g, '_')
+      .replace(/["\\]/g, '')
+      .trim() || 'arquivo'
+
+  // O encodeURIComponent deixa passar !'()*, que o RFC não admite aqui.
+  const utf8 = encodeURIComponent(nome).replace(
+    /['()!*]/g,
+    (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`,
+  )
+
+  return `attachment; filename="${reserva}"; filename*=UTF-8''${utf8}`
+}
+
 // -- ZIP ---------------------------------------------------------------------
 //
 // Guardado sem compressão (método 0). Não é preguiça: o material são PNG e JPEG,

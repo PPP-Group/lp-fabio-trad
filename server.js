@@ -4,7 +4,7 @@ import path from 'node:path'
 import zlib from 'node:zlib'
 import { buscarMaterias } from './scripts/materias-comum.mjs'
 import { buscarMaterial } from './scripts/material-comum.mjs'
-import { emCache, escreverZip } from './scripts/material-servidor.mjs'
+import { comoAnexo, emCache, escreverZip } from './scripts/material-servidor.mjs'
 
 const PORT = Number(process.env.PORT) || 3000
 const DIST_DIR = path.resolve('dist')
@@ -153,7 +153,7 @@ async function servirMaterial(resto, res) {
     }
     // O original é para baixar, não para abrir na aba.
     if (!ehMiniatura) {
-      cabecalhos['Content-Disposition'] = `attachment; filename="${item.nomeArquivo}"`
+      cabecalhos['Content-Disposition'] = comoAnexo(item.nomeArquivo)
     }
 
     res.writeHead(200, cabecalhos)
