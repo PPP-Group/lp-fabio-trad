@@ -12,7 +12,16 @@
   display: flex;
   align-items: center;
   gap: clamp(0.75rem, 2vw, 2rem);
-  padding: 0.7rem var(--gutter);
+  /* A faixa preta atravessa a tela inteira, mas o que está dentro dela para na
+     mesma coluna do resto do site.
+     O `max` é o que faz isso sem media query: em telas estreitas o gutter é o
+     maior dos dois e nada muda; a partir do ponto em que a coluna começa a se
+     afastar das bordas, quem manda é `50% - coluna/2`, que é exatamente onde a
+     coluna começa. Sem isso o gutter satura em 3,5rem e o logo fica grudado na
+     borda enquanto o texto do herói já está 300px adentro — foi o que aparecia
+     em telas largas. */
+  padding-block: 0.7rem;
+  padding-inline: max(var(--gutter), calc(50% - var(--coluna) / 2));
   background: var(--carvao);
   transition: background 320ms var(--curva);
 }

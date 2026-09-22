@@ -35,7 +35,14 @@
   position: absolute;
   z-index: -1;
   bottom: 0;
-  right: clamp(-9rem, -4vw, 0rem);
+  /* Ele acompanha a coluna do texto, não a borda da tela.
+     Ancorado na borda, quanto mais larga a tela mais longe ele ia do texto: em
+     2000px sobrava um vão vermelho no meio e ele ainda saía 80px pela direita,
+     cortado. O segundo termo o prende a 10rem além da coluna — a mesma relação
+     que ele já tinha em telas de 1440px, onde a composição funciona. O `max`
+     mantém o comportamento antigo nas telas menores, onde o primeiro termo é
+     o maior dos dois. */
+  right: max(clamp(-9rem, -4vw, 0rem), calc(50% - var(--coluna) / 2 - 10rem));
   width: min(50vw, 640px);
   height: auto;
   filter: drop-shadow(-24px 10px 40px rgba(60, 4, 22, 0.45));
