@@ -25,7 +25,12 @@
   top: 46%;
   right: -16%;
   translate: 0 -50%;
-  width: min(74vw, 900px);
+  /* Lê-se: no máximo 74vw, e nunca menos que 900px ou 58vw — o que for maior.
+     O teto de 900px sozinho travava a arte a partir de 1216px de tela, e daí
+     para cima ela encolhia em relação a tudo, virando um detalhe perdido no
+     meio do vermelho. O termo de 58vw só assume acima de ~1550px, então as
+     telas menores ficam exatamente como estavam. */
+  width: min(74vw, max(900px, 58vw));
   height: auto;
   opacity: 0.1;
   rotate: -4deg;
