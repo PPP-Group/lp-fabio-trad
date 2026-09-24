@@ -16,3 +16,6 @@ IDV/
 # derivadas em public/assets/ — jingle.mp4, jingle-capa.jpg, jogo-logo.png.
 /*.mp4
 /*.png
+# O manual do apoiador chega da campanha com nome acentuado e número de versão;
+# a cópia servida é public/assets/manual-do-apoiador-fabio-trad.pdf.
+/*.pdf

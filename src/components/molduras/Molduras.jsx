@@ -74,10 +74,9 @@ function PainelFoto() {
  */
 export function Molduras() {
   const [aba, setAba] = useState(molduras.abas[0].id)
-  // `null` enquanto não sabemos; array depois. A aba do material só entra
-  // quando há arquivo publicado — uma aba que abre vazia é pior do que aba
-  // nenhuma, e no site de uma campanha parece defeito.
-  const [material, setMaterial] = useState(null)
+  // As imagens publicadas no painel. A aba do material existe sempre, porque o
+  // manual do apoiador mora nela; as imagens entram quando o servidor responde.
+  const [material, setMaterial] = useState([])
   const base = useId()
 
   useEffect(() => {
@@ -91,8 +90,7 @@ export function Molduras() {
       })
       .catch(() => {
         // Em desenvolvimento a rota não existe (o Vite devolve o index.html).
-        // Sem material conhecido, a aba fica de fora e o resto da seção
-        // funciona igual.
+        // Sem imagens conhecidas, a aba mostra só o manual.
         if (vivo) setMaterial([])
       })
 
@@ -101,8 +99,7 @@ export function Molduras() {
     }
   }, [])
 
-  const temMaterial = Array.isArray(material) && material.length > 0
-  const abas = molduras.abas.filter((a) => a.id !== 'material' || temMaterial)
+  const abas = molduras.abas
 
   return (
     <section id={molduras.id} className="secao molduras-secao">

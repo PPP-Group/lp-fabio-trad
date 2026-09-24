@@ -50,21 +50,38 @@ function Peca({ item }) {
 }
 
 export function MaterialApoio({ itens }) {
+  const { manual } = molduras.material
+  const temImagens = itens.length > 0
+
   return (
     <>
       <p className="molduras-secao__texto">{molduras.material.texto}</p>
 
       <p className="material__tudo">
-        <a className="botao botao--vazado-vermelho" href="/api/material/tudo.zip" download>
-          {molduras.material.acaoTudo} ↓
+        {/* O manual vem primeiro e não depende do painel: ele está sempre
+            aqui, mesmo no dia em que a lista de imagens esvaziar. */}
+        <a
+          className="botao botao--vazado-vermelho"
+          href={manual.arquivo}
+          download={manual.nomeDownload}
+        >
+          {manual.rotulo} · PDF {tamanhoLegivel(manual.tamanho)} ↓
         </a>
+
+        {temImagens && (
+          <a className="botao botao--vazado-vermelho" href="/api/material/tudo.zip" download>
+            {molduras.material.acaoTudo} ↓
+          </a>
+        )}
       </p>
 
-      <ul className="material__lista">
-        {itens.map((item) => (
-          <Peca key={item.id} item={item} />
-        ))}
-      </ul>
+      {temImagens && (
+        <ul className="material__lista">
+          {itens.map((item) => (
+            <Peca key={item.id} item={item} />
+          ))}
+        </ul>
+      )}
     </>
   )
 }

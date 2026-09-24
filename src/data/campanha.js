@@ -376,6 +376,16 @@ export const molduras = {
     acao: 'Baixar',
     acaoTudo: 'Baixar material de apoio',
     erro: 'Não deu pra carregar o material agora. Tente recarregar a página.',
+    // Fixo no código, e não no painel: o painel só aceita imagem. Versão nova
+    // do manual = trocar o arquivo em public/assets/ mantendo o nome, e
+    // atualizar o `tamanho` abaixo.
+    manual: {
+      rotulo: 'Baixar o Manual do Apoiador',
+      arquivo: '/assets/manual-do-apoiador-fabio-trad.pdf',
+      // O nome com que o arquivo chega no aparelho de quem baixou.
+      nomeDownload: 'FÁBIO TRAD - MANUAL DO APOIADOR.pdf',
+      tamanho: 2777795,
+    },
   },
 }
 
