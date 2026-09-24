@@ -3,7 +3,7 @@ import { molduras } from '../../data/campanha'
 import { Cabecalho } from '../Cabecalho'
 import { useRevelar } from '../../lib/useRevelar'
 import { Cartaz } from './Cartaz'
-import { MaterialApoio } from './MaterialApoio'
+import { ManualApoiador, MaterialApoio } from './MaterialApoio'
 import '../../styles/molduras.css'
 
 /**
@@ -77,8 +77,9 @@ function PainelFoto() {
  */
 export function Molduras() {
   const [aba, setAba] = useState(molduras.abas[0].id)
-  // As imagens publicadas no painel. A aba do material existe sempre, porque o
-  // manual do apoiador mora nela; as imagens entram quando o servidor responde.
+  // As imagens publicadas no painel. A aba do material só entra quando há
+  // imagem: aba que abre vazia parece defeito. O manual tem aba própria e não
+  // depende disto.
   const [material, setMaterial] = useState([])
   const base = useId()
 
@@ -93,7 +94,7 @@ export function Molduras() {
       })
       .catch(() => {
         // Em desenvolvimento a rota não existe (o Vite devolve o index.html).
-        // Sem imagens conhecidas, a aba mostra só o manual.
+        // Sem imagens conhecidas, a aba do material fica de fora.
         if (vivo) setMaterial([])
       })
 
@@ -102,7 +103,7 @@ export function Molduras() {
     }
   }, [])
 
-  const abas = molduras.abas
+  const abas = molduras.abas.filter((a) => a.id !== 'material' || material.length > 0)
 
   return (
     <section id={molduras.id} className="secao molduras-secao">
@@ -145,8 +146,10 @@ export function Molduras() {
               <PainelFoto />
             ) : a.id === 'cartaz' ? (
               <Cartaz />
-            ) : (
+            ) : a.id === 'material' ? (
               <MaterialApoio itens={material} />
+            ) : (
+              <ManualApoiador />
             )}
           </div>
         ))}

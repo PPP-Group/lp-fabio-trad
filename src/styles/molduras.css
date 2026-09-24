@@ -54,6 +54,28 @@
   display: none;
 }
 
+/* No celular as abas não cabem lado a lado, e empilhadas uma por linha viravam
+   uma lista de quase 240px antes do conteúdo. Em grade 2×2 cabem na metade.
+   Cada aba passa a ter a própria linha de base, porque a linha única da barra
+   só ficaria embaixo da segunda fileira e o sublinhado da aba ativa de cima
+   flutuaria sem chão. */
+@media (max-width: 41.99rem) {
+  .abas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 0.75rem;
+    border-bottom: 0;
+  }
+
+  .abas__botao {
+    bottom: 0;
+    padding: 0.75rem 0.35rem;
+    text-align: left;
+    font-size: 0.9rem;
+    border-bottom-color: var(--linha);
+  }
+}
+
 .molduras-secao__texto {
   margin-top: clamp(1.4rem, 2.6vw, 2rem);
   font-family: var(--voz);
@@ -303,5 +325,71 @@
 @media (min-width: 68rem) {
   .material__lista {
     grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* -- Manual do apoiador ----------------------------------------------------
+ *
+ * Um cartão de papel, como os das outras abas, com o que tem dentro do PDF e o
+ * botão de baixar embaixo. A lista vem antes do botão de propósito: quem baixa
+ * sabe o que está levando.
+ */
+
+.manual {
+  margin-top: clamp(1.2rem, 2.4vw, 1.8rem);
+  max-width: 44rem;
+  padding: clamp(1.3rem, 2.6vw, 2rem);
+  background: var(--papel);
+  border-radius: var(--raio);
+  border-top: 7px solid var(--carvao);
+  box-shadow: 0 2px 0 var(--linha);
+}
+
+.manual__titulo {
+  font-family: var(--campanha);
+  font-weight: 900;
+  font-stretch: 104%;
+  font-size: clamp(1.05rem, 1.6vw, 1.24rem);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--carvao);
+}
+
+.manual__lista {
+  list-style: none;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem 1.5rem;
+}
+
+.manual__lista li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-family: var(--voz);
+  font-size: 1.02rem;
+  line-height: 1.4;
+  color: var(--tinta);
+}
+
+/* a marca de lista é o vermelho da campanha, não a bolinha padrão */
+.manual__lista li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.45rem;
+  height: 0.45rem;
+  background: var(--vermelho-fundo);
+  rotate: 45deg;
+}
+
+.manual__baixar {
+  margin-top: clamp(1.2rem, 2.4vw, 1.6rem);
+}
+
+@media (min-width: 34rem) {
+  .manual__lista {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

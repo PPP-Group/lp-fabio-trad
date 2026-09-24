@@ -50,38 +50,56 @@ function Peca({ item }) {
 }
 
 export function MaterialApoio({ itens }) {
-  const { manual } = molduras.material
-  const temImagens = itens.length > 0
-
   return (
     <>
       <p className="molduras-secao__texto">{molduras.material.texto}</p>
 
       <p className="material__tudo">
-        {/* O manual vem primeiro e não depende do painel: ele está sempre
-            aqui, mesmo no dia em que a lista de imagens esvaziar. */}
+        <a className="botao botao--vazado-vermelho" href="/api/material/tudo.zip" download>
+          {molduras.material.acaoTudo} ↓
+        </a>
+      </p>
+
+      <ul className="material__lista">
+        {itens.map((item) => (
+          <Peca key={item.id} item={item} />
+        ))}
+      </ul>
+    </>
+  )
+}
+
+/**
+ * A aba do Manual do Apoiador.
+ *
+ * O manual é um PDF de links — avatar, figurinhas, jingles, grupo. A aba diz o
+ * que tem dentro antes de pedir o download, para a pessoa saber o que está
+ * baixando. O arquivo sai do nosso próprio domínio, então nada aqui fala com
+ * terceiro; os links de fora só existem dentro do PDF, para quem abrir.
+ */
+export function ManualApoiador() {
+  const { manual } = molduras
+
+  return (
+    <>
+      <p className="molduras-secao__texto">{manual.texto}</p>
+
+      <div className="manual">
+        <p className="manual__titulo">O que tem no manual</p>
+        <ul className="manual__lista">
+          {manual.conteudo.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+
         <a
-          className="botao botao--vazado-vermelho"
+          className="botao botao--vazado-vermelho manual__baixar"
           href={manual.arquivo}
           download={manual.nomeDownload}
         >
           {manual.rotulo} · PDF {tamanhoLegivel(manual.tamanho)} ↓
         </a>
-
-        {temImagens && (
-          <a className="botao botao--vazado-vermelho" href="/api/material/tudo.zip" download>
-            {molduras.material.acaoTudo} ↓
-          </a>
-        )}
-      </p>
-
-      {temImagens && (
-        <ul className="material__lista">
-          {itens.map((item) => (
-            <Peca key={item.id} item={item} />
-          ))}
-        </ul>
-      )}
+      </div>
     </>
   )
 }

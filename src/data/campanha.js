@@ -338,6 +338,7 @@ export const molduras = {
     { id: 'foto', rotulo: 'Personalize sua foto' },
     { id: 'cartaz', rotulo: 'Faça o seu cartaz' },
     { id: 'material', rotulo: 'Material de apoio' },
+    { id: 'manual', rotulo: 'Manual do apoiador' },
   ],
   foto: {
     texto: 'Escolha uma moldura, suba a sua foto e leve pro seu perfil.',
@@ -380,16 +381,34 @@ export const molduras = {
     acao: 'Baixar',
     acaoTudo: 'Baixar material de apoio',
     erro: 'Não deu pra carregar o material agora. Tente recarregar a página.',
-    // Fixo no código, e não no painel: o painel só aceita imagem. Versão nova
-    // do manual = trocar o arquivo em public/assets/ mantendo o nome, e
-    // atualizar o `tamanho` abaixo.
-    manual: {
-      rotulo: 'Baixar o Manual do Apoiador',
-      arquivo: '/assets/manual-do-apoiador-fabio-trad.pdf',
-      // O nome com que o arquivo chega no aparelho de quem baixou.
-      nomeDownload: 'FÁBIO TRAD - MANUAL DO APOIADOR.pdf',
-      tamanho: 2777795,
-    },
+  },
+  /**
+   * O Manual do Apoiador, em aba própria.
+   *
+   * Fixo no código, e não no painel: o painel só aceita imagem. Versão nova do
+   * manual = trocar o arquivo em public/assets/ mantendo o nome, e atualizar o
+   * `tamanho` e, se mudar o conteúdo, a lista `conteudo`.
+   */
+  manual: {
+    texto:
+      'Todos os links úteis da campanha num PDF só. Baixe, guarde no celular e ' +
+      'compartilhe com quem quer ajudar.',
+    // O que o manual traz, na ordem em que aparece na página de links do PDF.
+    conteudo: [
+      'Avatar de perfil',
+      'Figurinhas para o WhatsApp',
+      'Jingles',
+      'Conteúdo de apoio',
+      'Vídeo para telão',
+      'Grupo de WhatsApp',
+      'Propostas para as cidades de MS',
+      'Fotos e logo oficial',
+    ],
+    rotulo: 'Baixar o Manual do Apoiador',
+    arquivo: '/assets/manual-do-apoiador-fabio-trad.pdf',
+    // O nome com que o arquivo chega no aparelho de quem baixou.
+    nomeDownload: 'FÁBIO TRAD - MANUAL DO APOIADOR.pdf',
+    tamanho: 2777795,
   },
 }
 
