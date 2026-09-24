@@ -346,13 +346,17 @@ export const molduras = {
     nota:
       'As molduras ficam no Apoio.top: é pra lá que a sua foto vai quando você ' +
       'escolhe uma. Neste site nada é enviado nem guardado.',
+    // Os três apontam para a mesma página, a pedido da campanha: ela reúne as
+    // três molduras e a pessoa escolhe lá. O Apoio.top não aceita escolher a
+    // moldura pelo link (só lê #story e #perfil), então a página abre sempre
+    // na primeira, a "Sou fechado com".
     itens: [
       { nome: 'Fábio Trad Emoji', arquivo: 'moldura-emoji.png', url: 'https://apoio.top/q/fabioegilda13' },
-      { nome: 'Somos Fábio Trad 13', arquivo: 'moldura-pt13.png', url: 'https://apoio.top/q/coragemprasonhar' },
+      { nome: 'Somos Fábio Trad 13', arquivo: 'moldura-pt13.png', url: 'https://apoio.top/q/fabioegilda13' },
       {
         nome: 'Sou fechado com Fábio Trad',
         arquivo: 'moldura-fechado.png',
-        url: 'https://apoio.top/q/fabiotrad13',
+        url: 'https://apoio.top/q/fabioegilda13',
       },
     ],
   },

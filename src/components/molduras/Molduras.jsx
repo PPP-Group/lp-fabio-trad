@@ -52,8 +52,11 @@ function PainelFoto() {
       <p className="molduras-secao__texto">{molduras.foto.texto}</p>
 
       <ul className="molduras-secao__lista">
+        {/* A chave é o arquivo da arte, não a URL: os três cartões apontam
+            para o mesmo link, e chave repetida faz o React perder a conta de
+            qual cartão é qual — já aconteceu nas matérias. */}
         {molduras.foto.itens.map((m) => (
-          <Moldura key={m.url} item={m} />
+          <Moldura key={m.arquivo} item={m} />
         ))}
       </ul>
 
